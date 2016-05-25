@@ -1,31 +1,7 @@
 {
-    "culture": {
-        "id": null,
-        "developerName": null,
-        "developerSummary": null,
-        "brand": null,
-        "language": "EN",
-        "country": "US",
-        "variant": null
-    },
+    "culture": null,
     "uri": null,
     "configurationValues": [
-        {
-            "developerName": "Host",
-            "contentValue": null,
-            "contentType": "ContentString",
-            "typeElementDeveloperName": null,
-            "ordinal": 0,
-            "required": true
-        },
-        {
-            "developerName": "Username",
-            "contentValue": null,
-            "contentType": "ContentString",
-            "typeElementDeveloperName": null,
-            "ordinal": 0,
-            "required": true
-        },
         {
             "developerName": "Password",
             "contentValue": null,
@@ -41,9 +17,41 @@
             "typeElementDeveloperName": null,
             "ordinal": 0,
             "required": true
+        },
+        {
+            "developerName": "Database Name",
+            "contentValue": null,
+            "contentType": "ContentString",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Port",
+            "contentValue": null,
+            "contentType": "ContentNumber",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Host",
+            "contentValue": null,
+            "contentType": "ContentString",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Username",
+            "contentValue": null,
+            "contentType": "ContentString",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
         }
     ],
-    "providesAutoBinding": true,
+    "providesAutoBinding": false,
     "providesDatabase": true,
     "providesFiles": false,
     "providesIdentity": false,
@@ -57,6 +65,56 @@
     "providesVoting": false,
     "actions": [],
     "install": {
-        "typeElements": []
+        "typeElements": [
+            {
+                "elementType": "TYPE",
+                "developerName": "country",
+                "developerSummary": null,
+                "id": null,
+                "serviceElementId": null,
+                "properties": [
+                    {
+                        "id": null,
+                        "developerName": "name",
+                        "contentFormat": null,
+                        "contentType": "ContentString",
+                        "typeElementId": null,
+                        "typeElementDeveloperName": null
+                    },
+                    {
+                        "id": null,
+                        "developerName": "id",
+                        "contentFormat": null,
+                        "contentType": "ContentNumber",
+                        "typeElementId": null,
+                        "typeElementDeveloperName": null
+                    }
+                ],
+                "bindings": [
+                    {
+                        "id": null,
+                        "developerName": "country",
+                        "developerSummary": "The binding for country",
+                        "databaseTableName": "country",
+                        "serviceElementId": null,
+                        "propertyBindings": [
+                            {
+                                "databaseFieldName": "name",
+                                "typeElementPropertyId": null,
+                                "typeElementPropertyDeveloperName": "name",
+                                "databaseContentType": null
+                            },
+                            {
+                                "databaseFieldName": "id",
+                                "typeElementPropertyId": null,
+                                "typeElementPropertyDeveloperName": "id",
+                                "databaseContentType": null
+                            }
+                        ]
+                    }
+                ],
+                "updateByName": false
+            }
+        ]
     }
 }

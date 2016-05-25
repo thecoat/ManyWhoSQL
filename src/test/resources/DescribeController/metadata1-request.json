@@ -1,5 +1,54 @@
 {
     "culture": null,
-    "uri": "https://service.example.com/api/email/1",
-    "configurationValues": []
+    "uri": "https://service.manywho.com/api/sql/1",
+    "configurationValues": [
+        {
+            "developerName": "Password",
+            "contentValue": "password",
+            "contentType": "ContentPassword",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Database Type",
+            "contentValue": "postgresql",
+            "contentType": "ContentString",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Host",
+            "contentValue": "localhost",
+            "contentType": "ContentString",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Username",
+            "contentValue": "postgres",
+            "contentType": "ContentString",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Port",
+            "contentValue": 5432,
+            "contentType": "ContentNumber",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        },
+        {
+            "developerName": "Database Name",
+            "contentValue": "database-service",
+            "contentType": "ContentString",
+            "typeElementDeveloperName": null,
+            "ordinal": 0,
+            "required": true
+        }
+    ]
 }

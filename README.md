@@ -1,7 +1,8 @@
-ManyWho Database Service
-========================
+ManyWho Sql Service
+===================
 
 This service allows you to read and write from a database.
+Supported databases MySQL 5.1, PostgreSQL 8.4. and Sql Server 2008
 
 
 This service is under active development and is not stable.
@@ -28,19 +29,19 @@ the packaged JAR).
 
 ##### Defaults
 
-Running the following command will start the service listening on `0.0.0.0:8080/api/database/1`:
+Running the following command will start the service listening on `0.0.0.0:8080/api/sql/1`:
 
 ```bash
-$ java -jar target/database-1.0-SNAPSHOT.jar
+$ java -jar target/sql-1.0-SNAPSHOT.jar
 ```
 
 ##### Custom Port
 
 You can specify a custom port to run the service on by passing the `server.port` property when running the JAR. The
-following command will start the service listening on port 9090 (`0.0.0.0:9090/api/database/1`):
+following command will start the service listening on port 9090 (`0.0.0.0:9090/api/sql/1`):
 
 ```bash
-$ java -Dserver.port=9090 -jar target/database-2.0-SNAPSHOT.jar
+$ java -Dserver.port=9090 -jar target/sql-2.0-SNAPSHOT.jar
 ```
 
 ## Contributing

@@ -1,0 +1,125 @@
+{
+  "stateId": null,
+  "token": null,
+  "typeElementBindingId": null,
+  "authorization": {
+    "users": null,
+    "groups": null,
+    "runningAuthenticationId": null,
+    "globalAuthenticationType": "PUBLIC"
+  },
+  "configurationValues": [
+    {
+      "developerName": "Password",
+      "contentValue": "password",
+      "contentType": "ContentPassword",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Database Type",
+      "contentValue": "postgresql",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Host",
+      "contentValue": "localhost",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Username",
+      "contentValue": "postgres",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Port",
+      "contentValue": 5432,
+      "contentType": "ContentNumber",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    },
+    {
+      "developerName": "Database Name",
+      "contentValue": "database-service",
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": true
+    }
+  ],
+  "command": null,
+  "culture": {
+    "id": null,
+    "developerName": null,
+    "developerSummary": null,
+    "brand": null,
+    "language": "EN",
+    "country": "USA",
+    "variant": null
+  },
+  "listFilter": {
+    "id": "CA1234",
+    "comparisonType": "",
+    "filterByProvidedObjects": false,
+    "where": null,
+    "orderByPropertyDeveloperName": null,
+    "orderByDirectionType": "",
+    "limit": 0,
+    "offset": 0,
+    "search": null,
+    "searchCriteria": null
+  },
+  "objectDataType": {
+    "typeElementId": "7e76d95f-a209-4657-ba95-8324c0ac2964",
+    "developerName": "country",
+    "properties": [
+      {
+        "developerName": "id",
+        "list": null
+      },
+      {
+        "developerName": "name",
+        "list": null
+      }
+    ]
+  },
+  "objectData": [
+    {
+      "internalId": "80d60ada-4110-40b3-8a94-f2cdd59d8fd8",
+      "externalId": null,
+      "developerName": "country",
+      "typeElementId": "7e76d95f-a209-4657-ba95-8324c0ac2964",
+      "order": 0,
+      "properties": [
+        {
+          "typeElementPropertyId": "6a70c1f4-7311-46bf-bdee-4327fdad8130",
+          "developerName": "id",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "955e6576-1e69-4b75-9632-63e5d0ca3f86",
+          "developerName": "name",
+          "contentValue": "",
+          "contentType": "ContentString",
+          "contentFormat": "",
+          "objectData": null
+        }
+      ],
+      "isSelected": false
+    }
+  ]
+}
