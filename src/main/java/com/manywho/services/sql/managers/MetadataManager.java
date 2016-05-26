@@ -4,8 +4,10 @@ import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.ConnectionService;
 import com.manywho.services.sql.services.MetadataService;
+import org.sql2o.Connection;
 
 import javax.inject.Inject;
+import java.sql.DatabaseMetaData;
 import java.util.List;
 
 public class MetadataManager {
@@ -19,27 +21,35 @@ public class MetadataManager {
     }
 
     public List<TableMetadata> getMetadataTables(ServiceConfiguration serviceConfiguration) throws Exception {
-        return metadataService.getTablesMetadata(
-                serviceConfiguration.getDatabaseName(),
-                connectionService.getConnection(serviceConfiguration).getMetaData()
-        );
+
+        try (Connection con = connectionService.getConnection(serviceConfiguration).open()) {
+            DatabaseMetaData metaData = con.getJdbcConnection().getMetaData();
+
+            return metadataService.getTablesMetadata(
+                    serviceConfiguration.getDatabaseName(),
+                    metaData
+            );
+        }
     }
 
     public TableMetadata getMetadataTable(ServiceConfiguration serviceConfiguration, String tableName) throws Exception {
 
-        List<TableMetadata> tableMetadataList = metadataService.getTablesMetadata(
-                serviceConfiguration.getDatabaseName(),
-                connectionService.getConnection(serviceConfiguration).getMetaData(),
-                tableName
-        );
+        try (Connection con = connectionService.getConnection(serviceConfiguration).open()) {
+            DatabaseMetaData metaData = con.getJdbcConnection().getMetaData();
 
-        if(tableMetadataList.size() == 1) {
+            List<TableMetadata> tableMetadataLis = metadataService.getTablesMetadata(
+                    serviceConfiguration.getDatabaseName(),
+                    metaData,
+                    tableName
+            );
 
-            return tableMetadataList.get(0);
-        } else {
+            if(tableMetadataLis.size() == 1) {
 
-            throw new Exception ("table" + tableName + "not found");
+                return tableMetadataLis.get(0);
+            } else {
+
+                throw new Exception ("table" + tableName + "not found");
+            }
         }
-
     }
 }

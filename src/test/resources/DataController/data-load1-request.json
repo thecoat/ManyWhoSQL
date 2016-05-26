@@ -10,52 +10,70 @@
   },
   "configurationValues": [
     {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
       "developerName": "Password",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
       "contentValue": "password",
       "contentType": "ContentPassword",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": true
+      "objectData": null
     },
     {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
       "developerName": "Database Type",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
       "contentValue": "postgresql",
       "contentType": "ContentString",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": true
+      "objectData": null
     },
     {
-      "developerName": "Host",
-      "contentValue": "localhost",
-      "contentType": "ContentString",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": true
-    },
-    {
-      "developerName": "Username",
-      "contentValue": "postgres",
-      "contentType": "ContentString",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": true
-    },
-    {
-      "developerName": "Port",
-      "contentValue": 5432,
-      "contentType": "ContentNumber",
-      "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": true
-    },
-    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
       "developerName": "Database Name",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
       "contentValue": "database-service",
       "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Port",
       "typeElementDeveloperName": null,
-      "ordinal": 0,
-      "required": true
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "5432",
+      "contentType": "ContentNumber",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Host",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "localhost",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Username",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "postgres",
+      "contentType": "ContentString",
+      "objectData": null
     }
   ],
   "command": null,
@@ -69,52 +87,66 @@
     "variant": null
   },
   "listFilter": {
-    "id": "CA1234",
-    "comparisonType": "",
+    "id": "1",
     "filterByProvidedObjects": false,
-    "where": null,
     "orderByPropertyDeveloperName": null,
     "orderByDirectionType": "",
+    "orderBy": null,
     "limit": 0,
     "offset": 0,
     "search": null,
-    "searchCriteria": null
+    "searchCriteria": null,
+    "comparisonType": "",
+    "where": null,
+    "listFilters": null
   },
   "objectDataType": {
-    "typeElementId": "7e76d95f-a209-4657-ba95-8324c0ac2964",
+    "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
     "developerName": "country",
     "properties": [
       {
-        "developerName": "id",
+        "developerName": "name",
         "list": null
       },
       {
-        "developerName": "name",
+        "developerName": "description",
+        "list": null
+      },
+      {
+        "developerName": "id",
         "list": null
       }
     ]
   },
   "objectData": [
     {
-      "internalId": "80d60ada-4110-40b3-8a94-f2cdd59d8fd8",
+      "internalId": "d3b803da-940a-400d-94b0-23ed8edc9e09",
       "externalId": null,
       "developerName": "country",
-      "typeElementId": "7e76d95f-a209-4657-ba95-8324c0ac2964",
+      "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
       "order": 0,
       "properties": [
         {
-          "typeElementPropertyId": "6a70c1f4-7311-46bf-bdee-4327fdad8130",
-          "developerName": "id",
+          "typeElementPropertyId": "1e40c529-9279-4a0f-b519-0b5223d139f8",
+          "developerName": "name",
           "contentValue": "",
           "contentType": "ContentString",
           "contentFormat": "",
           "objectData": null
         },
         {
-          "typeElementPropertyId": "955e6576-1e69-4b75-9632-63e5d0ca3f86",
-          "developerName": "name",
+          "typeElementPropertyId": "cfa7fc9b-6d3c-4dba-9a8d-e5f44b7178cc",
+          "developerName": "description",
           "contentValue": "",
           "contentType": "ContentString",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3edb9e80-7c52-4051-b993-74b338fb1b8f",
+          "developerName": "id",
+          "contentValue": "",
+          "contentType": "ContentNumber",
           "contentFormat": "",
           "objectData": null
         }

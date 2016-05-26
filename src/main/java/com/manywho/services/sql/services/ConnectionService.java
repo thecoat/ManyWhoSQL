@@ -1,9 +1,8 @@
 package com.manywho.services.sql.services;
 
 import com.manywho.services.sql.ServiceConfiguration;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
+import org.sql2o.Sql2o;
+
 import java.util.Objects;
 
 public class ConnectionService {
@@ -20,22 +19,16 @@ public class ConnectionService {
     private static final String CONNECTION_STRING_FORMAT_SQLSERVER = "jdbc:jtds:sqlserver://%s:%s/%s";
     private static final String DRIVER_CLASS_SQLSERVER = "net.sourceforge.jtds.jdbc.Driver";
 
-    private Connection connection;
+    private Sql2o sql2o;
 
     public ConnectionService() {
-        connection = null;
+        sql2o = null;
     }
 
-    public void closeConnection() throws SQLException {
-        if(connection!=null) {
-            connection.close();
-        }
-    }
+    public Sql2o getConnection(ServiceConfiguration serviceConfiguration) throws Exception {
 
-    public Connection getConnection(ServiceConfiguration serviceConfiguration) throws Exception {
-
-        if( !(connection == null) && connection.isValid(0)) {
-            return connection;
+        if(sql2o!= null) {
+            return sql2o;
         }
 
         checkDatabaseTypeSupported(serviceConfiguration);
@@ -47,13 +40,11 @@ public class ConnectionService {
             connectionStringFormat = CONNECTION_STRING_FORMAT_SQLSERVER;
         }
 
-        connection = DriverManager.getConnection(
+        return new Sql2o(
                 String.format(connectionStringFormat, serviceConfiguration.getHost(), serviceConfiguration.getPort(), serviceConfiguration.getDatabaseName()),
                 serviceConfiguration.getUsername(),
                 serviceConfiguration.getPassword()
         );
-
-        return connection;
     }
 
     private void checkDatabaseTypeSupported(ServiceConfiguration serviceConfiguration) throws Exception {
