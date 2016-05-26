@@ -25,15 +25,23 @@ public class DataManager {
     }
 
     public List<MObject> load(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) throws Exception {
-        List<MObject> mObjects;
-        mObjects = dataService.getTableContentByPrimaryKey(
+
+        return dataService.getTableContentByPrimaryKey(
                         objectDataType,
                         metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
                         connectionService.getConnection(configuration),
                         id
                     );
+    }
 
-        return mObjects;
+    public List<MObject> loadBySearch(ServiceConfiguration configuration, ObjectDataType objectDataType, String search) throws Exception {
+
+        return dataService.getTableContentBySearch(
+                objectDataType,
+                metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
+                connectionService.getConnection(configuration),
+                search
+        );
     }
 
     public ObjectDataResponse save(ServiceConfiguration serviceConfiguration, ObjectDataRequest objectDataRequest) throws Exception {

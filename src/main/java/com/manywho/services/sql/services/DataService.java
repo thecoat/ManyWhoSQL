@@ -9,9 +9,9 @@ import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
 import org.sql2o.data.Table;
+
 import javax.inject.Inject;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 public class DataService {
@@ -27,7 +27,6 @@ public class DataService {
         String sql = "SELECT * FROM " + tableMetadata.getTableName() + " WHERE " + search;
 
         try(Connection con = sql2o.open()) {
-            List<MObject> mObjectList = new ArrayList<>();
             Query query = con.createQuery(sql);
 
             if(tableMetadata.needToCastPrimaryKeyToInteger()) {
@@ -35,9 +34,8 @@ public class DataService {
             }
 
             Table table = query.executeAndFetchTable();
-            mObjectList.add(mObjectFactory.createFromTable(table, tableMetadata));
 
-            return mObjectList;
+            return mObjectFactory.createFromTable(table, tableMetadata);
         }
     }
 
@@ -48,13 +46,12 @@ public class DataService {
 
     private List<MObject> getTableContent(ObjectDataType objectDataType, TableMetadata tableMetadata, Sql2o sql2o, String search) throws SQLException {
         String sql = "SELECT * FROM " + tableMetadata.getTableName() + " WHERE " + search;
-        try(Connection con = sql2o.open()) {
-            //ResultSet rows = stmt.executeQuery("SELECT * FROM " + tableMetadata.getTableName() + " " + search);
-            List<MObject> mObjectList = new ArrayList<>();
-            Table table = con.createQuery(sql).executeAndFetchTable();
-            //mObjectList.add(mObjectFactory.createFromTable(objectDataRequest, tableMetadata, rows));
 
-            return mObjectList;
+        try(Connection con = sql2o.open()) {
+            Query query = con.createQuery(sql);
+            Table table = query.executeAndFetchTable();
+
+            return mObjectFactory.createFromTable(table, tableMetadata);
         }
     }
 

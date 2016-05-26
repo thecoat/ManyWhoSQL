@@ -28,6 +28,6 @@ public class Application extends BaseApplication {
             }
         });
 
-        application.startServer("api/sql/1");
+        application.startServer();
     }
 }
