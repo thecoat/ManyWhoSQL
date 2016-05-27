@@ -22,11 +22,12 @@ public class MetadataManager {
 
     public List<TableMetadata> getMetadataTables(ServiceConfiguration serviceConfiguration) throws Exception {
 
-        try (Connection con = connectionService.getConnection(serviceConfiguration).open()) {
+        try (Connection con = connectionService.getSql2Object(serviceConfiguration).open()) {
             DatabaseMetaData metaData = con.getJdbcConnection().getMetaData();
 
             return metadataService.getTablesMetadata(
                     serviceConfiguration.getDatabaseName(),
+                    serviceConfiguration.getDatabaseSchema(),
                     metaData
             );
         }
@@ -34,11 +35,12 @@ public class MetadataManager {
 
     public TableMetadata getMetadataTable(ServiceConfiguration serviceConfiguration, String tableName) throws Exception {
 
-        try (Connection con = connectionService.getConnection(serviceConfiguration).open()) {
+        try (Connection con = connectionService.getSql2Object(serviceConfiguration).open()) {
             DatabaseMetaData metaData = con.getJdbcConnection().getMetaData();
 
             List<TableMetadata> tableMetadataLis = metadataService.getTablesMetadata(
                     serviceConfiguration.getDatabaseName(),
+                    serviceConfiguration.getDatabaseSchema(),
                     metaData,
                     tableName
             );

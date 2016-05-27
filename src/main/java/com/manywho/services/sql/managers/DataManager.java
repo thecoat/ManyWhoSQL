@@ -24,30 +24,32 @@ public class DataManager {
 
     public List<MObject> load(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) throws Exception {
 
-        return dataService.getTableContentByPrimaryKey(
+        return dataService.fetchByPrimaryKey(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
-                        connectionService.getConnection(configuration),
+                        connectionService.getSql2Object(configuration),
                         id
                     );
     }
 
     public List<MObject> loadBySearch(ServiceConfiguration configuration, ObjectDataType objectDataType, String search) throws Exception {
 
-        return dataService.getTableContentBySearch(
+        return dataService.fetchBySearch(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
-                connectionService.getConnection(configuration),
+                connectionService.getSql2Object(configuration),
                 search
         );
     }
 
     public MObject update(ServiceConfiguration configuration, MObject mObject) throws Exception {
 
-        dataService.update(
-                mObject,
-                connectionService.getConnection(configuration),
-                metadataManager.getMetadataTable(configuration, mObject.getDeveloperName())
-        );
+        dataService.update(mObject, connectionService.getSql2Object(configuration),
+                metadataManager.getMetadataTable(configuration, mObject.getDeveloperName()));
 
         return mObject;
+    }
+
+    public MObject create(ServiceConfiguration configuration, MObject mObject) throws Exception {
+        return dataService.insert(mObject, connectionService.getSql2Object(configuration),
+                metadataManager.getMetadataTable(configuration, mObject.getDeveloperName()));
     }
 }

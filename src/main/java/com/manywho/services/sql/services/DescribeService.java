@@ -40,6 +40,7 @@ public class DescribeService {
     public List<Property> createProperties(Table table, TableMetadata tableMetadata) {
         HashMap<String, ContentType> columnsContentType = tableMetadata.getColumns();
         List<Property> properties = new ArrayList<>();
+
         properties.addAll(
                 table.columns().stream()
                         .map(column -> new Property(column.getName(), "", columnsContentType.get(column.getName())))

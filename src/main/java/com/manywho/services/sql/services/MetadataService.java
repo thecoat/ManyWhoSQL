@@ -16,70 +16,52 @@ public class MetadataService {
     public MetadataService(){
     }
 
-    public List<TableMetadata> getTablesMetadata(String databaseName, DatabaseMetaData metaData, String tableNamePattern) throws Exception {
-        String catalog = databaseName;
-        String schemaPattern = null;
+    public List<TableMetadata> getTablesMetadata(String databaseName, String databaseSchema, DatabaseMetaData metaData) throws Exception {
         String[] types = {"TABLE"};
 
-        return this.getTablesMetadatGeneric(databaseName, schemaPattern, tableNamePattern, types, metaData);
+        return this.getTablesMetadataInternal(databaseName, databaseSchema, null, types, metaData);
     }
 
-    public List<TableMetadata> getTablesMetadata(String databaseName, DatabaseMetaData metaData) throws Exception {
-        String catalog = databaseName;
-        String schemaPattern = null;
-        String tableNamePattern = null;
+    public List<TableMetadata> getTablesMetadata(String databaseName, String databaseSchema, DatabaseMetaData metaData, String tableName) throws Exception {
         String[] types = {"TABLE"};
 
-        return this.getTablesMetadatGeneric(databaseName, schemaPattern, tableNamePattern, types, metaData);
+        return this.getTablesMetadataInternal(databaseName, databaseSchema, tableName, types, metaData);
     }
 
-    private List<TableMetadata> getTablesMetadatGeneric(String catalog, String schemaPattern, String tableNamePattern, String[] types, DatabaseMetaData metaData) throws Exception {
-
+    private List<TableMetadata> getTablesMetadataInternal(String catalog, String schemaPattern, String tableNamePattern, String[] types, DatabaseMetaData metaData) throws Exception {
         ResultSet rsTablesMetadata = metaData.getTables(catalog, schemaPattern, tableNamePattern, types );
         List<TableMetadata> tableList = new ArrayList<>();
 
         while(rsTablesMetadata.next()) {
             TableMetadata tableMetadata = new TableMetadata(rsTablesMetadata.getString(3));
-
-            populateColumnForTable(catalog, tableMetadata, metaData);
-            populatePrimaryKeyForTable(catalog, tableMetadata, metaData);
+            populateColumnForTable(catalog, schemaPattern, tableMetadata, metaData);
+            populatePrimaryKeyForTable(catalog, schemaPattern, tableMetadata, metaData);
             tableList.add(tableMetadata);
-
         }
 
         return tableList;
     }
 
-    private void populatePrimaryKeyForTable(String databaseName, TableMetadata tableMetadata, DatabaseMetaData metaData) throws Exception {
-        String catalog           = databaseName;
-        String schemaPattern     = null;
-        String tableNamePattern  = tableMetadata.getTableName();
-
-        ResultSet rsPrimaryKey = metaData.getPrimaryKeys(catalog, schemaPattern, tableNamePattern);
+    private void populatePrimaryKeyForTable(String databaseName, String databaseSchema, TableMetadata tableMetadata, DatabaseMetaData metaData) throws Exception {
+        ResultSet rsPrimaryKey = metaData.getPrimaryKeys(databaseName, databaseSchema, tableMetadata.getTableName());
 
         while (rsPrimaryKey.next()) {
             tableMetadata.setPrimaryKeyName(rsPrimaryKey.getString("COLUMN_NAME"));
         }
     }
 
-    private void populateColumnForTable(String databaseName, TableMetadata tableMetadata, DatabaseMetaData metaData) throws Exception {
-        String catalog           = databaseName;
-        String schemaPattern     = null;
-        String tableNamePattern  = tableMetadata.getTableName();
-        String columnNamePattern = null;
+    private void populateColumnForTable(String databaseName, String databaseSchema, TableMetadata tableMetadata, DatabaseMetaData metaData) throws Exception {
+        ResultSet rsColumnsMetadata = metaData.getColumns(databaseName, databaseSchema, tableMetadata.getTableName(), null);
 
-        ResultSet rsCollumnsMetadata = metaData.getColumns(catalog, schemaPattern, tableNamePattern, columnNamePattern);
-
-        while (rsCollumnsMetadata.next()) {
-
+        while (rsColumnsMetadata.next()) {
             tableMetadata.setColumn(
-                    rsCollumnsMetadata.getString(4),
-                    ContentTypeUtil.createFromSqlType(rsCollumnsMetadata.getInt(5))
+                    rsColumnsMetadata.getString(4),
+                    ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5))
             );
 
             tableMetadata.setColumnsDatabaseType(
-                    rsCollumnsMetadata.getString(4),
-                    JDBCType.valueOf(rsCollumnsMetadata.getInt(5)).getName()
+                    rsColumnsMetadata.getString(4),
+                    JDBCType.valueOf(rsColumnsMetadata.getInt(5)).getName()
             );
         }
     }

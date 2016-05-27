@@ -22,7 +22,12 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
 
     @Override
     public MObject create(ServiceConfiguration configuration, MObject object) {
-        return object;
+        try {
+            
+            return dataManager.create(configuration, object);
+        } catch (Exception e) {
+            throw  new RuntimeException("problem creating object");
+        }
     }
 
     @Override

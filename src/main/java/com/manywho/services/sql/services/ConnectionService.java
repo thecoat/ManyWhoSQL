@@ -25,7 +25,7 @@ public class ConnectionService {
         sql2o = null;
     }
 
-    public Sql2o getConnection(ServiceConfiguration serviceConfiguration) throws Exception {
+    public Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
 
         if(sql2o!= null) {
             return sql2o;

@@ -13,26 +13,47 @@ public class QueryService {
     @Inject
     public QueryService() {}
 
-
     public String createQueryWithParametersForUpdate(String paramSuffix, MObject mObject, TableMetadata metadataTable){
-        String sql = "UPDATE " + metadataTable.getTableName() + " SET ";
+
+        String sqlFormat = "UPDATE %s SET %s WHERE %s=%s%s";
+        String columnsAndParams = "";
+
         Boolean firstParam = true;
 
         for(Property p : mObject.getProperties()) {
-
             if(firstParam) {
-                sql += " ";
                 firstParam = false;
             } else {
-                sql += ", ";
+                columnsAndParams += ", ";
             }
 
-            sql += p.getDeveloperName()+ "=:" + paramSuffix + p.getDeveloperName();
+            columnsAndParams += p.getDeveloperName()+ "=:" + paramSuffix + p.getDeveloperName();
         }
 
-        sql += " WHERE " + metadataTable.getPrimaryKeyName() + "=:" + paramSuffix + metadataTable.getPrimaryKeyName();
+        return String.format(sqlFormat, metadataTable.getPrimaryKeyName(), columnsAndParams,
+                metadataTable.getPrimaryKeyName(), paramSuffix, metadataTable.getPrimaryKeyName());
+    }
 
-        return sql;
+    public String createQueryWithParametersForInsert(String paramSuffix, MObject mObject, TableMetadata metadataTable) {
+
+        String sqlFormat = "INSERT INTO %s (%s) VALUES (%s)";
+        Boolean firstParam = true;
+        String columnNames = " ";
+        String paramNames = " ";
+
+        for(Property p : mObject.getProperties()) {
+            if(firstParam) {
+                firstParam = false;
+            } else {
+                columnNames += ", ";
+                paramNames += ", ";
+            }
+
+            columnNames += p.getDeveloperName();
+            paramNames += ":" + paramSuffix + p.getDeveloperName();
+        }
+
+        return String.format(sqlFormat, metadataTable.getTableName(), columnNames, paramNames);
     }
 
     /**
