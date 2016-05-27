@@ -26,18 +26,14 @@ public class DataManager {
 
         return dataService.fetchByPrimaryKey(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
-                        connectionService.getSql2Object(configuration),
-                        id
-                    );
+                        connectionService.getSql2Object(configuration), id);
     }
 
     public List<MObject> loadBySearch(ServiceConfiguration configuration, ObjectDataType objectDataType, String search) throws Exception {
 
         return dataService.fetchBySearch(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
-                connectionService.getSql2Object(configuration),
-                search
-        );
+                connectionService.getSql2Object(configuration), search);
     }
 
     public MObject update(ServiceConfiguration configuration, MObject mObject) throws Exception {

@@ -22,7 +22,7 @@ public class ServiceConfiguration implements Configuration {
     @Configuration.Value(name="Database Name", contentType= ContentType.String)
     private String databaseName;
 
-    @Configuration.Value(name="Database Schema", contentType= ContentType.String, required = false)
+    @Configuration.Value(name="Database Schema", contentType= ContentType.String)
     private String databaseSchema;
 
     public String getUsername() {

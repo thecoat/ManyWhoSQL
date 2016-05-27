@@ -13,9 +13,11 @@ public class TableMetadata {
     private HashMap<String, ContentType> columns;
     private HashMap<String, String> columnsDatabaseType;
     private String primaryKeyName;
+    private String schemaName;
 
-    public TableMetadata(String tableName){
+    public TableMetadata(String tableName, String schemaName){
         this.tableName = tableName;
+        this.schemaName = schemaName;
         this.columns = new HashMap<>();
         this.columnsDatabaseType = new HashMap<>();
     }
@@ -45,5 +47,9 @@ public class TableMetadata {
 
     public void setPrimaryKeyName(String primaryKeyName) {
         this.primaryKeyName = primaryKeyName;
+    }
+
+    public String getSchemaName() {
+        return schemaName;
     }
 }

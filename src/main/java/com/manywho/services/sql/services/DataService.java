@@ -9,7 +9,6 @@ import com.manywho.services.sql.utilities.MobjectUtil;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
-import org.sql2o.data.Table;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
@@ -18,23 +17,22 @@ import java.util.List;
 public class DataService {
     private MObjectFactory mObjectFactory;
     private QueryService queryService;
+    private ParameterSanitaizerService parameterSanitaizerService;
 
     @Inject
-    public DataService(MObjectFactory mObjectFactory, QueryService queryService) {
+    public DataService(MObjectFactory mObjectFactory, QueryService queryService, ParameterSanitaizerService parameterSanitaizerService) {
         this.mObjectFactory = mObjectFactory;
         this.queryService = queryService;
+        this.parameterSanitaizerService = parameterSanitaizerService;
     }
 
-    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, String id) throws SQLException {
-        String sql = "SELECT * FROM " + tableMetadata.getTableName() + " WHERE " + tableMetadata.getPrimaryKeyName() +"= :idParam";
-
+    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, String externalId) throws SQLException {
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(sql);
+            Query query = con.createQuery(queryService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, "idPrimaryKeyParam"));
             String paramType = tableMetadata.getColumnsDatabaseType().get(tableMetadata.getPrimaryKeyName());
-            queryService.populateParameter("idParam", id, paramType, query);
-            Table table = query.executeAndFetchTable();
+            parameterSanitaizerService.populateParameter("idPrimaryKeyParam", externalId, paramType, query);
 
-            return mObjectFactory.createFromTable(table, tableMetadata);
+            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             dataBaseTypeNotSupported.printStackTrace();
         }
@@ -43,13 +41,10 @@ public class DataService {
     }
 
     public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String search) throws SQLException {
-        String sql = "SELECT * FROM " + tableMetadata.getTableName() + " WHERE " + search;
-
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(sql);
-            Table table = query.executeAndFetchTable();
+            Query query = con.createQuery(queryService.createQueryWithParametersForSelectBySearch(tableMetadata, search));
 
-            return mObjectFactory.createFromTable(table, tableMetadata);
+            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         }
     }
 
@@ -59,7 +54,7 @@ public class DataService {
             Query query = con.createQuery(queryService.createQueryWithParametersForUpdate("param", mObject, metadataTable));
 
             for(Property p : mObject.getProperties()) {
-                queryService.populateParameter("param" + p.getDeveloperName(),
+                parameterSanitaizerService.populateParameter("param" + p.getDeveloperName(),
                         p.getContentValue(),
                         metadataTable.getColumnsDatabaseType().get(p.getDeveloperName()),
                         query);
@@ -71,15 +66,16 @@ public class DataService {
         }
     }
 
-    public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata metadataTable) throws DataBaseTypeNotSupported {
+    public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata) throws DataBaseTypeNotSupported {
+
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryService.createQueryWithParametersForInsert("param", mObject, metadataTable));
+            Query query = con.createQuery(queryService.createQueryWithParametersForInsert("param", mObject, tableMetadata ));
 
             for(Property p : mObject.getProperties()) {
-                queryService.populateParameter("param" + p.getDeveloperName(), p.getContentValue(),
-                        metadataTable.getColumnsDatabaseType().get(p.getDeveloperName()), query);
+                parameterSanitaizerService.populateParameter("param" + p.getDeveloperName(), p.getContentValue(),
+                        tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
             }
-            mObject.setExternalId(MobjectUtil.getPrimaryKeyValue(metadataTable.getPrimaryKeyName(), mObject.getProperties()));
+            mObject.setExternalId(MobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), mObject.getProperties()));
             query.executeUpdate();
 
             return mObject;

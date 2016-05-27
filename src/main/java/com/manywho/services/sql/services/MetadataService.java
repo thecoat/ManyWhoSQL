@@ -16,26 +16,26 @@ public class MetadataService {
     public MetadataService(){
     }
 
-    public List<TableMetadata> getTablesMetadata(String databaseName, String databaseSchema, DatabaseMetaData metaData) throws Exception {
+    public List<TableMetadata> getTablesMetadata(String databaseName, String schemaName, DatabaseMetaData metaData) throws Exception {
         String[] types = {"TABLE"};
 
-        return this.getTablesMetadataInternal(databaseName, databaseSchema, null, types, metaData);
+        return this.getTablesMetadataInternal(databaseName, schemaName, null, types, metaData);
     }
 
-    public List<TableMetadata> getTablesMetadata(String databaseName, String databaseSchema, DatabaseMetaData metaData, String tableName) throws Exception {
+    public List<TableMetadata> getTablesMetadata(String databaseName, String schemaName, DatabaseMetaData metaData, String tableName) throws Exception {
         String[] types = {"TABLE"};
 
-        return this.getTablesMetadataInternal(databaseName, databaseSchema, tableName, types, metaData);
+        return this.getTablesMetadataInternal(databaseName, schemaName, tableName, types, metaData);
     }
 
-    private List<TableMetadata> getTablesMetadataInternal(String catalog, String schemaPattern, String tableNamePattern, String[] types, DatabaseMetaData metaData) throws Exception {
-        ResultSet rsTablesMetadata = metaData.getTables(catalog, schemaPattern, tableNamePattern, types );
+    private List<TableMetadata> getTablesMetadataInternal(String catalog, String schemaName, String tableNamePattern, String[] types, DatabaseMetaData metaData) throws Exception {
+        ResultSet rsTablesMetadata = metaData.getTables(catalog, schemaName, tableNamePattern, types );
         List<TableMetadata> tableList = new ArrayList<>();
 
         while(rsTablesMetadata.next()) {
-            TableMetadata tableMetadata = new TableMetadata(rsTablesMetadata.getString(3));
-            populateColumnForTable(catalog, schemaPattern, tableMetadata, metaData);
-            populatePrimaryKeyForTable(catalog, schemaPattern, tableMetadata, metaData);
+            TableMetadata tableMetadata = new TableMetadata(rsTablesMetadata.getString(3), schemaName);
+            populateColumnForTable(catalog, schemaName, tableMetadata, metaData);
+            populatePrimaryKeyForTable(catalog, schemaName, tableMetadata, metaData);
             tableList.add(tableMetadata);
         }
 
