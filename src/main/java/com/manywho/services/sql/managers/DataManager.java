@@ -1,8 +1,6 @@
 package com.manywho.services.sql.managers;
 
 import com.manywho.sdk.api.run.elements.type.MObject;
-import com.manywho.sdk.api.run.elements.type.ObjectDataRequest;
-import com.manywho.sdk.api.run.elements.type.ObjectDataResponse;
 import com.manywho.sdk.api.run.elements.type.ObjectDataType;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.services.ConnectionService;
@@ -27,8 +25,7 @@ public class DataManager {
     public List<MObject> load(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) throws Exception {
 
         return dataService.getTableContentByPrimaryKey(
-                        objectDataType,
-                        metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
+                metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
                         connectionService.getConnection(configuration),
                         id
                     );
@@ -37,24 +34,20 @@ public class DataManager {
     public List<MObject> loadBySearch(ServiceConfiguration configuration, ObjectDataType objectDataType, String search) throws Exception {
 
         return dataService.getTableContentBySearch(
-                objectDataType,
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
                 connectionService.getConnection(configuration),
                 search
         );
     }
 
-    public ObjectDataResponse save(ServiceConfiguration serviceConfiguration, ObjectDataRequest objectDataRequest) throws Exception {
-        throw new Exception("not working");
+    public MObject update(ServiceConfiguration configuration, MObject mObject) throws Exception {
 
-//        String objectDeveloperName = objectDataRequest.getObjectDataType().getDeveloperName();
-//
-//        List<MObject> mObjects = dataService.saveTableContent(
-//                objectDataRequest,
-//                metadataManager.getMetadataTable(serviceConfiguration,objectDeveloperName),
-//                connectionService.getConnection(serviceConfiguration)
-//        );
-//
-//        return new ObjectDataResponse(mObjects);
+        dataService.update(
+                mObject,
+                connectionService.getConnection(configuration),
+                metadataManager.getMetadataTable(configuration, mObject.getDeveloperName())
+        );
+
+        return mObject;
     }
 }

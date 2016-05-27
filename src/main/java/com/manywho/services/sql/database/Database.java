@@ -22,7 +22,7 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
 
     @Override
     public MObject create(ServiceConfiguration configuration, MObject object) {
-        return null;
+        return object;
     }
 
     @Override
@@ -67,7 +67,13 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
 
     @Override
     public MObject update(ServiceConfiguration configuration, MObject object) {
-        return null;
+        try {
+            return this.dataManager.update(configuration, object);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        throw new RuntimeException("Error updating row for " + object.getDeveloperName());
     }
 
     @Override

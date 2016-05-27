@@ -13,7 +13,6 @@ public class TableMetadata {
     private HashMap<String, ContentType> columns;
     private HashMap<String, String> columnsDatabaseType;
     private String primaryKeyName;
-    private String primaryKeyType;
 
     public TableMetadata(String tableName){
         this.tableName = tableName;
@@ -28,23 +27,8 @@ public class TableMetadata {
         columnsDatabaseType.put(columnName, columnType);
     }
 
-    public Boolean needToCastPrimaryKeyToInteger() {
-
-        if(columns.get(primaryKeyName)!= null && columns.get(primaryKeyName) == ContentType.Number) {
-
-            return true;
-        }
-
-        return false;
-    }
-
-
     public String getTableName() {
         return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
     }
 
     public HashMap<String, ContentType> getColumns() {
@@ -62,13 +46,4 @@ public class TableMetadata {
     public void setPrimaryKeyName(String primaryKeyName) {
         this.primaryKeyName = primaryKeyName;
     }
-
-    public String getPrimaryKeyType() {
-        return primaryKeyType;
-    }
-
-    public void setPrimaryKeyType(String primaryKeyType) {
-        this.primaryKeyType = primaryKeyType;
-    }
-
 }

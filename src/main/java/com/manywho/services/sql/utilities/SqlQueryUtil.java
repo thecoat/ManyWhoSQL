@@ -9,6 +9,5 @@ public class SqlQueryUtil {
         String query = " 1=1 ";
 
         return query;
-
     }
 }

@@ -1,6 +1,8 @@
 package com.manywho.services.sql.utilities;
 
 import com.manywho.sdk.api.ContentType;
+import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
+
 import java.sql.Types;
 
 public class ContentTypeUtil {
@@ -17,7 +19,7 @@ public class ContentTypeUtil {
     public static ContentType createFromSqlType(int types) throws Exception {
         switch(types) {
             case Types.BIT:
-                return ContentType.Number;
+                throw new DataBaseTypeNotSupported("BIT");
 
             case Types.TINYINT:
                 return ContentType.Number;
@@ -56,40 +58,40 @@ public class ContentTypeUtil {
                 return ContentType.String;
 
             case Types.DATE:
-                return ContentType.DateTime;
+                throw new DataBaseTypeNotSupported("DATE");
 
             case Types.TIME:
-                throw new Exception("database type TIME not supported");
+                throw new DataBaseTypeNotSupported("TIME");
 
             case Types.TIMESTAMP:
                 return ContentType.Number;
 
             case Types.BINARY:
-                return ContentType.Number;
+                throw new DataBaseTypeNotSupported("BINARY");
 
             case Types.VARBINARY:
-                return ContentType.Number;
+                throw new DataBaseTypeNotSupported("VARBINARY");
 
             case Types.LONGVARBINARY:
-                return ContentType.Number;
+                throw new DataBaseTypeNotSupported("LONGVARBINARY");
 
             case Types.NULL:
-                throw new Exception("database type NULL not supported");
+                throw new DataBaseTypeNotSupported("NULL");
 
             case Types.OTHER:
-                throw new Exception("database type OTHER not supported");
+                throw new DataBaseTypeNotSupported("OTHER");
 
             case Types.JAVA_OBJECT:
-                throw new Exception("database type JAVA_OBJECT not supported");
+                throw new DataBaseTypeNotSupported("JAVA_OBJECT");
 
             case Types.DISTINCT:
-                throw new Exception("database type DISTINCT not supported");
+                throw new DataBaseTypeNotSupported("DISTINCT");
 
             case Types.STRUCT:
-                throw new Exception("database type STRUCT not supported");
+                throw new DataBaseTypeNotSupported("STRUCT");
 
             case Types.ARRAY:
-                throw new Exception("database type ARRAY not supported");
+                throw new DataBaseTypeNotSupported("ARRAY");
 
             case Types. BLOB:
                 return ContentType.String;
@@ -98,16 +100,16 @@ public class ContentTypeUtil {
                 return ContentType.String;
 
             case Types.REF:
-                throw new Exception("database type REF not supported");
+                throw new DataBaseTypeNotSupported("REF");
 
             case Types.DATALINK:
-                throw new Exception("database type DATALINK not supported");
+                throw new DataBaseTypeNotSupported("DATALINK");
 
             case Types.BOOLEAN:
                 return ContentType.Boolean;
 
             case Types.ROWID:
-                throw new Exception("database type ROWID not supported");
+                throw new DataBaseTypeNotSupported("ROWID");
 
             case Types.NCHAR:
                 return ContentType.String;
@@ -119,22 +121,22 @@ public class ContentTypeUtil {
                 return ContentType.String;
 
             case Types.NCLOB:
-                throw new Exception("database type NCLOB not supported");
+                throw new DataBaseTypeNotSupported("NCLOB");
 
             case Types.SQLXML:
-                throw new Exception("database type SQLXML not supported");
+                throw new DataBaseTypeNotSupported("SQLXML");
 
             case Types.REF_CURSOR:
-                throw new Exception("database type REF_CURSOR not supported");
+                throw new DataBaseTypeNotSupported("REF_CURSOR");
 
             case Types.TIME_WITH_TIMEZONE:
-                return ContentType.DateTime;
+                throw new DataBaseTypeNotSupported("TIME_WITH_TIMEZONE");
 
             case Types.TIMESTAMP_WITH_TIMEZONE:
-                return ContentType.DateTime;
+                throw new DataBaseTypeNotSupported("TIMESTAMP_WITH_TIMEZONE");
 
             default:
-                throw new Exception("database type with code "+ types +" not supported");
+                throw new DataBaseTypeNotSupported(types + "");
 
         }
     }

@@ -20,7 +20,7 @@ public class MObjectFactory {
 
     public List<MObject> createFromTable(Table table, TableMetadata tableMetadata) {
         List<MObject> mObjects = new ArrayList<>();
-        
+
         for (Row row: table.rows()) {
             List<Property> properties = describeService.createProperties(table, tableMetadata);
 

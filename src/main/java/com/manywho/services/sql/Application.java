@@ -9,6 +9,7 @@ import com.manywho.services.sql.managers.MetadataManager;
 import com.manywho.services.sql.services.DataService;
 import com.manywho.services.sql.services.DescribeService;
 import com.manywho.services.sql.services.MetadataService;
+import com.manywho.services.sql.services.QueryService;
 import com.manywho.services.sql.types.RawTypeProvider;
 
 public class Application extends BaseApplication {
@@ -24,6 +25,7 @@ public class Application extends BaseApplication {
                 bind(DataManager.class);
                 bind(MetadataService.class);
                 bind(DataService.class);
+                bind(QueryService.class);
                 bind(TypeProvider.class).to(RawTypeProvider.class);
             }
         });
