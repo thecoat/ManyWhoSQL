@@ -24,7 +24,7 @@ public class QueryService {
 
     public String createQueryWithParametersForUpdate(String paramSuffix, MObject mObject, TableMetadata tableMetadata){
 
-        String sqlFormat = "UPDATE %s.%s SET %s WHERE %s=%s%s";
+        String sqlFormat = "UPDATE %s.%s SET %s WHERE %s=:%s%s";
         String columnsAndParams = "";
 
         Boolean firstParam = true;
@@ -39,8 +39,8 @@ public class QueryService {
             columnsAndParams += p.getDeveloperName()+ "=:" + paramSuffix + p.getDeveloperName();
         }
 
-        return String.format(sqlFormat, tableMetadata.getSchemaName(), tableMetadata.getPrimaryKeyName(), columnsAndParams,
-                tableMetadata.getPrimaryKeyName(), paramSuffix, tableMetadata.getPrimaryKeyName());
+        return String.format(sqlFormat, tableMetadata.getSchemaName(), tableMetadata.getTableName(),
+                columnsAndParams, tableMetadata.getPrimaryKeyName(), paramSuffix, tableMetadata.getPrimaryKeyName());
     }
 
     public String createQueryWithParametersForInsert(String paramSuffix, MObject mObject, TableMetadata tableMetadata) {

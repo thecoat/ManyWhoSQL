@@ -16,7 +16,7 @@
       "developerName": "Password",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "password",
+      "contentValue": "admin",
       "contentType": "ContentPassword",
       "objectData": null
     },
@@ -49,7 +49,7 @@
       "developerName": "Database Name",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "database-service",
+      "contentValue": "service-sql",
       "contentType": "ContentString",
       "objectData": null
     },
@@ -132,7 +132,7 @@
   "objectData": [
     {
       "internalId": "31a48875-bc12-4a59-8fc5-16c37a801ad3",
-      "externalId": null,
+      "externalId": "1",
       "developerName": "country",
       "typeElementId": "dc0dcf14-1bf6-4faf-b5ee-0d2aa58cd02e",
       "order": 0,
@@ -148,7 +148,7 @@
         {
           "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
           "developerName": "description",
-          "contentValue": "description of England",
+          "contentValue": "It is a beautiful country",
           "contentType": "ContentString",
           "contentFormat": "",
           "objectData": null
@@ -156,7 +156,7 @@
         {
           "typeElementPropertyId": "1bc6feeb-ce7c-4753-b96e-7c0e8b7b5223",
           "developerName": "id",
-          "contentValue": "4",
+          "contentValue": "1",
           "contentType": "ContentNumber",
           "contentFormat": "",
           "objectData": null

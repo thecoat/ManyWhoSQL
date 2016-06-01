@@ -9,7 +9,7 @@
             "developerName": "Password",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "password",
+            "contentValue": "admin",
             "contentType": null,
             "objectData": null
         },
@@ -31,7 +31,7 @@
             "developerName": "Database Name",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "database-service",
+            "contentValue": "service-sql",
             "contentType": null,
             "objectData": null
         },
@@ -65,6 +65,17 @@
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
             "contentValue": "postgres",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Database Schema",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "public",
             "contentType": null,
             "objectData": null
         }

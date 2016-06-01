@@ -1,4 +1,4 @@
-package com.manywho.services.sql.database;
+package com.manywho.services.sql.controllers;
 
 import com.manywho.sdk.api.run.elements.type.ListFilter;
 import com.manywho.sdk.api.run.elements.type.MObject;
