@@ -1,67 +1,68 @@
 package com.manywho.services.sql.services;
 
+import com.healthmarketscience.sqlbuilder.*;
+import com.manywho.sdk.api.run.elements.type.ListFilter;
 import com.manywho.sdk.api.run.elements.type.MObject;
+import com.manywho.sdk.api.run.elements.type.ObjectDataType;
 import com.manywho.sdk.api.run.elements.type.Property;
+import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
+import com.manywho.services.sql.services.filter.QueryFromFilter;
 
 import javax.inject.Inject;
 
 public class QueryService {
+    private QueryFromFilter queryFromFilter;
+
     @Inject
-    public QueryService() {}
-
-    public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, String primaryKeyParamName) {
-        String sqlFormat = "SELECT * FROM %s.%s WHERE %s=:%s";
-
-        return String.format(sqlFormat, tableMetadata.getSchemaName(),tableMetadata.getTableName(),
-                tableMetadata.getPrimaryKeyName(), primaryKeyParamName);
+    public QueryService(QueryFromFilter queryFromFilter) {
+        this.queryFromFilter = queryFromFilter;
     }
 
-    public String createQueryWithParametersForSelectBySearch(TableMetadata tableMetadata, String search) {
-        String sql = "SELECT * FROM %s.%s WHERE %s";
-        return String.format(sql, tableMetadata.getSchemaName(), tableMetadata.getTableName(), search);
+    public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, String primaryKeyParamName) {
+
+        SelectQuery selectQuery = new SelectQuery().addAllColumns()
+                .addCustomFromTable(tableMetadata.getTableName());
+
+        selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + primaryKeyParamName)));
+
+        return selectQuery.toString();
     }
 
     public String createQueryWithParametersForUpdate(String paramSuffix, MObject mObject, TableMetadata tableMetadata){
 
-        String sqlFormat = "UPDATE %s.%s SET %s WHERE %s=:%s%s";
-        String columnsAndParams = "";
-
-        Boolean firstParam = true;
+        UpdateQuery updateQuery = new UpdateQuery(tableMetadata.getTableName());
 
         for(Property p : mObject.getProperties()) {
-            if(firstParam) {
-                firstParam = false;
-            } else {
-                columnsAndParams += ", ";
-            }
-
-            columnsAndParams += p.getDeveloperName()+ "=:" + paramSuffix + p.getDeveloperName();
+            updateQuery.addCustomSetClause(new CustomSql(p.getDeveloperName()), new CustomSql(":" + paramSuffix + p.getDeveloperName()));
         }
 
-        return String.format(sqlFormat, tableMetadata.getSchemaName(), tableMetadata.getTableName(),
-                columnsAndParams, tableMetadata.getPrimaryKeyName(), paramSuffix, tableMetadata.getPrimaryKeyName());
+        String primaryKeyParamName =  paramSuffix + tableMetadata.getPrimaryKeyName();
+        updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + primaryKeyParamName)));
+
+        return updateQuery.toString();
     }
 
     public String createQueryWithParametersForInsert(String paramSuffix, MObject mObject, TableMetadata tableMetadata) {
-
-        String sqlFormat = "INSERT INTO %s.%s (%s) VALUES (%s)";
-        Boolean firstParam = true;
-        String columnNames = " ";
-        String paramNames = " ";
+        InsertQuery insertQuery = new InsertQuery(tableMetadata.getTableName());
 
         for(Property p : mObject.getProperties()) {
-            if(firstParam) {
-                firstParam = false;
-            } else {
-                columnNames += ", ";
-                paramNames += ", ";
-            }
-
-            columnNames += p.getDeveloperName();
-            paramNames += ":" + paramSuffix + p.getDeveloperName();
+            insertQuery.addCustomColumn(new CustomSql(p.getDeveloperName()), new CustomSql(":" + paramSuffix + p.getDeveloperName()));
         }
 
-        return String.format(sqlFormat,tableMetadata.getSchemaName(), tableMetadata.getTableName(), columnNames, paramNames);
+        return  insertQuery.toString();
+    }
+
+    public String getSqlFromFilter(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter) {
+
+        SelectQuery selectQuery = new SelectQuery().addAllColumns()
+                .addCustomFromTable(objectDataType.getDeveloperName());
+
+        queryFromFilter.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
+        queryFromFilter.addWhere(selectQuery, filter.getWhere());
+        queryFromFilter.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType());
+        queryFromFilter.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
+
+        return selectQuery.validate().toString();
     }
 }

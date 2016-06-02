@@ -16,7 +16,7 @@
       "developerName": "Password",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "password",
+      "contentValue": "admin",
       "contentType": "ContentPassword",
       "objectData": null
     },
@@ -38,7 +38,7 @@
       "developerName": "Database Name",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "database-service",
+      "contentValue": "service-sql",
       "contentType": "ContentString",
       "objectData": null
     },
@@ -61,6 +61,17 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "localhost",
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Database Schema",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "public",
       "contentType": "ContentString",
       "objectData": null
     },
@@ -101,15 +112,15 @@
       {
         "columnName": "name",
         "criteriaType": "EQUAL",
-        "value": "Uruguay",
-        "contentValue": "Uruguay",
+        "value": "England",
+        "contentValue": "England",
         "objectData": null
       },
       {
         "columnName": "description",
         "criteriaType": "STARTS_WITH",
-        "value": "description of country",
-        "contentValue": "description of country",
+        "value": "It is a beautiful",
+        "contentValue": "It is a beautiful",
         "objectData": null
       }
     ],

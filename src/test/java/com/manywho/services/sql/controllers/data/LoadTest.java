@@ -20,7 +20,7 @@ public class LoadTest extends BaseFunctionalTest {
     }
 
     @Test
-    public void testLoadData() throws Exception {
+    public void testLoadDataByExternalId() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO public.country(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
@@ -28,10 +28,28 @@ public class LoadTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "controllers/data/load/data-load1-request.json",
-                "controllers/data/load/data-load1-response.json"
+                "controllers/data/load/by-external-id/load-request.json",
+                "controllers/data/load/by-external-id/load-response.json"
         );
     }
+
+    @Test
+    public void testLoadDataByFilter() throws Exception {
+
+        try (Connection connection = getSql2o().open()) {
+            String sql = "INSERT INTO public.country(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            connection.createQuery(sql).executeUpdate();
+
+            String sql2 = "INSERT INTO public.country(id, name, description) VALUES ('2', 'England', 'It is a beautiful country');";
+            connection.createQuery(sql2).executeUpdate();
+        }
+
+        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+                "controllers/data/load/by-filter/load-request.json",
+                "controllers/data/load/by-filter/load-response.json"
+        );
+    }
+
 
     @After
     public void cleanDatabaseAfterEachTest() {

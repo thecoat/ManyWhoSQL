@@ -15,8 +15,8 @@ instructions:
 #### Testing
 
 You will need a database for the functional test of this service
-The string connection by default is "jdbc:postgresql://localhost:5432/service-sql",
-the username "postgres" and the password is "admin"
+The string connection by default is "jdbc:postgresql://localhost:5432/service-sql", (host: localhost, port: 5432 and database name service-sql)
+the username is "postgres" and the password is "admin"
 If you need to test with a different database you can change these parameters at
 src\test\java\com\manywho\services\sql\BaseFunctionalTest.java
 

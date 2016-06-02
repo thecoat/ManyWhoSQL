@@ -40,9 +40,9 @@ public class DataService {
         return null;
     }
 
-    public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String search) throws SQLException {
+    public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String sqlSearch) throws SQLException {
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryService.createQueryWithParametersForSelectBySearch(tableMetadata, search));
+            Query query = con.createQuery(sqlSearch);
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         }

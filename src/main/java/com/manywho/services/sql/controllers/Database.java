@@ -7,7 +7,6 @@ import com.manywho.sdk.services.database.RawDatabase;
 import com.manywho.sdk.services.database.RecordNotFoundException;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.managers.DataManager;
-import com.manywho.services.sql.utilities.SqlWhereUtil;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -60,7 +59,7 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
     @Override
     public List<MObject> findAll(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter) {
         try {
-            return this.dataManager.loadBySearch(configuration, objectDataType, SqlWhereUtil.getWhereFromFilter(objectDataType, filter));
+            return this.dataManager.loadBySearch(configuration, objectDataType,  filter);
 
         } catch (Exception e) {
             e.printStackTrace();
