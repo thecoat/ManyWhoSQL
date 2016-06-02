@@ -6,7 +6,7 @@ import com.manywho.sdk.api.run.elements.type.ObjectDataType;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.services.ConnectionService;
 import com.manywho.services.sql.services.DataService;
-import com.manywho.services.sql.services.QueryService;
+import com.manywho.services.sql.services.QueryStrService;
 
 import javax.inject.Inject;
 import java.util.List;
@@ -16,14 +16,14 @@ public class DataManager {
     private ConnectionService connectionService;
     private DataService dataService;
     private MetadataManager metadataManager;
-    private QueryService queryService;
+    private QueryStrService queryStrService;
 
     @Inject
-    public DataManager(ConnectionService connectionService, DataService dataService, MetadataManager metadataManager, QueryService queryService){
+    public DataManager(ConnectionService connectionService, DataService dataService, MetadataManager metadataManager, QueryStrService queryStrService){
         this.connectionService = connectionService;
         this.dataService = dataService;
         this.metadataManager = metadataManager;
-        this.queryService = queryService;
+        this.queryStrService = queryStrService;
     }
 
     public List<MObject> load(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) throws Exception {
@@ -38,7 +38,7 @@ public class DataManager {
         return dataService.fetchBySearch(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
                 connectionService.getSql2Object(configuration),
-                queryService.getSqlFromFilter(configuration, objectDataType, filters));
+                queryStrService.getSqlFromFilter(configuration, objectDataType, filters));
     }
 
     public MObject update(ServiceConfiguration configuration, MObject mObject) throws Exception {

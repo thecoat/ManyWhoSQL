@@ -31,8 +31,8 @@ public abstract class BaseFunctionalTest extends JerseyTest {
                 bind(DataManager.class);
                 bind(MetadataService.class);
                 bind(DataService.class);
-                bind(QueryService.class);
-                bind(ParameterSanitaizerService.class).in(Singleton.class);
+                bind(QueryStrService.class);
+                bind(QueryParameterService.class).in(Singleton.class);
                 bind(TypeProvider.class).to(RawTypeProvider.class);
             }
         });

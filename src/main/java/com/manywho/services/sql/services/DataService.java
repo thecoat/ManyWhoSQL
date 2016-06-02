@@ -16,21 +16,21 @@ import java.util.List;
 
 public class DataService {
     private MObjectFactory mObjectFactory;
-    private QueryService queryService;
-    private ParameterSanitaizerService parameterSanitaizerService;
+    private QueryStrService queryStrService;
+    private QueryParameterService parameterSanitaizerService;
 
     @Inject
-    public DataService(MObjectFactory mObjectFactory, QueryService queryService, ParameterSanitaizerService parameterSanitaizerService) {
+    public DataService(MObjectFactory mObjectFactory, QueryStrService queryStrService, QueryParameterService parameterSanitaizerService) {
         this.mObjectFactory = mObjectFactory;
-        this.queryService = queryService;
+        this.queryStrService = queryStrService;
         this.parameterSanitaizerService = parameterSanitaizerService;
     }
 
     public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, String externalId) throws SQLException {
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, "idPrimaryKeyParam"));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, "idPrimaryKeyParam"));
             String paramType = tableMetadata.getColumnsDatabaseType().get(tableMetadata.getPrimaryKeyName());
-            parameterSanitaizerService.populateParameter("idPrimaryKeyParam", externalId, paramType, query);
+            parameterSanitaizerService.addParameterValueToTheQuery("idPrimaryKeyParam", externalId, paramType, query);
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
@@ -51,10 +51,10 @@ public class DataService {
     public MObject update(MObject mObject, Sql2o sql2o, TableMetadata metadataTable) throws DataBaseTypeNotSupported {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryService.createQueryWithParametersForUpdate(mObject, metadataTable));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForUpdate(mObject, metadataTable));
 
             for(Property p : mObject.getProperties()) {
-                parameterSanitaizerService.populateParameter(p.getDeveloperName(),
+                parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(),
                         p.getContentValue(),
                         metadataTable.getColumnsDatabaseType().get(p.getDeveloperName()),
                         query);
@@ -69,10 +69,10 @@ public class DataService {
     public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata) throws DataBaseTypeNotSupported {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryService.createQueryWithParametersForInsert(mObject, tableMetadata ));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata ));
 
             for(Property p : mObject.getProperties()) {
-                parameterSanitaizerService.populateParameter(p.getDeveloperName(), p.getContentValue(),
+                parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
                         tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
             }
             mObject.setExternalId(MobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), mObject.getProperties()));

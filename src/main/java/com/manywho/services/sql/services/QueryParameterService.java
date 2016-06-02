@@ -4,16 +4,19 @@ import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import org.sql2o.Query;
 import java.sql.JDBCType;
 
-public class ParameterSanitaizerService {
+public class QueryParameterService {
     /**
      * This class need to be updated whith ContentTypeUtil
+     *
      *
      * @param paramName
      * @param parameterValue
      * @param databaseType
      * @param query
+     * @return
+     * @throws DataBaseTypeNotSupported
      */
-    public Query populateParameter(String paramName, String parameterValue, String databaseType, Query query) throws DataBaseTypeNotSupported {
+    public Query addParameterValueToTheQuery(String paramName, String parameterValue, String databaseType, Query query) throws DataBaseTypeNotSupported {
         JDBCType type = JDBCType.valueOf(databaseType);
 
         switch (type){

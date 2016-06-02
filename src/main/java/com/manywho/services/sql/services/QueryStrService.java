@@ -11,11 +11,11 @@ import com.manywho.services.sql.services.filter.QueryConditionsFromFilter;
 
 import javax.inject.Inject;
 
-public class QueryService {
+public class QueryStrService {
     private QueryConditionsFromFilter queryConditionsFromFilter;
 
     @Inject
-    public QueryService(QueryConditionsFromFilter queryConditionsFromFilter) {
+    public QueryStrService(QueryConditionsFromFilter queryConditionsFromFilter) {
         this.queryConditionsFromFilter = queryConditionsFromFilter;
     }
 
@@ -26,7 +26,7 @@ public class QueryService {
 
         selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + primaryKeyParamName)));
 
-        return selectQuery.toString();
+        return selectQuery.validate().toString();
     }
 
     public String createQueryWithParametersForUpdate(MObject mObject, TableMetadata tableMetadata){
@@ -39,7 +39,7 @@ public class QueryService {
 
         updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + tableMetadata.getPrimaryKeyName())));
 
-        return updateQuery.toString();
+        return updateQuery.validate().toString();
     }
 
     public String createQueryWithParametersForInsert(MObject mObject, TableMetadata tableMetadata) {
@@ -49,7 +49,7 @@ public class QueryService {
             insertQuery.addCustomColumn(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
         }
 
-        return  insertQuery.toString();
+        return  insertQuery.validate().toString();
     }
 
     public String getSqlFromFilter(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter) {
