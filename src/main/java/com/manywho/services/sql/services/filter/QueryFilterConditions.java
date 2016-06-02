@@ -11,16 +11,14 @@ import com.healthmarketscience.sqlbuilder.custom.sqlserver.MssTopClause;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import org.apache.commons.lang3.StringUtils;
-
 import java.util.List;
 
-public class QueryConditionsFromFilter {
+public class QueryFilterConditions {
     public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties ) {
         if (StringUtils.isNotBlank(search)) {
             String searchTerm = "%" + search + "%";
             for(ObjectDataTypeProperty property: listProperties) {
                 selectQuery.addCondition(BinaryCondition.like(new CustomSql(property.getDeveloperName()), searchTerm));
-
             }
         }
     }

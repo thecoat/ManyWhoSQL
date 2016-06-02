@@ -7,16 +7,16 @@ import com.manywho.sdk.api.run.elements.type.ObjectDataType;
 import com.manywho.sdk.api.run.elements.type.Property;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
-import com.manywho.services.sql.services.filter.QueryConditionsFromFilter;
+import com.manywho.services.sql.services.filter.QueryFilterConditions;
 
 import javax.inject.Inject;
 
 public class QueryStrService {
-    private QueryConditionsFromFilter queryConditionsFromFilter;
+    private QueryFilterConditions queryFilterConditions;
 
     @Inject
-    public QueryStrService(QueryConditionsFromFilter queryConditionsFromFilter) {
-        this.queryConditionsFromFilter = queryConditionsFromFilter;
+    public QueryStrService(QueryFilterConditions queryFilterConditions) {
+        this.queryFilterConditions = queryFilterConditions;
     }
 
     public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, String primaryKeyParamName) {
@@ -57,10 +57,10 @@ public class QueryStrService {
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
                 .addCustomFromTable(objectDataType.getDeveloperName());
 
-        queryConditionsFromFilter.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
-        queryConditionsFromFilter.addWhere(selectQuery, filter.getWhere());
-        queryConditionsFromFilter.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType());
-        queryConditionsFromFilter.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
+        queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
+        queryFilterConditions.addWhere(selectQuery, filter.getWhere());
+        queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType());
+        queryFilterConditions.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
 
         return selectQuery.validate().toString();
     }

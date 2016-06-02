@@ -14,7 +14,7 @@ public class SaveTest extends BaseFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         try (Connection connection = getSql2o().open()) {
-            String sql = Resources.toString(Resources.getResource("controllers/common/createTableCountry.sql"), Charsets.UTF_8);
+            String sql = Resources.toString(Resources.getResource("controllers/common/create-table-country.sql"), Charsets.UTF_8);
             connection.createQuery(sql).executeUpdate();
         }
     }

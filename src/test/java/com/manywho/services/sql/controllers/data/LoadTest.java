@@ -14,7 +14,7 @@ public class LoadTest extends BaseFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         try (Connection connection = getSql2o().open()) {
-            String sql = Resources.toString(Resources.getResource("controllers/common/createTableCountry.sql"), Charsets.UTF_8);
+            String sql = Resources.toString(Resources.getResource("controllers/common/create-table-country.sql"), Charsets.UTF_8);
             connection.createQuery(sql).executeUpdate();
         }
     }
@@ -37,16 +37,35 @@ public class LoadTest extends BaseFunctionalTest {
     public void testLoadDataByFilter() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO public.country(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
-            connection.createQuery(sql).executeUpdate();
+            String sql = "INSERT INTO public.country(id, name, description) VALUES " +
+                    "('1', 'Uruguay', 'It is a nice country')," +
+                    "('2', 'England', 'It is a beautiful country');";
 
-            String sql2 = "INSERT INTO public.country(id, name, description) VALUES ('2', 'England', 'It is a beautiful country');";
-            connection.createQuery(sql2).executeUpdate();
+            connection.createQuery(sql).executeUpdate();
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "controllers/data/load/by-filter/load-request.json",
-                "controllers/data/load/by-filter/load-response.json"
+                "controllers/data/load/by-filter/equal-and-like/load-request.json",
+                "controllers/data/load/by-filter/equal-and-like/load-response.json"
+        );
+    }
+
+    @Test
+    public void testLoadDataByFilterWithOffsetAndLimit() throws Exception {
+
+        try (Connection connection = getSql2o().open()) {
+            String sql = "INSERT INTO public.country(id, name, description) VALUES " +
+                    "('1', 'Uruguay', 'Uruguay description')," +
+                    "('2', 'England', 'England description')," +
+                    "('3', 'Spain', 'Spain description')," +
+                    "('4', 'Italy', 'Italy description');";
+
+            connection.createQuery(sql).executeUpdate();
+        }
+
+        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+                "controllers/data/load/by-filter/offset-and-limit/load-offset-request.json",
+                "controllers/data/load/by-filter/offset-and-limit/load-offset-response.json"
         );
     }
 
