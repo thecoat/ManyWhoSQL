@@ -51,10 +51,10 @@ public class DataService {
     public MObject update(MObject mObject, Sql2o sql2o, TableMetadata metadataTable) throws DataBaseTypeNotSupported {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryService.createQueryWithParametersForUpdate("param", mObject, metadataTable));
+            Query query = con.createQuery(queryService.createQueryWithParametersForUpdate(mObject, metadataTable));
 
             for(Property p : mObject.getProperties()) {
-                parameterSanitaizerService.populateParameter("param" + p.getDeveloperName(),
+                parameterSanitaizerService.populateParameter(p.getDeveloperName(),
                         p.getContentValue(),
                         metadataTable.getColumnsDatabaseType().get(p.getDeveloperName()),
                         query);
@@ -69,10 +69,10 @@ public class DataService {
     public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata) throws DataBaseTypeNotSupported {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryService.createQueryWithParametersForInsert("param", mObject, tableMetadata ));
+            Query query = con.createQuery(queryService.createQueryWithParametersForInsert(mObject, tableMetadata ));
 
             for(Property p : mObject.getProperties()) {
-                parameterSanitaizerService.populateParameter("param" + p.getDeveloperName(), p.getContentValue(),
+                parameterSanitaizerService.populateParameter(p.getDeveloperName(), p.getContentValue(),
                         tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
             }
             mObject.setExternalId(MobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), mObject.getProperties()));

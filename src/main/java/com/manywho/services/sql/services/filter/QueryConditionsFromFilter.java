@@ -14,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
-public class QueryFromFilter {
+public class QueryConditionsFromFilter {
     public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties ) {
         if (StringUtils.isNotBlank(search)) {
             String searchTerm = "%" + search + "%";

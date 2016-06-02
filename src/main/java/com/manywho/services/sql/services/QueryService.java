@@ -7,16 +7,16 @@ import com.manywho.sdk.api.run.elements.type.ObjectDataType;
 import com.manywho.sdk.api.run.elements.type.Property;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
-import com.manywho.services.sql.services.filter.QueryFromFilter;
+import com.manywho.services.sql.services.filter.QueryConditionsFromFilter;
 
 import javax.inject.Inject;
 
 public class QueryService {
-    private QueryFromFilter queryFromFilter;
+    private QueryConditionsFromFilter queryConditionsFromFilter;
 
     @Inject
-    public QueryService(QueryFromFilter queryFromFilter) {
-        this.queryFromFilter = queryFromFilter;
+    public QueryService(QueryConditionsFromFilter queryConditionsFromFilter) {
+        this.queryConditionsFromFilter = queryConditionsFromFilter;
     }
 
     public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, String primaryKeyParamName) {
@@ -29,25 +29,24 @@ public class QueryService {
         return selectQuery.toString();
     }
 
-    public String createQueryWithParametersForUpdate(String paramSuffix, MObject mObject, TableMetadata tableMetadata){
+    public String createQueryWithParametersForUpdate(MObject mObject, TableMetadata tableMetadata){
 
         UpdateQuery updateQuery = new UpdateQuery(tableMetadata.getTableName());
 
         for(Property p : mObject.getProperties()) {
-            updateQuery.addCustomSetClause(new CustomSql(p.getDeveloperName()), new CustomSql(":" + paramSuffix + p.getDeveloperName()));
+            updateQuery.addCustomSetClause(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
         }
 
-        String primaryKeyParamName =  paramSuffix + tableMetadata.getPrimaryKeyName();
-        updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + primaryKeyParamName)));
+        updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + tableMetadata.getPrimaryKeyName())));
 
         return updateQuery.toString();
     }
 
-    public String createQueryWithParametersForInsert(String paramSuffix, MObject mObject, TableMetadata tableMetadata) {
+    public String createQueryWithParametersForInsert(MObject mObject, TableMetadata tableMetadata) {
         InsertQuery insertQuery = new InsertQuery(tableMetadata.getTableName());
 
         for(Property p : mObject.getProperties()) {
-            insertQuery.addCustomColumn(new CustomSql(p.getDeveloperName()), new CustomSql(":" + paramSuffix + p.getDeveloperName()));
+            insertQuery.addCustomColumn(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
         }
 
         return  insertQuery.toString();
@@ -58,10 +57,10 @@ public class QueryService {
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
                 .addCustomFromTable(objectDataType.getDeveloperName());
 
-        queryFromFilter.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
-        queryFromFilter.addWhere(selectQuery, filter.getWhere());
-        queryFromFilter.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType());
-        queryFromFilter.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
+        queryConditionsFromFilter.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
+        queryConditionsFromFilter.addWhere(selectQuery, filter.getWhere());
+        queryConditionsFromFilter.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType());
+        queryConditionsFromFilter.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
 
         return selectQuery.validate().toString();
     }
