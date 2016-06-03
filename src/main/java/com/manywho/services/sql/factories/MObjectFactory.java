@@ -14,10 +14,12 @@ import java.util.List;
 
 public class MObjectFactory {
     private DescribeService describeService;
+    private MobjectUtil mobjectUtil;
 
     @Inject
-    public MObjectFactory(DescribeService describeService){
+    public MObjectFactory(DescribeService describeService, MobjectUtil mobjectUtil){
         this.describeService = describeService;
+        this.mobjectUtil = mobjectUtil;
     }
 
     public List<MObject> createFromTable(Table table, TableMetadata tableMetadata) {
@@ -30,7 +32,7 @@ public class MObjectFactory {
                 describeService.populateProperty(property.getDeveloperName(), row.getString(property.getDeveloperName()), properties);
             }
 
-            mObjects.add(new MObject(tableMetadata.getTableName(), MobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), properties), properties));
+            mObjects.add(new MObject(tableMetadata.getTableName(), mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), properties), properties));
         }
 
         return mObjects;

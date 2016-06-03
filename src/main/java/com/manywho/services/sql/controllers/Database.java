@@ -7,16 +7,19 @@ import com.manywho.sdk.services.database.RawDatabase;
 import com.manywho.sdk.services.database.RecordNotFoundException;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.managers.DataManager;
+import com.manywho.services.sql.services.PrimaryKeyService;
 
 import javax.inject.Inject;
 import java.util.List;
 
 public class Database implements RawDatabase<ServiceConfiguration, MObject> {
     private DataManager dataManager;
+    private PrimaryKeyService primaryKeyService;
 
     @Inject
-    public Database(DataManager dataManager) {
+    public Database(DataManager dataManager, PrimaryKeyService primaryKeyService) {
         this.dataManager = dataManager;
+        this.primaryKeyService = primaryKeyService;
     }
 
     @Override
@@ -46,7 +49,7 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
     @Override
     public MObject find(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) {
         try {
-            List<MObject> mObjectList = this.dataManager.load(configuration, objectDataType, id);
+            List<MObject> mObjectList = this.dataManager.load(configuration, objectDataType, primaryKeyService.deserializePrimaryKey(id));
 
             if(mObjectList.size()>0) return mObjectList.get(0);
         } catch (Exception e) {

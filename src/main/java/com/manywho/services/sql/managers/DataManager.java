@@ -9,6 +9,7 @@ import com.manywho.services.sql.services.DataService;
 import com.manywho.services.sql.services.QueryStrService;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
 
 public class DataManager {
@@ -26,7 +27,7 @@ public class DataManager {
         this.queryStrService = queryStrService;
     }
 
-    public List<MObject> load(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) throws Exception {
+    public List<MObject> load(ServiceConfiguration configuration, ObjectDataType objectDataType, HashMap<String, String> id) throws Exception {
 
         return dataService.fetchByPrimaryKey(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),

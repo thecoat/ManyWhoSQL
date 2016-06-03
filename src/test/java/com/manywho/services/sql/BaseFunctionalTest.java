@@ -8,6 +8,7 @@ import com.manywho.services.sql.managers.DescribeManager;
 import com.manywho.services.sql.managers.MetadataManager;
 import com.manywho.services.sql.services.*;
 import com.manywho.services.sql.types.RawTypeProvider;
+import com.manywho.services.sql.utilities.MobjectUtil;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.test.JerseyTest;
 import org.sql2o.Sql2o;
@@ -34,6 +35,7 @@ public abstract class BaseFunctionalTest extends JerseyTest {
                 bind(QueryStrService.class);
                 bind(QueryParameterService.class).in(Singleton.class);
                 bind(TypeProvider.class).to(RawTypeProvider.class);
+                bind(MobjectUtil.class);
             }
         });
 

@@ -9,6 +9,7 @@ import com.manywho.services.sql.managers.DescribeManager;
 import com.manywho.services.sql.managers.MetadataManager;
 import com.manywho.services.sql.services.*;
 import com.manywho.services.sql.types.RawTypeProvider;
+import com.manywho.services.sql.utilities.MobjectUtil;
 
 public class Application extends BaseApplication {
 
@@ -26,6 +27,7 @@ public class Application extends BaseApplication {
                 bind(QueryStrService.class);
                 bind(QueryParameterService.class).in(Singleton.class);
                 bind(TypeProvider.class).to(RawTypeProvider.class);
+                bind(MobjectUtil.class);
 
             }
         });

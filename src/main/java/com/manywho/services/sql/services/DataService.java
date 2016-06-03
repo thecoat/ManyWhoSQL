@@ -12,25 +12,29 @@ import org.sql2o.Sql2o;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
+import java.util.HashMap;
 import java.util.List;
 
 public class DataService {
     private MObjectFactory mObjectFactory;
     private QueryStrService queryStrService;
     private QueryParameterService parameterSanitaizerService;
+    private MobjectUtil mobjectUtil;
 
     @Inject
-    public DataService(MObjectFactory mObjectFactory, QueryStrService queryStrService, QueryParameterService parameterSanitaizerService) {
+    public DataService(MObjectFactory mObjectFactory, QueryStrService queryStrService,
+                       QueryParameterService parameterSanitaizerService, MobjectUtil mobjectUtil) {
         this.mObjectFactory = mObjectFactory;
         this.queryStrService = queryStrService;
         this.parameterSanitaizerService = parameterSanitaizerService;
+        this.mobjectUtil = mobjectUtil;
     }
 
-    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, String externalId) throws SQLException {
+    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId) throws SQLException {
         try(Connection con = sql2o.open()) {
             Query query = con.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, "idPrimaryKeyParam"));
             String paramType = tableMetadata.getColumnsDatabaseType().get(tableMetadata.getPrimaryKeyName());
-            parameterSanitaizerService.addParameterValueToTheQuery("idPrimaryKeyParam", externalId, paramType, query);
+            parameterSanitaizerService.addParameterValueToTheQuery("idPrimaryKeyParam", externalId.get(tableMetadata.getPrimaryKeyName()), paramType, query);
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
@@ -75,7 +79,7 @@ public class DataService {
                 parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
                         tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
             }
-            mObject.setExternalId(MobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), mObject.getProperties()));
+            mObject.setExternalId(mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), mObject.getProperties()));
             query.executeUpdate();
 
             return mObject;
