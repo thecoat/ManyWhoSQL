@@ -1,9 +1,6 @@
 package com.manywho.services.sql.services.filter;
 
-import com.healthmarketscience.sqlbuilder.BinaryCondition;
-import com.healthmarketscience.sqlbuilder.CustomSql;
-import com.healthmarketscience.sqlbuilder.OrderObject;
-import com.healthmarketscience.sqlbuilder.SelectQuery;
+import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.custom.mysql.MysLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
@@ -11,6 +8,8 @@ import com.healthmarketscience.sqlbuilder.custom.sqlserver.MssTopClause;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class QueryFilterConditions {
@@ -23,47 +22,47 @@ public class QueryFilterConditions {
         }
     }
 
-    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList) {
+    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, String comparisonType) {
+        ArrayList<Condition> conditions = new ArrayList<>();
+
         for (ListFilterWhere filterWhere: whereList) {
-            addAndCondition(selectQuery, filterWhere);
+            conditions.add(getConditionFromFilterElement(filterWhere));
+        }
+
+        if (StringUtils.equals(comparisonType, "OR")) {
+            selectQuery.addCondition(ComboCondition.or(conditions.toArray()));
+        }else if (StringUtils.equals(comparisonType, "AND")) {
+            selectQuery.addCondition(ComboCondition.and(conditions.toArray()));
         }
     }
 
-    private void addAndCondition(SelectQuery selectQuery, ListFilterWhere filterWhere) {
+    private BinaryCondition getConditionFromFilterElement(ListFilterWhere filterWhere) {
+
         switch (filterWhere.getCriteriaType()) {
             case Equal:
-                selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue()));
-                break;
+               return BinaryCondition.equalTo(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue());
             case NotEqual:
-                selectQuery.addCondition(BinaryCondition.notEqualTo(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue()));
-                break;
+               return BinaryCondition.notEqualTo(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue());
             case GreaterThan:
-                selectQuery.addCondition(BinaryCondition.greaterThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), false));
-                break;
+               return BinaryCondition.greaterThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), false);
             case GreaterThanOrEqual:
-                selectQuery.addCondition(BinaryCondition.greaterThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), true));
-                break;
+               return BinaryCondition.greaterThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), true);
             case LessThan:
-                selectQuery.addCondition(BinaryCondition.lessThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), false));
-                break;
+               return BinaryCondition.lessThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), false);
             case LessThanOrEqual:
-                selectQuery.addCondition(BinaryCondition.lessThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), true));
-                break;
+               return BinaryCondition.lessThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), true);
             case Contains:
-                selectQuery.addCondition(BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), "%" + filterWhere.getContentValue() + "%"));
-                break;
+               return BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), "%" + filterWhere.getContentValue() + "%");
             case StartsWith:
-                selectQuery.addCondition(BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue() + "%"));
-                break;
+               return BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue() + "%");
             case EndsWith:
-                selectQuery.addCondition(BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), "%" + filterWhere.getContentValue()));
-                break;
+               return BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), "%" + filterWhere.getContentValue());
             case IsEmpty:
-                selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(filterWhere.getColumnName()), BinaryCondition.EMPTY));
-                break;
+               return BinaryCondition.equalTo(new CustomSql(filterWhere.getColumnName()), BinaryCondition.EMPTY);
             default:
                 break;
         }
+        return null;
     }
 
     public void addOffset(SelectQuery selectQuery, String databaseType, Integer offset, Integer limit) {
@@ -76,6 +75,7 @@ public class QueryFilterConditions {
                 if( limit > 0) {
                     selectQuery.addCustomization(new PgLimitClause(limit));
                 }
+
                 break;
             case "mysql":
                 if(offset > 0 || limit > 0) {
@@ -91,6 +91,7 @@ public class QueryFilterConditions {
                 if( limit > 0) {
                     selectQuery.addCustomization(new MssTopClause(limit));
                 }
+
                 break;
             // add oracle or any other jdbc supported database
             default:

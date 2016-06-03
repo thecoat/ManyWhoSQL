@@ -58,7 +58,7 @@ public class QueryStrService {
                 .addCustomFromTable(objectDataType.getDeveloperName());
 
         queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
-        queryFilterConditions.addWhere(selectQuery, filter.getWhere());
+        queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType());
         queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType());
         queryFilterConditions.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
 

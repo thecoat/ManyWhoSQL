@@ -34,7 +34,7 @@ public class LoadTest extends BaseFunctionalTest {
     }
 
     @Test
-    public void testLoadDataByFilter() throws Exception {
+    public void testLoadDataByEqualAndLikeFilter() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO public.country(id, name, description) VALUES " +
@@ -47,6 +47,24 @@ public class LoadTest extends BaseFunctionalTest {
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/load/by-filter/equal-and-like/load-request.json",
                 "controllers/data/load/by-filter/equal-and-like/load-response.json"
+        );
+    }
+
+
+    @Test
+    public void testLoadDataByEqualOrLikeFilter() throws Exception {
+
+        try (Connection connection = getSql2o().open()) {
+            String sql = "INSERT INTO public.country(id, name, description) VALUES " +
+                    "('1', 'Uruguay', 'It is a nice country')," +
+                    "('2', 'England', 'It is a beautiful country');";
+
+            connection.createQuery(sql).executeUpdate();
+        }
+
+        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+                "controllers/data/load/by-filter/equal-or-like/load-request.json",
+                "controllers/data/load/by-filter/equal-or-like/load-response.json"
         );
     }
 
