@@ -10,6 +10,7 @@ import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.filter.QueryFilterConditions;
 
 import javax.inject.Inject;
+import java.util.Set;
 
 public class QueryStrService {
     private QueryFilterConditions queryFilterConditions;
@@ -19,12 +20,14 @@ public class QueryStrService {
         this.queryFilterConditions = queryFilterConditions;
     }
 
-    public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, String primaryKeyParamName) {
+    public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, Set<String> primaryKeyParamName) {
 
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
                 .addCustomFromTable(tableMetadata.getTableName());
 
-        selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + primaryKeyParamName)));
+        for (String key: primaryKeyParamName) {
+            selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(key), new CustomSql(":" + key)));
+        }
 
         return selectQuery.validate().toString();
     }

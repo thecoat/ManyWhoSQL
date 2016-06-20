@@ -32,10 +32,12 @@ public class DataService {
 
     public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId) throws SQLException {
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, "idPrimaryKeyParam"));
-            String paramType = tableMetadata.getColumnsDatabaseType().get(tableMetadata.getPrimaryKeyName());
-            parameterSanitaizerService.addParameterValueToTheQuery("idPrimaryKeyParam", externalId.get(tableMetadata.getPrimaryKeyName()), paramType, query);
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, externalId.keySet()));
 
+            for(String key: externalId.keySet()) {
+                String paramType = tableMetadata.getColumnsDatabaseType().get(key);
+                parameterSanitaizerService.addParameterValueToTheQuery(key, externalId.get(key), paramType, query);
+            }
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             dataBaseTypeNotSupported.printStackTrace();
