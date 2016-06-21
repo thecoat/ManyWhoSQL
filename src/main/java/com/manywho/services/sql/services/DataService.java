@@ -12,6 +12,7 @@ import org.sql2o.Sql2o;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
+import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
 
@@ -30,7 +31,7 @@ public class DataService {
         this.mobjectUtil = mobjectUtil;
     }
 
-    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId) throws SQLException {
+    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId) throws SQLException, ParseException {
         try(Connection con = sql2o.open()) {
             Query query = con.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, externalId.keySet()));
 
@@ -38,6 +39,7 @@ public class DataService {
                 String paramType = tableMetadata.getColumnsDatabaseType().get(key);
                 parameterSanitaizerService.addParameterValueToTheQuery(key, externalId.get(key), paramType, query);
             }
+
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             dataBaseTypeNotSupported.printStackTrace();
@@ -54,10 +56,10 @@ public class DataService {
         }
     }
 
-    public MObject update(MObject mObject, Sql2o sql2o, TableMetadata metadataTable) throws DataBaseTypeNotSupported {
+    public MObject update(MObject mObject, Sql2o sql2o, TableMetadata metadataTable, HashMap<String, String> primaryKeyHashMap) throws DataBaseTypeNotSupported, ParseException {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryStrService.createQueryWithParametersForUpdate(mObject, metadataTable));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForUpdate(mObject, metadataTable, primaryKeyHashMap.keySet()));
 
             for(Property p : mObject.getProperties()) {
                 parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(),
@@ -72,7 +74,7 @@ public class DataService {
         }
     }
 
-    public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata) throws DataBaseTypeNotSupported {
+    public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata) throws DataBaseTypeNotSupported, ParseException {
 
         try(Connection con = sql2o.open()) {
             Query query = con.createQuery(queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata ));

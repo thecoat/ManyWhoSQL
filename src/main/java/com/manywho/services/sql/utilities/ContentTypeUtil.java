@@ -16,7 +16,7 @@ public class ContentTypeUtil {
      * @return ContentType
      * @throws Exception
      */
-    public static ContentType createFromSqlType(int types) throws Exception {
+    public static ContentType createFromSqlType(int types) throws DataBaseTypeNotSupported {
         switch(types) {
             case Types.BIT:
                 throw new DataBaseTypeNotSupported("BIT");
@@ -58,13 +58,13 @@ public class ContentTypeUtil {
                 return ContentType.String;
 
             case Types.DATE:
-                throw new DataBaseTypeNotSupported("DATE");
+                return ContentType.DateTime;
 
             case Types.TIME:
                 throw new DataBaseTypeNotSupported("TIME");
 
             case Types.TIMESTAMP:
-                return ContentType.Number;
+                return ContentType.DateTime;
 
             case Types.BINARY:
                 throw new DataBaseTypeNotSupported("BINARY");

@@ -1,8 +1,12 @@
 package com.manywho.services.sql.services;
 
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 import org.sql2o.Query;
+
 import java.sql.JDBCType;
+import java.text.ParseException;
 
 public class QueryParameterService {
     /**
@@ -16,7 +20,7 @@ public class QueryParameterService {
      * @return
      * @throws DataBaseTypeNotSupported
      */
-    public Query addParameterValueToTheQuery(String paramName, String parameterValue, String databaseType, Query query) throws DataBaseTypeNotSupported {
+    public Query addParameterValueToTheQuery(String paramName, String parameterValue, String databaseType, Query query) throws DataBaseTypeNotSupported, ParseException {
         JDBCType type = JDBCType.valueOf(databaseType);
 
         switch (type){
@@ -66,7 +70,9 @@ public class QueryParameterService {
                 throw new DataBaseTypeNotSupported("TIME");
 
             case TIMESTAMP:
-                return query.addParameter(paramName, Integer.parseInt(parameterValue));
+                DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
+
+                return query.addParameter(paramName, parser.parseDateTime(parameterValue));
 
             case BINARY:
                 throw new DataBaseTypeNotSupported("BINARY");

@@ -43,6 +43,7 @@ public class DescribeService {
 
         properties.addAll(
                 table.columns().stream()
+                        .filter(column1 -> columnsContentType.get(column1.getName()) != null)
                         .map(column -> new Property(column.getName(), "", columnsContentType.get(column.getName())))
                         .collect(Collectors.toList()));
 

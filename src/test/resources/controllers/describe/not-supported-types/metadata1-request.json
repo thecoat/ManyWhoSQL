@@ -1,0 +1,83 @@
+{
+    "culture": null,
+    "uri": "https://manywho-ex2.ngrok.io",
+    "configurationValues": [
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Password",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "admin",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Database Type",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "postgresql",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Database Name",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "service-sql",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Port",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "5432",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Host",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "localhost",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Username",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "postgres",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Database Schema",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "public",
+            "contentType": null,
+            "objectData": null
+        }
+    ]
+}

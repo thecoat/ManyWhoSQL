@@ -1,12 +1,14 @@
 package com.manywho.services.sql.services;
 
 import com.manywho.services.sql.entities.TableMetadata;
+import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.utilities.ContentTypeUtil;
 
 import javax.inject.Inject;
 import java.sql.DatabaseMetaData;
 import java.sql.JDBCType;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -50,19 +52,26 @@ public class MetadataService {
         }
     }
 
-    private void populateColumnForTable(String databaseName, String databaseSchema, TableMetadata tableMetadata, DatabaseMetaData metaData) throws Exception {
+    private void populateColumnForTable(String databaseName, String databaseSchema, TableMetadata tableMetadata, DatabaseMetaData metaData) throws SQLException {
         ResultSet rsColumnsMetadata = metaData.getColumns(databaseName, databaseSchema, tableMetadata.getTableName(), null);
 
         while (rsColumnsMetadata.next()) {
-            tableMetadata.setColumn(
-                    rsColumnsMetadata.getString(4),
-                    ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5))
-            );
+            try {
+                tableMetadata.setColumn(
+                        rsColumnsMetadata.getString(4),
+                        ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5))
+                );
 
-            tableMetadata.setColumnsDatabaseType(
-                    rsColumnsMetadata.getString(4),
-                    JDBCType.valueOf(rsColumnsMetadata.getInt(5)).getName()
-            );
+                tableMetadata.setColumnsDatabaseType(
+                        rsColumnsMetadata.getString(4),
+                        JDBCType.valueOf(rsColumnsMetadata.getInt(5)).getName()
+                );
+
+            } catch (DataBaseTypeNotSupported e) {
+                // if some type is not supported we just ignore it
+            }
+
+
         }
     }
 }

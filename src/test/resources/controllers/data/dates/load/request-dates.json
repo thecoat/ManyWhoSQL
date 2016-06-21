@@ -17,7 +17,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "admin",
-      "contentType": "ContentPassword",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -28,7 +28,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "postgresql",
-      "contentType": "ContentString",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -39,7 +39,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "public",
-      "contentType": "ContentString",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -50,7 +50,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "service-sql",
-      "contentType": "ContentString",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -61,7 +61,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "5432",
-      "contentType": "ContentNumber",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -72,7 +72,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "localhost",
-      "contentType": "ContentString",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -83,7 +83,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "postgres",
-      "contentType": "ContentString",
+      "contentType": null,
       "objectData": null
     }
   ],
@@ -98,29 +98,37 @@
     "variant": null
   },
   "listFilter": {
-    "id": null,
+    "id": "eyJpZCI6IjEifQ==",
     "filterByProvidedObjects": false,
     "orderByPropertyDeveloperName": null,
-    "orderByDirectionType": null,
+    "orderByDirectionType": "",
     "orderBy": null,
     "limit": 0,
     "offset": 0,
     "search": null,
     "searchCriteria": null,
-    "comparisonType": null,
+    "comparisonType": "",
     "where": null,
     "listFilters": null
   },
   "objectDataType": {
-    "typeElementId": "dc0dcf14-1bf6-4faf-b5ee-0d2aa58cd02e",
-    "developerName": "country",
+    "typeElementId": "055214d9-3c81-40f7-860d-8f5adfe1a165",
+    "developerName": "timetest",
     "properties": [
       {
-        "developerName": "name",
+        "developerName": "time_with_timezone",
         "list": null
       },
       {
-        "developerName": "description",
+        "developerName": "time_without_timezone",
+        "list": null
+      },
+      {
+        "developerName": "timestamp_with_timezone",
+        "list": null
+      },
+      {
+        "developerName": "timestamp_without_timezone",
         "list": null
       },
       {
@@ -131,32 +139,48 @@
   },
   "objectData": [
     {
-      "internalId": "31a48875-bc12-4a59-8fc5-16c37a801ad3",
-      "externalId": "eyJpZCI6IjEifQ==",
-      "developerName": "country",
-      "typeElementId": "dc0dcf14-1bf6-4faf-b5ee-0d2aa58cd02e",
+      "internalId": "3303acd1-34ad-450c-94eb-2b30a19d4366",
+      "externalId": null,
+      "developerName": "timetest",
+      "typeElementId": "055214d9-3c81-40f7-860d-8f5adfe1a165",
       "order": 0,
       "properties": [
         {
-          "typeElementPropertyId": "248bdbf5-762c-4156-a16e-848f31d21cba",
-          "developerName": "name",
-          "contentValue": "England",
-          "contentType": "ContentString",
+          "typeElementPropertyId": "b478418f-d51a-48ee-bef2-e132204305f5",
+          "developerName": "time_with_timezone",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
           "contentFormat": "",
           "objectData": null
         },
         {
-          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
-          "developerName": "description",
-          "contentValue": "It is a beautiful country",
-          "contentType": "ContentString",
+          "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
+          "developerName": "time_without_timezone",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
           "contentFormat": "",
           "objectData": null
         },
         {
-          "typeElementPropertyId": "1bc6feeb-ce7c-4753-b96e-7c0e8b7b5223",
+          "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
+          "developerName": "timestamp_with_timezone",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
+          "developerName": "timestamp_without_timezone",
+          "contentValue": "",
+          "contentType": "ContentDateTime",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "adbde9f2-3bc2-4be5-8bd8-a3f0a4953e40",
           "developerName": "id",
-          "contentValue": "1",
+          "contentValue": "",
           "contentType": "ContentNumber",
           "contentFormat": "",
           "objectData": null

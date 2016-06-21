@@ -74,7 +74,7 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
     @Override
     public MObject update(ServiceConfiguration configuration, MObject object) {
         try {
-            return this.dataManager.update(configuration, object);
+            return this.dataManager.update(configuration, object, primaryKeyService.deserializePrimaryKey(object.getExternalId()));
         } catch (Exception e) {
             e.printStackTrace();
         }

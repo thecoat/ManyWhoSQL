@@ -3,7 +3,7 @@
   "objectData": [{
     "internalId": null,
     "externalId": "eyJpZCI6IjEifQ==",
-    "developerName": "country",
+    "developerName": "timetest",
     "typeElementId": null,
     "order": 0,
     "properties": [{
@@ -15,20 +15,21 @@
       "objectData": null
     }, {
       "typeElementPropertyId": null,
-      "developerName": "name",
-      "contentType": "ContentString",
-      "contentValue": "England",
+      "developerName": "timestamp_with_timezone",
+      "contentType": "ContentDateTime",
+      "contentValue": "2014-07-26 13:00:00.0",
       "contentFormat": null,
       "objectData": null
     }, {
       "typeElementPropertyId": null,
-      "developerName": "description",
-      "contentType": "ContentString",
-      "contentValue": "It is a beautiful country",
+      "developerName": "timestamp_without_timezone",
+      "contentType": "ContentDateTime",
+      "contentValue": "2014-07-26 14:00:00.0",
       "contentFormat": null,
       "objectData": null
     }],
     "isSelected": false
-  }],
+  }
+  ],
   "hasMoreResults": false
 }

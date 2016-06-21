@@ -1,0 +1,122 @@
+{
+  "culture": null,
+  "uri": null,
+  "configurationValues": [{
+    "developerName": "Password",
+    "contentValue": null,
+    "contentType": "ContentPassword",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
+  }, {
+    "developerName": "Database Type",
+    "contentValue": null,
+    "contentType": "ContentString",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
+  }, {
+    "developerName": "Database Schema",
+    "contentValue": null,
+    "contentType": "ContentString",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
+  }, {
+    "developerName": "Database Name",
+    "contentValue": null,
+    "contentType": "ContentString",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
+  }, {
+    "developerName": "Port",
+    "contentValue": null,
+    "contentType": "ContentNumber",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
+  }, {
+    "developerName": "Host",
+    "contentValue": null,
+    "contentType": "ContentString",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
+  }, {
+    "developerName": "Username",
+    "contentValue": null,
+    "contentType": "ContentString",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
+  }],
+  "providesAutoBinding": false,
+  "providesDatabase": true,
+  "providesFiles": false,
+  "providesIdentity": false,
+  "providesListening": false,
+  "providesLogic": false,
+  "providesNotifications": false,
+  "providesSmartSave": false,
+  "providesSocial": false,
+  "providesSharing": false,
+  "providesViews": false,
+  "providesVoting": false,
+  "actions": [],
+  "install": {
+    "typeElements": [{
+      "elementType": "TYPE",
+      "developerName": "timetest",
+      "developerSummary": null,
+      "id": null,
+      "serviceElementId": null,
+      "properties": [{
+        "id": null,
+        "developerName": "timestamp_without_timezone",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "id",
+        "contentFormat": null,
+        "contentType": "ContentNumber",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }, {
+        "id": null,
+        "developerName": "timestamp_with_timezone",
+        "contentFormat": null,
+        "contentType": "ContentDateTime",
+        "typeElementId": null,
+        "typeElementDeveloperName": null
+      }],
+      "bindings": [{
+        "id": null,
+        "developerName": "timetest",
+        "developerSummary": "The binding for timetest",
+        "databaseTableName": "timetest",
+        "serviceElementId": null,
+        "propertyBindings": [{
+          "databaseFieldName": "timestamp_without_timezone",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "timestamp_without_timezone",
+          "databaseContentType": "TIMESTAMP"
+        }, {
+          "databaseFieldName": "id",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "id",
+          "databaseContentType": "INTEGER"
+        }, {
+          "databaseFieldName": "timestamp_with_timezone",
+          "typeElementPropertyId": null,
+          "typeElementPropertyDeveloperName": "timestamp_with_timezone",
+          "databaseContentType": "TIMESTAMP"
+        }]
+      }],
+      "updateByName": false
+    }]
+  }
+}

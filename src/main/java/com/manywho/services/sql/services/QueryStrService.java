@@ -20,19 +20,19 @@ public class QueryStrService {
         this.queryFilterConditions = queryFilterConditions;
     }
 
-    public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, Set<String> primaryKeyParamName) {
+    public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, Set<String> primaryKeyNames) {
 
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
                 .addCustomFromTable(tableMetadata.getTableName());
 
-        for (String key: primaryKeyParamName) {
+        for (String key: primaryKeyNames) {
             selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(key), new CustomSql(":" + key)));
         }
 
         return selectQuery.validate().toString();
     }
 
-    public String createQueryWithParametersForUpdate(MObject mObject, TableMetadata tableMetadata){
+    public String createQueryWithParametersForUpdate(MObject mObject, TableMetadata tableMetadata, Set<String> primaryKeyNames){
 
         UpdateQuery updateQuery = new UpdateQuery(tableMetadata.getTableName());
 
@@ -40,7 +40,9 @@ public class QueryStrService {
             updateQuery.addCustomSetClause(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
         }
 
-        updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(tableMetadata.getPrimaryKeyName()), new CustomSql(":" + tableMetadata.getPrimaryKeyName())));
+        for (String key: primaryKeyNames) {
+            updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(key), new CustomSql(":" + key)));
+        }
 
         return updateQuery.validate().toString();
     }

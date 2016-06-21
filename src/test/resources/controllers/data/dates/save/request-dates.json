@@ -113,14 +113,14 @@
   },
   "objectDataType": {
     "typeElementId": "dc0dcf14-1bf6-4faf-b5ee-0d2aa58cd02e",
-    "developerName": "country",
+    "developerName": "timetest",
     "properties": [
       {
-        "developerName": "name",
+        "developerName": "timestamp_with_timezone",
         "list": null
       },
       {
-        "developerName": "description",
+        "developerName": "timestamp_without_timezone",
         "list": null
       },
       {
@@ -133,28 +133,28 @@
     {
       "internalId": "31a48875-bc12-4a59-8fc5-16c37a801ad3",
       "externalId": "eyJpZCI6IjEifQ==",
-      "developerName": "country",
+      "developerName": "timetest",
       "typeElementId": "dc0dcf14-1bf6-4faf-b5ee-0d2aa58cd02e",
       "order": 0,
       "properties": [
         {
-          "typeElementPropertyId": "248bdbf5-762c-4156-a16e-848f31d21cba",
-          "developerName": "name",
-          "contentValue": "England",
-          "contentType": "ContentString",
+          "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
+          "developerName": "timestamp_with_timezone",
+          "contentValue": "2016-06-21T09:59:29+02:00",
+          "contentType": "ContentDateTime",
           "contentFormat": "",
           "objectData": null
         },
         {
-          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
-          "developerName": "description",
-          "contentValue": "It is a beautiful country",
-          "contentType": "ContentString",
+          "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
+          "developerName": "timestamp_without_timezone",
+          "contentValue": "2016-06-21T09:59:29",
+          "contentType": "ContentDateTime",
           "contentFormat": "",
           "objectData": null
         },
         {
-          "typeElementPropertyId": "1bc6feeb-ce7c-4753-b96e-7c0e8b7b5223",
+          "typeElementPropertyId": "adbde9f2-3bc2-4be5-8bd8-a3f0a4953e40",
           "developerName": "id",
           "contentValue": "1",
           "contentType": "ContentNumber",

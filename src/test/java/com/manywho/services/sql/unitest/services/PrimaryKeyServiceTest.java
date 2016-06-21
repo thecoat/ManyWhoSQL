@@ -29,7 +29,6 @@ public class PrimaryKeyServiceTest {
         assertEquals("Montevideo", primaryKey.get("cityname"));
     }
 
-
     @Test
     public void consistentSerializationAndDeserialization() {
         PrimaryKeyService primaryKeyService = new PrimaryKeyService();
