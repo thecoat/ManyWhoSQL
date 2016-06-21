@@ -37,7 +37,7 @@ public class DateTimeTest extends BaseFunctionalTest {
     }
 
     @Test
-    public void testSaveDatesAndTimes() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
+    public void testUpdateDatesAndTimes() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO public.timetest(id, time_with_timezone, time_without_timezone, timestamp_with_timezone, timestamp_without_timezone) VALUES " +
                     "('1', '2012-05-24 14:09:08 +02:00', '2013-06-25 15:10:09 +02:00', '2014-07-26 14:00:00 +02:00', '2014-07-26 14:00:00');";

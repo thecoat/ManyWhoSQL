@@ -50,7 +50,6 @@ public class LoadTest extends BaseFunctionalTest {
         );
     }
 
-
     @Test
     public void testLoadDataByEqualOrLikeFilter() throws Exception {
 
@@ -86,7 +85,6 @@ public class LoadTest extends BaseFunctionalTest {
                 "controllers/data/load/by-filter/offset-and-limit/load-offset-response.json"
         );
     }
-
 
     @After
     public void cleanDatabaseAfterEachTest() {
