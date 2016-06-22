@@ -73,9 +73,9 @@
       "serviceElementId": null,
       "properties": [{
         "id": null,
-        "developerName": "timestamp_without_timezone",
+        "developerName": "description",
         "contentFormat": null,
-        "contentType": "ContentDateTime",
+        "contentType": "ContentString",
         "typeElementId": null,
         "typeElementDeveloperName": null
       }, {
@@ -83,13 +83,6 @@
         "developerName": "id",
         "contentFormat": null,
         "contentType": "ContentNumber",
-        "typeElementId": null,
-        "typeElementDeveloperName": null
-      }, {
-        "id": null,
-        "developerName": "timestamp_with_timezone",
-        "contentFormat": null,
-        "contentType": "ContentDateTime",
         "typeElementId": null,
         "typeElementDeveloperName": null
       }],
@@ -100,20 +93,15 @@
         "databaseTableName": "timetest",
         "serviceElementId": null,
         "propertyBindings": [{
-          "databaseFieldName": "timestamp_without_timezone",
+          "databaseFieldName": "description",
           "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "timestamp_without_timezone",
-          "databaseContentType": "TIMESTAMP"
+          "typeElementPropertyDeveloperName": "description",
+          "databaseContentType": "VARCHAR"
         }, {
           "databaseFieldName": "id",
           "typeElementPropertyId": null,
           "typeElementPropertyDeveloperName": "id",
           "databaseContentType": "INTEGER"
-        }, {
-          "databaseFieldName": "timestamp_with_timezone",
-          "typeElementPropertyId": null,
-          "typeElementPropertyDeveloperName": "timestamp_with_timezone",
-          "databaseContentType": "TIMESTAMP"
         }]
       }],
       "updateByName": false

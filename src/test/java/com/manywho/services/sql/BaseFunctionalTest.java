@@ -29,8 +29,8 @@ public abstract class BaseFunctionalTest extends JerseyTest {
         TestApplication application = new TestApplication();
 
         // read from configuration file
-        //portForTest = "5432";
-        //databaseTypeForTest = "postgresql";
+//        portForTest = "5432";
+//        databaseTypeForTest = "postgresql";
 
         portForTest = "1433";
         databaseTypeForTest = "sqlserver";
