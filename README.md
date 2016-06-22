@@ -14,15 +14,23 @@ instructions:
 
 #### Testing
 
-You will need a database for the functional test of this service
-The string connection by default is "jdbc:postgresql://localhost:5432/service-sql", (host: localhost, port: 5432 and database name service-sql)
-the username is "postgres" and the password is "admin"
+You will need a database for the functional test of this service.
+Create a database named service-sql with a schema called servicesql.
+Also you will need to know the host and port of the server hosting the database.
+And create a user with username "postgres" and password "admin".
+
 If you need to test with a different database you can change these parameters at
 src\test\java\com\manywho\services\sql\BaseFunctionalTest.java
 
 #### Building
 
 To build the service, you will need to have Maven 3 and a Java 8 implementation installed.
+Also for Sql Server you will need to install manually the drivers, download the drivers from
+Microsoft and after install it in you machine using maven:
+
+```bash
+mvn install:install-file -Dfile=sqljdbc4.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=jar
+```
 
 Now you can build the runnable shaded JAR:
 

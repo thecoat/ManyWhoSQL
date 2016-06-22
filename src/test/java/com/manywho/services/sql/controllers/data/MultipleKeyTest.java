@@ -23,12 +23,13 @@ public class MultipleKeyTest extends BaseFunctionalTest {
     public void testLoadDataByExternalId() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO public.city(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
+            String sql = "INSERT INTO servicesql.city(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
             connection.createQuery(sql).executeUpdate();
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/multiple-primary-key/load/load-request.json",
+                getDefaultRequestReplacements(),
                 "controllers/data/multiple-primary-key/load/load-response.json"
         );
     }
@@ -36,7 +37,7 @@ public class MultipleKeyTest extends BaseFunctionalTest {
     @After
     public void cleanDatabaseAfterEachTest() {
         try (Connection connection = getSql2o().open()) {
-            connection.createQuery("DROP TABLE IF EXISTS public.city").executeUpdate();
+            deleteTableIfExist("servicesql.city", connection);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

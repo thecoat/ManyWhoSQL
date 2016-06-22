@@ -20,7 +20,7 @@
             "developerName": "Database Type",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "postgresql",
+            "contentValue": "{{databaseType}}",
             "contentType": null,
             "objectData": null
         },
@@ -42,7 +42,7 @@
             "developerName": "Port",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "5432",
+            "contentValue": "{{port}}",
             "contentType": null,
             "objectData": null
         },
@@ -75,7 +75,7 @@
             "developerName": "Database Schema",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "public",
+            "contentValue": "servicesql",
             "contentType": null,
             "objectData": null
         }

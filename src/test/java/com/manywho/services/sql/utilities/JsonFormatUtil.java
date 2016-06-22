@@ -18,8 +18,12 @@ import java.util.Scanner;
 
 public class JsonFormatUtil {
 
-    public static ObjectDataRequest getObjectDataRequestFromFile(String filePath) throws URISyntaxException, IOException {
+    public static ObjectDataRequest getObjectDataRequestFromJsonFile(String filePath) throws URISyntaxException, IOException {
         return getMapper().readValue(new File(Resources.getResource(filePath).toURI()), ObjectDataRequest.class);
+    }
+
+    public static ObjectDataRequest getObjectDataRequestFromString(String str) throws URISyntaxException, IOException {
+        return getMapper().readValue(str, ObjectDataRequest.class);
     }
 
     public static String getFileContentAsJson(String filePath) throws FileNotFoundException, URISyntaxException, JSONException {

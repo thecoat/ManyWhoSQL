@@ -23,7 +23,7 @@ public class QueryStrService {
     public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, Set<String> primaryKeyNames) {
 
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
-                .addCustomFromTable(tableMetadata.getTableName());
+                .addCustomFromTable(tableMetadata.getSchemaName() + "." + tableMetadata.getTableName());
 
         for (String key: primaryKeyNames) {
             selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(key), new CustomSql(":" + key)));
@@ -34,7 +34,7 @@ public class QueryStrService {
 
     public String createQueryWithParametersForUpdate(MObject mObject, TableMetadata tableMetadata, Set<String> primaryKeyNames){
 
-        UpdateQuery updateQuery = new UpdateQuery(tableMetadata.getTableName());
+        UpdateQuery updateQuery = new UpdateQuery(tableMetadata.getSchemaName() + "." + tableMetadata.getTableName());
 
         for(Property p : mObject.getProperties()) {
             updateQuery.addCustomSetClause(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
@@ -48,7 +48,7 @@ public class QueryStrService {
     }
 
     public String createQueryWithParametersForInsert(MObject mObject, TableMetadata tableMetadata) {
-        InsertQuery insertQuery = new InsertQuery(tableMetadata.getTableName());
+        InsertQuery insertQuery = new InsertQuery(tableMetadata.getSchemaName() + "." + tableMetadata.getTableName());
 
         for(Property p : mObject.getProperties()) {
             insertQuery.addCustomColumn(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
@@ -60,7 +60,7 @@ public class QueryStrService {
     public String getSqlFromFilter(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter) {
 
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
-                .addCustomFromTable(objectDataType.getDeveloperName());
+                .addCustomFromTable(configuration.getDatabaseSchema() + "." + objectDataType.getDeveloperName());
 
         queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
         queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType());

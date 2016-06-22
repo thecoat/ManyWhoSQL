@@ -16,8 +16,8 @@ public class ConnectionService {
     private static final String DRIVER_CLASS_MYSQL = "com.mysql.jdbc.Driver";
 
     private static final String DATABASE_TYPE_SQLSERVER = "sqlserver";
-    private static final String CONNECTION_STRING_FORMAT_SQLSERVER = "jdbc:jtds:sqlserver://%s:%s/%s";
-    private static final String DRIVER_CLASS_SQLSERVER = "net.sourceforge.jtds.jdbc.Driver";
+    private static final String CONNECTION_STRING_FORMAT_SQLSERVER = "jdbc:sqlserver://%s:%s;databaseName=%s";
+    private static final String DRIVER_CLASS_SQLSERVER = "com.microsoft.sqlserver.jdbc.SQLServerDriver";
 
     private Sql2o sql2o;
 

@@ -1,4 +1,4 @@
-CREATE TABLE public.timetest
+CREATE TABLE servicesql.timetest
 (
   id integer NOT NULL,
   time_with_timezone time with time zone,
@@ -6,9 +6,4 @@ CREATE TABLE public.timetest
   timestamp_with_timezone timestamp with time zone,
   timestamp_without_timezone timestamp without time zone,
   CONSTRAINT timetest_id_pk PRIMARY KEY (id)
-)
-WITH (
-  OIDS=FALSE
 );
-ALTER TABLE public.timetest
-  OWNER TO postgres;
