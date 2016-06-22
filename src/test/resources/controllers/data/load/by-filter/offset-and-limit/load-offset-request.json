@@ -100,8 +100,8 @@
   "listFilter": {
     "id": null,
     "filterByProvidedObjects": false,
-    "orderByPropertyDeveloperName": null,
-    "orderByDirectionType": "",
+    "orderByPropertyDeveloperName": "id",
+    "orderByDirectionType": "ASC",
     "orderBy": null,
     "limit": 2,
     "offset": 1,

@@ -4,7 +4,6 @@ import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.custom.mysql.MysLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
-import com.healthmarketscience.sqlbuilder.custom.sqlserver.MssTopClause;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import org.apache.commons.lang3.StringUtils;
@@ -89,7 +88,8 @@ public class QueryFilterConditions {
                 }
 
                 if( limit > 0) {
-                    selectQuery.addCustomization(new MssTopClause(limit));
+                    //selectQuery.addCustomization(new MssTopClause(limit));
+                    selectQuery.setFetchNext(limit);
                 }
 
                 break;

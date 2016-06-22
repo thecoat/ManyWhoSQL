@@ -6,7 +6,6 @@ import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sql2o.Connection;
 
@@ -72,7 +71,6 @@ public class LoadTest extends BaseFunctionalTest {
     }
 
     @Test
-    @Ignore("the query doesn't work in sqlserver")
     public void testLoadDataByFilterWithOffsetAndLimit() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
