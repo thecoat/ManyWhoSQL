@@ -24,6 +24,7 @@ public abstract class BaseFunctionalTest extends JerseyTest {
     protected String portForTest;
     protected String databaseTypeForTest;
     protected String schemaForTest;
+    protected String hostForTest;
 
     @Override
     protected Application configure() {
@@ -35,15 +36,19 @@ public abstract class BaseFunctionalTest extends JerseyTest {
             portForTest = "5432";
             databaseTypeForTest = "postgresql";
             schemaForTest = "servicesql";
+            hostForTest = "localhost";
+
         }else if(false) {
             portForTest = "1433";
             databaseTypeForTest = "sqlserver";
             schemaForTest = "servicesql";
+            hostForTest = "localhost";
         }else if(true) {
             portForTest = "3306";
             databaseTypeForTest = "mysql";
             // we can not have a different name for schema and database in MySql
             schemaForTest = "service-sql";
+            hostForTest = "localhost";
         }
         application.setModule(new AbstractModule() {
             @Override
@@ -92,11 +97,12 @@ public abstract class BaseFunctionalTest extends JerseyTest {
         }
     }
 
-    protected HashMap<String, String> getDefaultRequestReplacements() {
+    protected HashMap<String, String> configurationParameters() {
         HashMap<String, String> replacements = new HashMap<>();
         replacements.put("{{port}}", portForTest);
         replacements.put("{{databaseType}}", databaseTypeForTest);
         replacements.put("{{schema}}", schemaForTest);
+        replacements.put("{{host}}", hostForTest);
 
         return  replacements;
     }

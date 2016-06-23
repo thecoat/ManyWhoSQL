@@ -74,6 +74,4 @@ public class QueryStrService {
 
         return selectQuery.validate().toString();
     }
-
-
 }

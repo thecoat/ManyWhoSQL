@@ -27,7 +27,7 @@ public class SaveTest extends BaseFunctionalTest {
 
         DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
                 "controllers/data/save/create/create-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/save/create/create-response.json");
     }
 
@@ -41,7 +41,7 @@ public class SaveTest extends BaseFunctionalTest {
 
         DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
                 "controllers/data/save/update/update-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/save/update/update-response.json");
     }
 

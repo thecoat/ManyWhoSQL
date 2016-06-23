@@ -27,7 +27,7 @@ public class DescribeTest extends BaseFunctionalTest {
 
         DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
                 "controllers/describe/without-types/metadata1-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/describe/without-types/metadata1-response.json");
     }
 
@@ -46,7 +46,7 @@ public class DescribeTest extends BaseFunctionalTest {
 
         DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
                 "controllers/describe/with-types/metadata1-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/describe/with-types/metadata1-response.json");
     }
 
@@ -70,7 +70,7 @@ public class DescribeTest extends BaseFunctionalTest {
 
         DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
                 "controllers/describe/not-supported-types/metadata1-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/describe/not-supported-types/metadata1-response.json");
     }
 

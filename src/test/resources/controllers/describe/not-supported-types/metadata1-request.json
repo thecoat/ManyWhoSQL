@@ -53,7 +53,7 @@
             "developerName": "Host",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "localhost",
+            "contentValue": "{{host}}",
             "contentType": null,
             "objectData": null
         },

@@ -39,7 +39,7 @@ public class DateTimeTest extends BaseFunctionalTest {
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/dates/load/request-dates.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/dates/load/response-dates.json"
         );
     }
@@ -56,7 +56,7 @@ public class DateTimeTest extends BaseFunctionalTest {
 
         DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
                 "controllers/data/dates/save/request-dates.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/dates/save/response-dates.json");
     }
 

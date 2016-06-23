@@ -33,7 +33,7 @@ public class MultipleKeyTest extends BaseFunctionalTest {
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/multiple-primary-key/load/load-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/multiple-primary-key/load/load-response.json"
         );
     }

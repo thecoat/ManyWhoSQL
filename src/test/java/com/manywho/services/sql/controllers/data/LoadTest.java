@@ -33,7 +33,7 @@ public class LoadTest extends BaseFunctionalTest {
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/load/by-external-id/load-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/load/by-external-id/load-response.json"
         );
     }
@@ -51,7 +51,7 @@ public class LoadTest extends BaseFunctionalTest {
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/load/by-filter/equal-and-like/load-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/load/by-filter/equal-and-like/load-response.json"
         );
     }
@@ -69,7 +69,7 @@ public class LoadTest extends BaseFunctionalTest {
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/load/by-filter/equal-or-like/load-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/load/by-filter/equal-or-like/load-response.json"
         );
     }
@@ -89,7 +89,7 @@ public class LoadTest extends BaseFunctionalTest {
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
                 "controllers/data/load/by-filter/offset-and-limit/load-offset-request.json",
-                getDefaultRequestReplacements(),
+                configurationParameters(),
                 "controllers/data/load/by-filter/offset-and-limit/load-offset-response.json"
         );
     }
