@@ -23,18 +23,28 @@ public abstract class BaseFunctionalTest extends JerseyTest {
     private Sql2o sql2o;
     protected String portForTest;
     protected String databaseTypeForTest;
+    protected String schemaForTest;
 
     @Override
     protected Application configure() {
         TestApplication application = new TestApplication();
 
-        // read from configuration file
-//        portForTest = "5432";
-//        databaseTypeForTest = "postgresql";
+        // todo handle this with files or environment variables
 
-        portForTest = "1433";
-        databaseTypeForTest = "sqlserver";
-
+        if(false) {
+            portForTest = "5432";
+            databaseTypeForTest = "postgresql";
+            schemaForTest = "servicesql";
+        }else if(false) {
+            portForTest = "1433";
+            databaseTypeForTest = "sqlserver";
+            schemaForTest = "servicesql";
+        }else if(true) {
+            portForTest = "3306";
+            databaseTypeForTest = "mysql";
+            // we can not have a different name for schema and database in MySql
+            schemaForTest = "service-sql";
+        }
         application.setModule(new AbstractModule() {
             @Override
             protected void configure() {
@@ -73,6 +83,9 @@ public abstract class BaseFunctionalTest extends JerseyTest {
             }else if(Objects.equals(databaseTypeForTest, "sqlserver")) {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
                 sql2o = new Sql2o("jdbc:sqlserver://localhost:1433;databaseName=service-sql", "postgres", "admin");
+            }else if(Objects.equals(databaseTypeForTest, "mysql")) {
+                Class.forName("com.mysql.jdbc.Driver");
+                sql2o = new Sql2o("jdbc:mysql://localhost:3306/service-sql", "postgres", "admin");
             }
 
             return sql2o;
@@ -83,14 +96,25 @@ public abstract class BaseFunctionalTest extends JerseyTest {
         HashMap<String, String> replacements = new HashMap<>();
         replacements.put("{{port}}", portForTest);
         replacements.put("{{databaseType}}", databaseTypeForTest);
+        replacements.put("{{schema}}", schemaForTest);
 
         return  replacements;
     }
 
     protected void deleteTableIfExist(String tableName, Connection connection){
         try {
-            connection.createQuery("DROP TABLE "+tableName).executeUpdate();
+            connection.createQuery("DROP TABLE "+ scapeTableName(tableName)).executeUpdate();
         } catch (Exception ex){
         }
+    }
+
+    public String scapeTableName( String tableName) {
+        String format = "%s.%s";
+
+        if(Objects.equals(databaseTypeForTest, "mysql")){
+            format = "`%s`.`%s`";
+        }
+
+        return String.format(format, schemaForTest, tableName);
     }
 }

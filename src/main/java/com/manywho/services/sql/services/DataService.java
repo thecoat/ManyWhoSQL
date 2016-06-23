@@ -2,6 +2,7 @@ package com.manywho.services.sql.services;
 
 import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.Property;
+import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.factories.MObjectFactory;
@@ -31,16 +32,16 @@ public class DataService {
         this.mobjectUtil = mobjectUtil;
     }
 
-    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId) throws SQLException, ParseException {
+    public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId, ServiceConfiguration configuration) throws SQLException, ParseException {
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, externalId.keySet()));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, externalId.keySet(), configuration));
 
             for(String key: externalId.keySet()) {
                 String paramType = tableMetadata.getColumnsDatabaseType().get(key);
                 parameterSanitaizerService.addParameterValueToTheQuery(key, externalId.get(key), paramType, query);
             }
 
-            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
+            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata, configuration);
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             dataBaseTypeNotSupported.printStackTrace();
         }
@@ -48,18 +49,18 @@ public class DataService {
         return null;
     }
 
-    public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String sqlSearch) throws SQLException {
+    public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String sqlSearch, ServiceConfiguration configuration) throws SQLException {
         try(Connection con = sql2o.open()) {
             Query query = con.createQuery(sqlSearch);
 
-            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
+            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata, configuration);
         }
     }
 
-    public MObject update(MObject mObject, Sql2o sql2o, TableMetadata metadataTable, HashMap<String, String> primaryKeyHashMap) throws DataBaseTypeNotSupported, ParseException {
+    public MObject update(MObject mObject, Sql2o sql2o, TableMetadata metadataTable, HashMap<String, String> primaryKeyHashMap, ServiceConfiguration configuration) throws DataBaseTypeNotSupported, ParseException {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryStrService.createQueryWithParametersForUpdate(mObject, metadataTable, primaryKeyHashMap.keySet()));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForUpdate(mObject, metadataTable, primaryKeyHashMap.keySet(), configuration));
 
             for(Property p : mObject.getProperties()) {
                 parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(),
@@ -74,10 +75,10 @@ public class DataService {
         }
     }
 
-    public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata) throws DataBaseTypeNotSupported, ParseException {
+    public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata, ServiceConfiguration configuration) throws DataBaseTypeNotSupported, ParseException {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata ));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata, configuration));
 
             for(Property p : mObject.getProperties()) {
                 parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),

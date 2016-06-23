@@ -1,7 +1,5 @@
 package com.manywho.services.sql.controllers.data;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
@@ -14,7 +12,13 @@ public class LoadTest extends BaseFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         try (Connection connection = getSql2o().open()) {
-            String sql = Resources.toString(Resources.getResource("controllers/common/create-table-country.sql"), Charsets.UTF_8);
+            String sql = "CREATE TABLE "+scapeTableName("country")+"("+
+                            "id integer NOT NULL,"+
+                            "name character varying(255)," +
+                            "description character varying(1024)," +
+                            "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                        ");";
+
             connection.createQuery(sql).executeUpdate();
         }
     }
@@ -23,7 +27,7 @@ public class LoadTest extends BaseFunctionalTest {
     public void testLoadDataByExternalId() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO servicesql.country(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            String sql = "INSERT INTO "+scapeTableName("country")+"(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
             connection.createQuery(sql).executeUpdate();
         }
 
@@ -38,7 +42,7 @@ public class LoadTest extends BaseFunctionalTest {
     public void testLoadDataByEqualAndLikeFilter() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO servicesql.country(id, name, description) VALUES " +
+            String sql = "INSERT INTO "+scapeTableName("country")+"(id, name, description) VALUES " +
                     "('1', 'Uruguay', 'It is a nice country')," +
                     "('2', 'England', 'It is a beautiful country');";
 
@@ -56,7 +60,7 @@ public class LoadTest extends BaseFunctionalTest {
     public void testLoadDataByEqualOrLikeFilter() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO servicesql.country(id, name, description) VALUES " +
+            String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +
                     "('1', 'Uruguay', 'It is a nice country')," +
                     "('2', 'England', 'It is a beautiful country');";
 
@@ -74,7 +78,7 @@ public class LoadTest extends BaseFunctionalTest {
     public void testLoadDataByFilterWithOffsetAndLimit() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO servicesql.country(id, name, description) VALUES " +
+            String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +
                     "('1', 'Uruguay', 'Uruguay description')," +
                     "('2', 'England', 'England description')," +
                     "('3', 'Spain', 'Spain description')," +
@@ -93,7 +97,7 @@ public class LoadTest extends BaseFunctionalTest {
     @After
     public void cleanDatabaseAfterEachTest() {
         try (Connection connection = getSql2o().open()) {
-            deleteTableIfExist("servicesql.country", connection);
+            deleteTableIfExist("country", connection);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

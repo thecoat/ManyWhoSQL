@@ -33,7 +33,7 @@ public class DataManager {
 
         return dataService.fetchByPrimaryKey(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
-                        connectionService.getSql2Object(configuration), id);
+                        connectionService.getSql2Object(configuration), id, configuration);
     }
 
     public List<MObject> loadBySearch(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filters) throws Exception {
@@ -41,19 +41,19 @@ public class DataManager {
         return dataService.fetchBySearch(
                 metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
                 connectionService.getSql2Object(configuration),
-                queryStrService.getSqlFromFilter(configuration, objectDataType, filters));
+                queryStrService.getSqlFromFilter(configuration, objectDataType, filters), configuration);
     }
 
     public MObject update(ServiceConfiguration configuration, MObject mObject, HashMap<String, String> primaryKeyHashMap) throws Exception {
         TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, mObject.getDeveloperName());
         Sql2o sql2o = connectionService.getSql2Object(configuration);
-        dataService.update(mObject, sql2o, tableMetadata, primaryKeyHashMap);
+        dataService.update(mObject, sql2o, tableMetadata, primaryKeyHashMap, configuration);
 
-        return dataService.fetchByPrimaryKey(tableMetadata, sql2o, primaryKeyHashMap).get(0);
+        return dataService.fetchByPrimaryKey(tableMetadata, sql2o, primaryKeyHashMap, configuration).get(0);
     }
 
     public MObject create(ServiceConfiguration configuration, MObject mObject) throws Exception {
         return dataService.insert(mObject, connectionService.getSql2Object(configuration),
-                metadataManager.getMetadataTable(configuration, mObject.getDeveloperName()));
+                metadataManager.getMetadataTable(configuration, mObject.getDeveloperName()), configuration);
     }
 }

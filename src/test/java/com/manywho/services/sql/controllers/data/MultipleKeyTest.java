@@ -1,7 +1,5 @@
 package com.manywho.services.sql.controllers.data;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
@@ -14,7 +12,13 @@ public class MultipleKeyTest extends BaseFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         try (Connection connection = getSql2o().open()) {
-            String sql = Resources.toString(Resources.getResource("controllers/data/multiple-primary-key/create-table-multiple-primary-key.sql"), Charsets.UTF_8);
+            String sql = "CREATE TABLE " + scapeTableName("city") +
+                    "(" +
+                            "cityname character varying(255)," +
+                            "countryname character varying(255)," +
+                            "description character varying(1024)," +
+                            "CONSTRAINT city_pk PRIMARY KEY (cityname, countryname)" +
+                    ");";
             connection.createQuery(sql).executeUpdate();
         }
     }
@@ -23,7 +27,7 @@ public class MultipleKeyTest extends BaseFunctionalTest {
     public void testLoadDataByExternalId() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO servicesql.city(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
+            String sql = "INSERT INTO " + scapeTableName("city")+ "(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
             connection.createQuery(sql).executeUpdate();
         }
 
@@ -37,7 +41,7 @@ public class MultipleKeyTest extends BaseFunctionalTest {
     @After
     public void cleanDatabaseAfterEachTest() {
         try (Connection connection = getSql2o().open()) {
-            deleteTableIfExist("servicesql.city", connection);
+            deleteTableIfExist("city", connection);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }

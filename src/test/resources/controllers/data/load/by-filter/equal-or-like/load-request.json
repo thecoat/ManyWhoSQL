@@ -71,7 +71,7 @@
       "developerName": "Database Schema",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "servicesql",
+      "contentValue": "{{schema}}",
       "contentType": "ContentString",
       "objectData": null
     },

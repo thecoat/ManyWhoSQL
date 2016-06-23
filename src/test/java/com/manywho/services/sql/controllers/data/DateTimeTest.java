@@ -1,6 +1,4 @@
 package com.manywho.services.sql.controllers.data;
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.json.JSONException;
@@ -17,7 +15,14 @@ public class DateTimeTest extends BaseFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         try (Connection connection = getSql2o().open()) {
-            String sql = Resources.toString(Resources.getResource("controllers/data/dates/common/create-dates-table.sql"), Charsets.UTF_8);
+            String sql = "CREATE TABLE "+scapeTableName("timetest") +
+                            "(" +
+                                "id integer NOT NULL," +
+                                "time_with_timezone time," +
+                                "time_without_timezone time," +
+                                "timestamp_with_timezone timestamp," +
+                                "CONSTRAINT timetest_id_pk PRIMARY KEY (id)" +
+                            ");";
             connection.createQuery(sql).executeUpdate();
         }
     }
@@ -26,7 +31,7 @@ public class DateTimeTest extends BaseFunctionalTest {
     @Ignore("sqlserver doesn't allow insert specific timestamp")
     public void testLoadDatesAndTimes() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO timetest(id, time_with_timezone, time_without_timezone, timestamp_with_timezone, timestamp_without_timezone) VALUES " +
+            String sql = "INSERT INTO " + scapeTableName("timetest") + "(id, time_with_timezone, time_without_timezone, timestamp_with_timezone, timestamp_without_timezone) VALUES " +
                                                      "('1', '2012-05-24 14:09:08 +02:00', '2013-06-25 15:10:09 +02:00', '2014-07-26 14:00:00 +02:00', '2014-07-26 14:00:00');";
 
             connection.createQuery(sql).executeUpdate();
@@ -43,7 +48,7 @@ public class DateTimeTest extends BaseFunctionalTest {
     @Ignore("sqlserver doesn't allow insert specific timestamp")
     public void testUpdateDatesAndTimes() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO timetest(id, time_with_timezone, time_without_timezone, timestamp_with_timezone, timestamp_without_timezone) VALUES " +
+            String sql = "INSERT INTO " + scapeTableName("timetest") +"(id, time_with_timezone, time_without_timezone, timestamp_with_timezone, timestamp_without_timezone) VALUES " +
                     "('1', '2012-05-24 14:09:08 +02:00', '2013-06-25 15:10:09 +02:00', '2014-07-26 14:00:00 +02:00', '2014-07-26 14:00:00');";
 
             connection.createQuery(sql).executeUpdate();

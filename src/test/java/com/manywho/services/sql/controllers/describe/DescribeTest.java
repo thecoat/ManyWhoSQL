@@ -1,7 +1,5 @@
 package com.manywho.services.sql.controllers.describe;
 
-import com.google.common.base.Charsets;
-import com.google.common.io.Resources;
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.json.JSONException;
@@ -16,8 +14,14 @@ public class DescribeTest extends BaseFunctionalTest {
 
     @Test
     public void testDescribe() throws Exception {
+        String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+                        "id integer NOT NULL," +
+                        "name character varying(255)," +
+                        "description character varying(1024)," +
+                        "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                    ");";
+
         try (Connection connection = getSql2o().open()) {
-            String sql = Resources.toString(Resources.getResource("controllers/common/create-table-country.sql"), Charsets.UTF_8);
             connection.createQuery(sql).executeUpdate();
         }
 
@@ -29,8 +33,14 @@ public class DescribeTest extends BaseFunctionalTest {
 
     @Test
     public void testDescribeWithTypes() throws Exception {
+        String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+                "id integer NOT NULL," +
+                "name character varying(255)," +
+                "description character varying(1024)," +
+                "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                ");";
+
         try (Connection connection = getSql2o().open()) {
-            String sql = Resources.toString(Resources.getResource("controllers/common/create-table-country.sql"), Charsets.UTF_8);
             connection.createQuery(sql).executeUpdate();
         }
 
@@ -42,27 +52,33 @@ public class DescribeTest extends BaseFunctionalTest {
 
     @Test
     public void testIgnoringTimeBecauseIsNotSupportedType() throws JSONException, IOException, URISyntaxException, ClassNotFoundException {
-            try (Connection connection = getSql2o().open()) {
-                String sql2 = Resources.toString(Resources.getResource("controllers/describe/not-supported-types/create-dates-table.sql"), Charsets.UTF_8);
-                connection.createQuery(sql2).executeUpdate();
+        String sql = "CREATE TABLE " + scapeTableName("timetest") + "(" +
+                "id integer NOT NULL," +
+                "time time," +
+                "description character varying(255)," +
+                "CONSTRAINT timetest_id_pk PRIMARY KEY (id)" +
+                ");";
 
-                String sql1 = "INSERT INTO servicesql.timetest(id, time, description) VALUES " +
-                        "('1', '14:09:08', 'time description');";
+        try (Connection connection = getSql2o().open()) {
+            connection.createQuery(sql).executeUpdate();
 
-                connection.createQuery(sql1).executeUpdate();
-            }
+            String sql1 = "INSERT INTO "+scapeTableName("timetest")+"(id, time, description) VALUES " +
+                    "('1', '14:09:08', 'time description');";
 
-            DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
-                    "controllers/describe/not-supported-types/metadata1-request.json",
-                    getDefaultRequestReplacements(),
-                    "controllers/describe/not-supported-types/metadata1-response.json");
+            connection.createQuery(sql1).executeUpdate();
+        }
+
+        DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
+                "controllers/describe/not-supported-types/metadata1-request.json",
+                getDefaultRequestReplacements(),
+                "controllers/describe/not-supported-types/metadata1-response.json");
     }
 
     @After
     public void cleanDatabaseAfterEachTest() {
         try (Connection connection = getSql2o().open()) {
-            deleteTableIfExist("servicesql.country", connection);
-            deleteTableIfExist("servicesql.timetest", connection);
+            deleteTableIfExist("country", connection);
+            deleteTableIfExist("timetest", connection);
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
