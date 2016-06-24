@@ -2,10 +2,10 @@ package com.manywho.services.sql.utilities;
 
 import java.util.Properties;
 
-public class ServiceConfigurationProperties {
+public class DbTestConfigurationProperties {
     protected Properties properties;
 
-    public ServiceConfigurationProperties() {
+    public DbTestConfigurationProperties() {
         try {
             properties = new Properties();
 

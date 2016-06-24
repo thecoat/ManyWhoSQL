@@ -12,7 +12,7 @@ public class LoadTest extends BaseFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE "+scapeTableName("country")+"("+
+            String sql = "CREATE TABLE " + scapeTableName("country") + "("+
                             "id integer NOT NULL,"+
                             "name character varying(255)," +
                             "description character varying(1024)," +

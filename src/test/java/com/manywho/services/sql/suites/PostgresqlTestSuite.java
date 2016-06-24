@@ -1,6 +1,6 @@
 package com.manywho.services.sql.suites;
 
-import com.manywho.services.sql.ConfigurationDB;
+import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.suites.common.controllers.data.DateTimeTest;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -14,6 +14,6 @@ import org.junit.runners.Suite;
 public class PostgreSqlTestSuite {
     @BeforeClass
     public static void setUp() {
-        ConfigurationDB.setPorperties("postgresql");
+        DbConfigurationTest.setPorperties("postgresql");
     }
 }

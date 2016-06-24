@@ -1,6 +1,6 @@
 package com.manywho.services.sql.suites;
 
-import com.manywho.services.sql.ConfigurationDB;
+import com.manywho.services.sql.DbConfigurationTest;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -12,6 +12,6 @@ import org.junit.runners.Suite;
 public class SqlServerTestSuite {
     @BeforeClass
     public static void setUp() {
-        ConfigurationDB.setPorperties("sqlserver");
+        DbConfigurationTest.setPorperties("sqlserver");
     }
 }

@@ -30,17 +30,17 @@ public abstract class BaseFunctionalTest extends JerseyTest {
     protected Application configure() {
         TestApplication application = new TestApplication();
 
-        portForTest = ConfigurationDB.portForTest;
-        databaseTypeForTest = ConfigurationDB.databaseTypeForTest;
-        schemaForTest = ConfigurationDB.schemaForTest;
-        hostForTest = ConfigurationDB.hostForTest;
+        portForTest = DbConfigurationTest.portForTest;
+        databaseTypeForTest = DbConfigurationTest.databaseTypeForTest;
+        schemaForTest = DbConfigurationTest.schemaForTest;
+        hostForTest = DbConfigurationTest.hostForTest;
 
         // todo handle this with files or environment variables
 
-        portForTest = ConfigurationDB.portForTest;
-        databaseTypeForTest = ConfigurationDB.databaseTypeForTest;
-        schemaForTest = ConfigurationDB.schemaForTest;
-        hostForTest = ConfigurationDB.hostForTest;
+        portForTest = DbConfigurationTest.portForTest;
+        databaseTypeForTest = DbConfigurationTest.databaseTypeForTest;
+        schemaForTest = DbConfigurationTest.schemaForTest;
+        hostForTest = DbConfigurationTest.hostForTest;
 
         application.setModule(new AbstractModule() {
             @Override
@@ -73,17 +73,17 @@ public abstract class BaseFunctionalTest extends JerseyTest {
 
             return sql2o;
         } else {
-            if(Objects.equals(ConfigurationDB.databaseTypeForTest, "postgresql")) {
+            if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "postgresql")) {
                 Class.forName("com.mysql.jdbc.Driver");
-                sql2o = new Sql2o("jdbc:postgresql://" + ConfigurationDB.hostForTest+":" + ConfigurationDB.portForTest + "/" + ConfigurationDB.databaseNameForTest, "postgres", "admin");
+                sql2o = new Sql2o("jdbc:postgresql://" + DbConfigurationTest.hostForTest+":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, "postgres", "admin");
 
-            }else if(Objects.equals(ConfigurationDB.databaseTypeForTest, "sqlserver")) {
+            }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "sqlserver")) {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                sql2o = new Sql2o("jdbc:sqlserver://" + ConfigurationDB.hostForTest + ":" + ConfigurationDB.portForTest + ";databaseName=" + ConfigurationDB.databaseNameForTest, "postgres", "admin");
+                sql2o = new Sql2o("jdbc:sqlserver://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + ";databaseName=" + DbConfigurationTest.databaseNameForTest, "postgres", "admin");
 
-            }else if(Objects.equals(ConfigurationDB.databaseTypeForTest, "mysql")) {
+            }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "mysql")) {
                 Class.forName("com.mysql.jdbc.Driver");
-                sql2o = new Sql2o("jdbc:mysql://" + ConfigurationDB.hostForTest + ":" + ConfigurationDB.portForTest + "/" + ConfigurationDB.databaseNameForTest, "postgres", "admin");
+                sql2o = new Sql2o("jdbc:mysql://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, "postgres", "admin");
             }
 
             return sql2o;
