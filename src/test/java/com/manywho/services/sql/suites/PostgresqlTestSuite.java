@@ -1,7 +1,7 @@
 package com.manywho.services.sql.suites;
 
 import com.manywho.services.sql.DbConfigurationTest;
-import com.manywho.services.sql.suites.common.controllers.data.DateTimeTest;
+import com.manywho.services.sql.suites.postgresql.data.DateTimeTest;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

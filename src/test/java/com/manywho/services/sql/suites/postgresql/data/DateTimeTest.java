@@ -1,4 +1,4 @@
-package com.manywho.services.sql.suites.common.controllers.data;
+package com.manywho.services.sql.suites.postgresql.data;
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.json.JSONException;
@@ -37,9 +37,9 @@ public class DateTimeTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "suites/common/data/dates/load/request-dates.json",
+                "suites/postgresql/dates/load/request-dates.json",
                 configurationParameters(),
-                "suites/common/data/dates/load/response-dates.json"
+                "suites/postgresql/dates/load/response-dates.json"
         );
     }
 
@@ -53,9 +53,9 @@ public class DateTimeTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
-                "suites/common/data/dates/save/request-dates.json",
+                "suites/postgresql/dates/save/request-dates.json",
                 configurationParameters(),
-                "suites/common/data/dates/save/response-dates.json");
+                "suites/postgresql/dates/save/response-dates.json");
     }
 
     @After
