@@ -1,4 +1,4 @@
-package com.manywho.services.sql.controllers.describe;
+package com.manywho.services.sql.suites.common.controllers.describe;
 
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
@@ -26,9 +26,9 @@ public class DescribeTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
-                "controllers/describe/without-types/metadata1-request.json",
+                "suites/common/describe/without-types/metadata1-request.json",
                 configurationParameters(),
-                "controllers/describe/without-types/metadata1-response.json");
+                "suites/common/describe/without-types/metadata1-response.json");
     }
 
     @Test
@@ -45,9 +45,9 @@ public class DescribeTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
-                "controllers/describe/with-types/metadata1-request.json",
+                "suites/common/describe/with-types/metadata1-request.json",
                 configurationParameters(),
-                "controllers/describe/with-types/metadata1-response.json");
+                "suites/common/describe/with-types/metadata1-response.json");
     }
 
     @Test
@@ -69,9 +69,9 @@ public class DescribeTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
-                "controllers/describe/not-supported-types/metadata1-request.json",
+                "suites/common/describe/not-supported-types/metadata1-request.json",
                 configurationParameters(),
-                "controllers/describe/not-supported-types/metadata1-response.json");
+                "suites/common/describe/not-supported-types/metadata1-response.json");
     }
 
     @After

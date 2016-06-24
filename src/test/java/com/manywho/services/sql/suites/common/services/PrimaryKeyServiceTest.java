@@ -1,4 +1,4 @@
-package com.manywho.services.sql.unitest.services;
+package com.manywho.services.sql.suites.common.services;
 
 import com.manywho.services.sql.services.PrimaryKeyService;
 import org.junit.Test;

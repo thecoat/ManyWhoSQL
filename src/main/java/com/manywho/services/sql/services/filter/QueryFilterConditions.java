@@ -23,6 +23,7 @@ public class QueryFilterConditions {
 
     public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, String comparisonType) {
         ArrayList<Condition> conditions = new ArrayList<>();
+        if(whereList == null) return;
 
         for (ListFilterWhere filterWhere: whereList) {
             conditions.add(getConditionFromFilterElement(filterWhere));

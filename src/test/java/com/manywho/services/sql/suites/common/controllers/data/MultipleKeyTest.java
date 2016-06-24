@@ -1,4 +1,4 @@
-package com.manywho.services.sql.controllers.data;
+package com.manywho.services.sql.suites.common.controllers.data;
 
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
@@ -32,9 +32,9 @@ public class MultipleKeyTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "controllers/data/multiple-primary-key/load/load-request.json",
+                "suites/common/data/multiple-primary-key/load/load-request.json",
                 configurationParameters(),
-                "controllers/data/multiple-primary-key/load/load-response.json"
+                "suites/common/data/multiple-primary-key/load/load-response.json"
         );
     }
 

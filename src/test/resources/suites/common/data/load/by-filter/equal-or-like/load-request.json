@@ -17,7 +17,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "admin",
-      "contentType": null,
+      "contentType": "ContentPassword",
       "objectData": null
     },
     {
@@ -28,18 +28,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{databaseType}}",
-      "contentType": null,
-      "objectData": null
-    },
-    {
-      "valueElementId": null,
-      "typeElementId": null,
-      "typeElementPropertyId": null,
-      "developerName": "Database Schema",
-      "typeElementDeveloperName": null,
-      "typeElementPropertyDeveloperName": null,
-      "contentValue": "{{schema}}",
-      "contentType": null,
+      "contentType": "ContentString",
       "objectData": null
     },
     {
@@ -50,7 +39,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "service-sql",
-      "contentType": null,
+      "contentType": "ContentString",
       "objectData": null
     },
     {
@@ -61,7 +50,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{port}}",
-      "contentType": null,
+      "contentType": "ContentNumber",
       "objectData": null
     },
     {
@@ -72,7 +61,18 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{host}}",
-      "contentType": null,
+      "contentType": "ContentString",
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Database Schema",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "{{schema}}",
+      "contentType": "ContentString",
       "objectData": null
     },
     {
@@ -83,7 +83,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "postgres",
-      "contentType": null,
+      "contentType": "ContentString",
       "objectData": null
     }
   ],
@@ -98,7 +98,7 @@
     "variant": null
   },
   "listFilter": {
-    "id": "eyJpZCI6IjEifQ==",
+    "id": null,
     "filterByProvidedObjects": false,
     "orderByPropertyDeveloperName": null,
     "orderByDirectionType": "",
@@ -107,12 +107,27 @@
     "offset": 0,
     "search": null,
     "searchCriteria": null,
-    "comparisonType": "",
-    "where": null,
+    "comparisonType": "OR",
+    "where": [
+      {
+        "columnName": "name",
+        "criteriaType": "EQUAL",
+        "value": "France",
+        "contentValue": "France",
+        "objectData": null
+      },
+      {
+        "columnName": "description",
+        "criteriaType": "STARTS_WITH",
+        "value": "It is a beautiful",
+        "contentValue": "It is a beautiful",
+        "objectData": null
+      }
+    ],
     "listFilters": null
   },
   "objectDataType": {
-    "typeElementId": "055214d9-3c81-40f7-860d-8f5adfe1a165",
+    "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
     "developerName": "country",
     "properties": [
       {
@@ -131,14 +146,14 @@
   },
   "objectData": [
     {
-      "internalId": "3303acd1-34ad-450c-94eb-2b30a19d4366",
-      "externalId": null,
+      "internalId": "680b37be-3cf1-4bed-bf46-69bf8acd2b3c",
+      "externalId": "eyJpZCI6IjEifQ==",
       "developerName": "country",
-      "typeElementId": "055214d9-3c81-40f7-860d-8f5adfe1a165",
+      "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
       "order": 0,
       "properties": [
         {
-          "typeElementPropertyId": "b478418f-d51a-48ee-bef2-e132204305f5",
+          "typeElementPropertyId": "1e40c529-9279-4a0f-b519-0b5223d139f8",
           "developerName": "name",
           "contentValue": "",
           "contentType": "ContentString",
@@ -146,7 +161,7 @@
           "objectData": null
         },
         {
-          "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
+          "typeElementPropertyId": "cfa7fc9b-6d3c-4dba-9a8d-e5f44b7178cc",
           "developerName": "description",
           "contentValue": "",
           "contentType": "ContentString",
@@ -154,7 +169,7 @@
           "objectData": null
         },
         {
-          "typeElementPropertyId": "adbde9f2-3bc2-4be5-8bd8-a3f0a4953e40",
+          "typeElementPropertyId": "3edb9e80-7c52-4051-b993-74b338fb1b8f",
           "developerName": "id",
           "contentValue": "",
           "contentType": "ContentNumber",

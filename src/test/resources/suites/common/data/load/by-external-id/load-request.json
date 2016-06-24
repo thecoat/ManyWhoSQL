@@ -17,7 +17,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "admin",
-      "contentType": "ContentPassword",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -28,40 +28,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{databaseType}}",
-      "contentType": "ContentString",
-      "objectData": null
-    },
-    {
-      "valueElementId": null,
-      "typeElementId": null,
-      "typeElementPropertyId": null,
-      "developerName": "Database Name",
-      "typeElementDeveloperName": null,
-      "typeElementPropertyDeveloperName": null,
-      "contentValue": "service-sql",
-      "contentType": "ContentString",
-      "objectData": null
-    },
-    {
-      "valueElementId": null,
-      "typeElementId": null,
-      "typeElementPropertyId": null,
-      "developerName": "Port",
-      "typeElementDeveloperName": null,
-      "typeElementPropertyDeveloperName": null,
-      "contentValue": "{{port}}",
-      "contentType": "ContentNumber",
-      "objectData": null
-    },
-    {
-      "valueElementId": null,
-      "typeElementId": null,
-      "typeElementPropertyId": null,
-      "developerName": "Host",
-      "typeElementDeveloperName": null,
-      "typeElementPropertyDeveloperName": null,
-      "contentValue": "{{host}}",
-      "contentType": "ContentString",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -72,7 +39,40 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{schema}}",
-      "contentType": "ContentString",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Database Name",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "service-sql",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Port",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "{{port}}",
+      "contentType": null,
+      "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Host",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "{{host}}",
+      "contentType": null,
       "objectData": null
     },
     {
@@ -83,7 +83,7 @@
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
       "contentValue": "postgres",
-      "contentType": "ContentString",
+      "contentType": null,
       "objectData": null
     }
   ],
@@ -98,7 +98,7 @@
     "variant": null
   },
   "listFilter": {
-    "id": null,
+    "id": "eyJpZCI6IjEifQ==",
     "filterByProvidedObjects": false,
     "orderByPropertyDeveloperName": null,
     "orderByDirectionType": "",
@@ -107,27 +107,12 @@
     "offset": 0,
     "search": null,
     "searchCriteria": null,
-    "comparisonType": "OR",
-    "where": [
-      {
-        "columnName": "name",
-        "criteriaType": "EQUAL",
-        "value": "France",
-        "contentValue": "France",
-        "objectData": null
-      },
-      {
-        "columnName": "description",
-        "criteriaType": "STARTS_WITH",
-        "value": "It is a beautiful",
-        "contentValue": "It is a beautiful",
-        "objectData": null
-      }
-    ],
+    "comparisonType": "",
+    "where": null,
     "listFilters": null
   },
   "objectDataType": {
-    "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
+    "typeElementId": "055214d9-3c81-40f7-860d-8f5adfe1a165",
     "developerName": "country",
     "properties": [
       {
@@ -146,14 +131,14 @@
   },
   "objectData": [
     {
-      "internalId": "680b37be-3cf1-4bed-bf46-69bf8acd2b3c",
-      "externalId": null,
+      "internalId": "3303acd1-34ad-450c-94eb-2b30a19d4366",
+      "externalId": "eyJpZCI6IjEifQ==",
       "developerName": "country",
-      "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
+      "typeElementId": "055214d9-3c81-40f7-860d-8f5adfe1a165",
       "order": 0,
       "properties": [
         {
-          "typeElementPropertyId": "1e40c529-9279-4a0f-b519-0b5223d139f8",
+          "typeElementPropertyId": "b478418f-d51a-48ee-bef2-e132204305f5",
           "developerName": "name",
           "contentValue": "",
           "contentType": "ContentString",
@@ -161,7 +146,7 @@
           "objectData": null
         },
         {
-          "typeElementPropertyId": "cfa7fc9b-6d3c-4dba-9a8d-e5f44b7178cc",
+          "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
           "developerName": "description",
           "contentValue": "",
           "contentType": "ContentString",
@@ -169,7 +154,7 @@
           "objectData": null
         },
         {
-          "typeElementPropertyId": "3edb9e80-7c52-4051-b993-74b338fb1b8f",
+          "typeElementPropertyId": "adbde9f2-3bc2-4be5-8bd8-a3f0a4953e40",
           "developerName": "id",
           "contentValue": "",
           "contentType": "ContentNumber",

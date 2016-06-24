@@ -32,7 +32,7 @@ public abstract class BaseFunctionalTest extends JerseyTest {
 
         // todo handle this with files or environment variables
 
-        if(false) {
+        if(true) {
             portForTest = "5432";
             databaseTypeForTest = "postgresql";
             schemaForTest = "servicesql";
@@ -43,7 +43,7 @@ public abstract class BaseFunctionalTest extends JerseyTest {
             databaseTypeForTest = "sqlserver";
             schemaForTest = "servicesql";
             hostForTest = "localhost";
-        }else if(true) {
+        }else if(false) {
             portForTest = "3306";
             databaseTypeForTest = "mysql";
             // we can not have a different name for schema and database in MySql

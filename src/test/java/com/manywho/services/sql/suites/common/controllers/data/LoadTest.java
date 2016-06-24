@@ -1,4 +1,4 @@
-package com.manywho.services.sql.controllers.data;
+package com.manywho.services.sql.suites.common.controllers.data;
 
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
@@ -32,9 +32,9 @@ public class LoadTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "controllers/data/load/by-external-id/load-request.json",
+                "suites/common/data/load/by-external-id/load-request.json",
                 configurationParameters(),
-                "controllers/data/load/by-external-id/load-response.json"
+                "suites/common/data/load/by-external-id/load-response.json"
         );
     }
 
@@ -50,9 +50,9 @@ public class LoadTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "controllers/data/load/by-filter/equal-and-like/load-request.json",
+                "suites/common/data/load/by-filter/equal-and-like/load-request.json",
                 configurationParameters(),
-                "controllers/data/load/by-filter/equal-and-like/load-response.json"
+                "suites/common/data/load/by-filter/equal-and-like/load-response.json"
         );
     }
 
@@ -68,9 +68,9 @@ public class LoadTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "controllers/data/load/by-filter/equal-or-like/load-request.json",
+                "suites/common/data/load/by-filter/equal-or-like/load-request.json",
                 configurationParameters(),
-                "controllers/data/load/by-filter/equal-or-like/load-response.json"
+                "suites/common/data/load/by-filter/equal-or-like/load-response.json"
         );
     }
 
@@ -88,9 +88,9 @@ public class LoadTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-                "controllers/data/load/by-filter/offset-and-limit/load-offset-request.json",
+                "suites/common/data/load/by-filter/offset-and-limit/load-offset-request.json",
                 configurationParameters(),
-                "controllers/data/load/by-filter/offset-and-limit/load-offset-response.json"
+                "suites/common/data/load/by-filter/offset-and-limit/load-offset-response.json"
         );
     }
 

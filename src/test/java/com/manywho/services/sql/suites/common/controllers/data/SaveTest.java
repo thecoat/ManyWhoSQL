@@ -1,4 +1,4 @@
-package com.manywho.services.sql.controllers.data;
+package com.manywho.services.sql.suites.common.controllers.data;
 
 import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
@@ -26,9 +26,9 @@ public class SaveTest extends BaseFunctionalTest {
     public void testCreateData() throws Exception {
 
         DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
-                "controllers/data/save/create/create-request.json",
+                "suites/common/data/save/create/create-request.json",
                 configurationParameters(),
-                "controllers/data/save/create/create-response.json");
+                "suites/common/data/save/create/create-response.json");
     }
 
     @Test
@@ -40,9 +40,9 @@ public class SaveTest extends BaseFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
-                "controllers/data/save/update/update-request.json",
+                "suites/common/data/save/update/update-request.json",
                 configurationParameters(),
-                "controllers/data/save/update/update-response.json");
+                "suites/common/data/save/update/update-response.json");
     }
 
     @After
