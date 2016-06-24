@@ -19,8 +19,15 @@ Create a database named service-sql with a schema called servicesql.
 Also you will need to know the host and port of the server hosting the database.
 And create a user with username "postgres" and password "admin".
 
-If you need to test with a different database you can change these parameters at
-src\test\java\com\manywho\services\sql\BaseFunctionalTest.java
+If you need to test with a different database you can change these parameters, create a new copy of configuration.properties.dist with name configuration.properties
+modify your configuration in that file
+
+
+Example of running all the suites with all the databases (you will need to have all the databases configured and running)
+
+````
+mvn clean test -Dtest=AllTestSuite
+````
 
 #### Building
 
@@ -29,7 +36,7 @@ Also for Sql Server you will need to install manually the drivers, download the 
 Microsoft and after install it in you machine using maven:
 
 ```bash
-mvn install:install-file -Dfile=sqljdbc4.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.0 -Dpackaging=jar
+mvn install:install-file -Dfile=sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
 ```
 
 Now you can build the runnable shaded JAR:
