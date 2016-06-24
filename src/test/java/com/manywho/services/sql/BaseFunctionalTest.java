@@ -21,26 +21,10 @@ import java.util.Objects;
 public abstract class BaseFunctionalTest extends JerseyTest {
 
     private Sql2o sql2o;
-    protected String portForTest;
-    protected String databaseTypeForTest;
-    protected String schemaForTest;
-    protected String hostForTest;
 
     @Override
     protected Application configure() {
         TestApplication application = new TestApplication();
-
-        portForTest = DbConfigurationTest.portForTest;
-        databaseTypeForTest = DbConfigurationTest.databaseTypeForTest;
-        schemaForTest = DbConfigurationTest.schemaForTest;
-        hostForTest = DbConfigurationTest.hostForTest;
-
-        // todo handle this with files or environment variables
-
-        portForTest = DbConfigurationTest.portForTest;
-        databaseTypeForTest = DbConfigurationTest.databaseTypeForTest;
-        schemaForTest = DbConfigurationTest.schemaForTest;
-        hostForTest = DbConfigurationTest.hostForTest;
 
         application.setModule(new AbstractModule() {
             @Override
@@ -92,10 +76,10 @@ public abstract class BaseFunctionalTest extends JerseyTest {
 
     protected HashMap<String, String> configurationParameters() {
         HashMap<String, String> replacements = new HashMap<>();
-        replacements.put("{{port}}", portForTest);
-        replacements.put("{{databaseType}}", databaseTypeForTest);
-        replacements.put("{{schema}}", schemaForTest);
-        replacements.put("{{host}}", hostForTest);
+        replacements.put("{{port}}", DbConfigurationTest.portForTest);
+        replacements.put("{{databaseType}}", DbConfigurationTest.databaseTypeForTest);
+        replacements.put("{{schema}}", DbConfigurationTest.schemaForTest);
+        replacements.put("{{host}}", DbConfigurationTest.hostForTest);
 
         return  replacements;
     }
@@ -110,10 +94,10 @@ public abstract class BaseFunctionalTest extends JerseyTest {
     public String scapeTableName( String tableName) {
         String format = "%s.%s";
 
-        if(Objects.equals(databaseTypeForTest, "mysql")){
+        if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "mysql")){
             format = "`%s`.`%s`";
         }
 
-        return String.format(format, schemaForTest, tableName);
+        return String.format(format, DbConfigurationTest.schemaForTest, tableName);
     }
 }
