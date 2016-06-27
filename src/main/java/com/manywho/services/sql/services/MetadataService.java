@@ -64,14 +64,21 @@ public class MetadataService {
 
                 tableMetadata.setColumnsDatabaseType(
                         rsColumnsMetadata.getString(4),
-                        JDBCType.valueOf(rsColumnsMetadata.getInt(5)).getName()
+                       addSpecificTypes(rsColumnsMetadata.getInt(5))
                 );
 
             } catch (DataBaseTypeNotSupported e) {
                 // if some type is not supported we just ignore it
             }
+        }
+    }
 
-
+    private String addSpecificTypes(int type) {
+        switch(type){
+            case  ContentTypeUtil.SQL_SERVER_DATETIMEOFFSET:
+                return ContentTypeUtil.SQL_SERVER_dATETIMEOFFSET_TEXT;
+            default:
+                return JDBCType.valueOf(type).getName();
         }
     }
 }

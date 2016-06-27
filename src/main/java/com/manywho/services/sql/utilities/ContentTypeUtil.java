@@ -6,7 +6,8 @@ import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import java.sql.Types;
 
 public class ContentTypeUtil {
-
+   public static final int SQL_SERVER_DATETIMEOFFSET = -155;
+    public static final String SQL_SERVER_dATETIMEOFFSET_TEXT = "datetimeoffset";
 
     /**
      * Return the com.manywho.sdk.apy.ContentType for a java.sql.Types it will throw an exception if the type is not
@@ -135,6 +136,9 @@ public class ContentTypeUtil {
 
             case Types.TIMESTAMP_WITH_TIMEZONE:
                 throw new DataBaseTypeNotSupported("TIMESTAMP_WITH_TIMEZONE");
+
+            case ContentTypeUtil.SQL_SERVER_DATETIMEOFFSET:
+                return ContentType.DateTime;
 
             default:
                 throw new DataBaseTypeNotSupported(types + "");

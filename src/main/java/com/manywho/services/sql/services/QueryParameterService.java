@@ -1,6 +1,7 @@
 package com.manywho.services.sql.services;
 
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
+import com.manywho.services.sql.utilities.ContentTypeUtil;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sql2o.Query;
@@ -21,6 +22,17 @@ public class QueryParameterService {
      * @throws DataBaseTypeNotSupported
      */
     public Query addParameterValueToTheQuery(String paramName, String parameterValue, String databaseType, Query query) throws DataBaseTypeNotSupported, ParseException {
+
+        // cases out of the jdbc standard
+        switch(databaseType) {
+            case ContentTypeUtil.SQL_SERVER_dATETIMEOFFSET_TEXT:
+                DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
+                return query.addParameter(paramName,  parser.parseDateTime(parameterValue));
+            default:
+                break;
+        }
+
+        // cases for jdbc standard types
         JDBCType type = JDBCType.valueOf(databaseType);
 
         switch (type){
@@ -144,7 +156,7 @@ public class QueryParameterService {
                 throw new DataBaseTypeNotSupported("TIMESTAMP_WITH_TIMEZONE");
 
             default:
-                throw new DataBaseTypeNotSupported("");
+                throw new DataBaseTypeNotSupported(String.valueOf(type));
         }
     }
 }

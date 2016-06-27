@@ -27,6 +27,13 @@
       "contentValue": "2016-06-27 10:23:00.0",
       "contentFormat": null,
       "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "datetimeoffset",
+      "contentType": "ContentDateTime",
+      "contentValue": "2016-06-27 10:23:00 +00:00",
+      "contentFormat": null,
+      "objectData": null
     }],
     "isSelected": false
   }],

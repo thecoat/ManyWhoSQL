@@ -54,13 +54,14 @@ public class DateTimeTest extends BaseFunctionalTest {
                     "id integer NOT NULL," +
                     "datetime datetime," +
                     "datetime2 datetime2," +
+                    "datetimeoffset datetimeoffset," +
                     "CONSTRAINT timetest_id_pk PRIMARY KEY (id)" +
                     ");";
 
             connection.createQuery(sqlCreate).executeUpdate();
 
-            String sql = "INSERT INTO " + scapeTableName("timetest") +"(id, datetime, datetime2) VALUES " +
-                    "('1', '2007-05-08 12:35:29.123', '2007-05-08 12:35:29. 1234567');";
+            String sql = "INSERT INTO " + scapeTableName("timetest") +"(id, datetime, datetime2, datetimeoffset) VALUES " +
+                    "('1', '2007-05-08 12:35:29.123', '2007-05-08 12:35:29. 1234567', '2007-05-08 12:35:29.123+00:02');";
 
             connection.createQuery(sql).executeUpdate();
         }
