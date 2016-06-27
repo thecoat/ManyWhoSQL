@@ -23,7 +23,7 @@ If you need to test with a different database you can change these parameters, c
 modify your configuration in that file
 
 
-Example of running all the suites with all the databases (you will need to have all the databases configured and running)
+Example of running all the suites with all the databases (you should have all the databases configured and running before execute this command)
 
 ````
 mvn clean test -Dtest=AllTestSuite

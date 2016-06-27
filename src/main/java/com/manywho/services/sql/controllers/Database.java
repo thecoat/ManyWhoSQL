@@ -27,7 +27,7 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
         try {
             return dataManager.create(configuration, object);
         } catch (Exception e) {
-            throw  new RuntimeException("problem creating object");
+            throw new RuntimeException("problem creating object");
         }
     }
 
@@ -53,7 +53,7 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
 
             if(mObjectList.size()>0) return mObjectList.get(0);
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new RuntimeException(e.getMessage());
         }
 
         throw new RecordNotFoundException();
@@ -65,10 +65,8 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
             return this.dataManager.loadBySearch(configuration, objectDataType,  filter);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new RuntimeException(e.getMessage());
         }
-
-        throw new RecordNotFoundException();
     }
 
     @Override
@@ -76,10 +74,8 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
         try {
             return this.dataManager.update(configuration, object, primaryKeyService.deserializePrimaryKey(object.getExternalId()));
         } catch (Exception e) {
-            e.printStackTrace();
+            throw  new RuntimeException(e.getMessage());
         }
-
-        throw new RuntimeException("Error updating row for " + object.getDeveloperName());
     }
 
     @Override

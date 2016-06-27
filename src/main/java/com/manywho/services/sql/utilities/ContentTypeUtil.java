@@ -64,6 +64,7 @@ public class ContentTypeUtil {
                 throw new DataBaseTypeNotSupported("TIME");
 
             case Types.TIMESTAMP:
+
                 return ContentType.DateTime;
 
             case Types.BINARY:
