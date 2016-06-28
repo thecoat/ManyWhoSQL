@@ -33,7 +33,7 @@ public class MObjectFactory {
                 describeService.populateProperty(property.getDeveloperName(), row.getString(property.getDeveloperName()), properties);
             }
 
-            mObjects.add(new MObject(tableMetadata.getTableName(), mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), properties), properties));
+            mObjects.add(new MObject(tableMetadata.getTableName(), mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyNames(), properties), properties));
         }
 
         return mObjects;

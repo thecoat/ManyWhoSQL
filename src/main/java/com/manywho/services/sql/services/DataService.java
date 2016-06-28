@@ -84,7 +84,7 @@ public class DataService {
                 parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
                         tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
             }
-            mObject.setExternalId(mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyName(), mObject.getProperties()));
+            mObject.setExternalId(mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyNames(), mObject.getProperties()));
             query.executeUpdate();
 
             return mObject;

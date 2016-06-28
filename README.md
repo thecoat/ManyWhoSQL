@@ -50,6 +50,11 @@ $ mvn clean package
 The service is a Jersey JAX-RS application, that by default is run under the Grizzly2 server on port 8080 (if you use 
 the packaged JAR).
 
+The service is also compatible with Heroku, and can be deployed by clicking the button below:
+
+[![Deploy to Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/manywho/service-sql/tree/develop)
+
+
 ##### Defaults
 
 Running the following command will start the service listening on `0.0.0.0:8080/api/sql/1`:

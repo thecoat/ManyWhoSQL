@@ -1,0 +1,7 @@
+{
+  "name": "ManyWho Sql Service",
+  "description": "A plugin that enables integration of your database into ManyWho",
+  "repository": "https://github.com/manywho/service-sql",
+  "logo": "https://s3.amazonaws.com/manywho-service-assets/icons/service-sql.png",
+  "keywords": ["manywho", "sql", "plugin", "workflow", "SqlServer", "PostgreSql", "MySql"]
+}

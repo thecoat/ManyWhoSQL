@@ -45,7 +45,7 @@ public class TableMetadata {
         return columnsDatabaseType;
     }
 
-    public List<String> getPrimaryKeyName() {
+    public List<String> getPrimaryKeyNames() {
         return primaryKeyName;
     }
 
