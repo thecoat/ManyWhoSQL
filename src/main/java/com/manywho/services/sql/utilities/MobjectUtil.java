@@ -16,16 +16,15 @@ public class MobjectUtil {
         this.primaryKeyService = primaryKeyService;
     }
 
-    public String getPrimaryKeyValue(String primaryKeyName, List<Property> properties) {
-        for (Property prperty:properties) {
-            if(Objects.equals(prperty.getDeveloperName(), primaryKeyName)) {
-                HashMap<String, String> primaryKeys = new HashMap<>();
-                primaryKeys.put("id", prperty.getContentValue());
+    public String getPrimaryKeyValue(List<String> primaryKeyNames, List<Property> properties) {
+        HashMap<String, String> primaryKeys = new HashMap<>();
 
-                return primaryKeyService.serializePrimaryKey(primaryKeys);
-            }
+        for(String primaryKey: primaryKeyNames) {
+            properties.stream()
+                    .filter(property -> Objects.equals(property.getDeveloperName(), primaryKey))
+                    .forEach(property -> {primaryKeys.put(primaryKey, property.getContentValue());});
         }
 
-        return "";
+        return primaryKeyService.serializePrimaryKey(primaryKeys);
     }
 }

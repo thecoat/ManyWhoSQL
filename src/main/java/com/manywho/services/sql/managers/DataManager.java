@@ -29,10 +29,10 @@ public class DataManager {
         this.queryStrService = queryStrService;
     }
 
-    public List<MObject> load(ServiceConfiguration configuration, ObjectDataType objectDataType, HashMap<String, String> id) throws Exception {
+    public List<MObject> load(ServiceConfiguration configuration, String objectDataType, HashMap<String, String> id) throws Exception {
 
         return dataService.fetchByPrimaryKey(
-                metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName()),
+                metadataManager.getMetadataTable(configuration, objectDataType),
                         connectionService.getSql2Object(configuration), id, configuration);
     }
 

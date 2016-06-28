@@ -1,40 +1,34 @@
 {
   "culture": null,
-  "objectData": [
-    {
-      "internalId": "31a48875-bc12-4a59-8fc5-16c37a801ad3",
-      "externalId": "eyJpZCI6IjEifQ==",
-      "developerName": "country",
-      "typeElementId": "dc0dcf14-1bf6-4faf-b5ee-0d2aa58cd02e",
-      "order": 0,
-      "properties": [
-        {
-          "typeElementPropertyId": "248bdbf5-762c-4156-a16e-848f31d21cba",
-          "developerName": "name",
-          "contentType": "ContentString",
-          "contentValue": "Uruguay",
-          "contentFormat": "",
-          "objectData": null
-        },
-        {
-          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
-          "developerName": "description",
-          "contentType": "ContentString",
-          "contentValue": "It is a nice country",
-          "contentFormat": "",
-          "objectData": null
-        },
-        {
-          "typeElementPropertyId": "1bc6feeb-ce7c-4753-b96e-7c0e8b7b5223",
-          "developerName": "id",
-          "contentType": "ContentNumber",
-          "contentValue": "1",
-          "contentFormat": "",
-          "objectData": null
-        }
-      ],
-      "isSelected": false
-    }
-  ],
+  "objectData": [{
+    "internalId": null,
+    "externalId": "eyJpZCI6IjEifQ==",
+    "developerName": "country",
+    "typeElementId": null,
+    "order": 0,
+    "properties": [{
+      "typeElementPropertyId": null,
+      "developerName": "id",
+      "contentType": "ContentNumber",
+      "contentValue": "1",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "name",
+      "contentType": "ContentString",
+      "contentValue": "Uruguay",
+      "contentFormat": null,
+      "objectData": null
+    }, {
+      "typeElementPropertyId": null,
+      "developerName": "description",
+      "contentType": "ContentString",
+      "contentValue": "It is a nice country",
+      "contentFormat": null,
+      "objectData": null
+    }],
+    "isSelected": false
+  }],
   "hasMoreResults": false
 }

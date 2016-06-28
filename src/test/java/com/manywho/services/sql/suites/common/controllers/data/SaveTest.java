@@ -1,6 +1,7 @@
 package com.manywho.services.sql.suites.common.controllers.data;
 
 import com.manywho.services.sql.BaseFunctionalTest;
+import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +12,8 @@ public class SaveTest extends BaseFunctionalTest {
 
     @Before
     public void setupDatabase() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("sqlserver");
+
         try (Connection connection = getSql2o().open()) {
             String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
                             "id integer NOT NULL," +

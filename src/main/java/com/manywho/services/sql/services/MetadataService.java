@@ -46,10 +46,13 @@ public class MetadataService {
 
     private void populatePrimaryKeyForTable(String databaseName, String databaseSchema, TableMetadata tableMetadata, DatabaseMetaData metaData) throws Exception {
         ResultSet rsPrimaryKey = metaData.getPrimaryKeys(databaseName, databaseSchema, tableMetadata.getTableName());
+        ArrayList<String> primaryKeys = new ArrayList<>();
 
         while (rsPrimaryKey.next()) {
-            tableMetadata.setPrimaryKeyName(rsPrimaryKey.getString("COLUMN_NAME"));
+            primaryKeys.add(rsPrimaryKey.getString("COLUMN_NAME"));
         }
+
+        tableMetadata.setPrimaryKeyNames(primaryKeys);
     }
 
     private void populateColumnForTable(String databaseName, String databaseSchema, TableMetadata tableMetadata, DatabaseMetaData metaData) throws SQLException {

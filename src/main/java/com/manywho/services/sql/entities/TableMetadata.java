@@ -1,7 +1,10 @@
 package com.manywho.services.sql.entities;
 
 import com.manywho.sdk.api.ContentType;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 /**
  * This object contains the metadata information about a table, it is only used internally
@@ -12,13 +15,14 @@ public class TableMetadata {
     private String tableName;
     private HashMap<String, ContentType> columns;
     private HashMap<String, String> columnsDatabaseType;
-    private String primaryKeyName;
+    private List<String> primaryKeyName;
     private String schemaName;
 
     public TableMetadata(String tableName, String schemaName){
         this.tableName = tableName;
         this.schemaName = schemaName;
         this.columns = new HashMap<>();
+        this.primaryKeyName = new ArrayList<>();
         this.columnsDatabaseType = new HashMap<>();
     }
 
@@ -41,11 +45,11 @@ public class TableMetadata {
         return columnsDatabaseType;
     }
 
-    public String getPrimaryKeyName() {
+    public List<String> getPrimaryKeyName() {
         return primaryKeyName;
     }
 
-    public void setPrimaryKeyName(String primaryKeyName) {
+    public void setPrimaryKeyNames(List<String> primaryKeyName) {
         this.primaryKeyName = primaryKeyName;
     }
 

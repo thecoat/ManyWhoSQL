@@ -25,10 +25,16 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
     @Override
     public MObject create(ServiceConfiguration configuration, MObject object) {
         try {
-            return dataManager.create(configuration, object);
+            dataManager.create(configuration, object);
+            List<MObject> mObjectList = this.dataManager.load(configuration, object.getDeveloperName(), primaryKeyService.deserializePrimaryKey(object.getExternalId()));
+
+            if(mObjectList.size()>0) return mObjectList.get(0);
+
         } catch (Exception e) {
-            throw new RuntimeException("problem creating object");
+            throw new RuntimeException("problem creating object" + e.getMessage());
         }
+
+        throw new RuntimeException("Error creating object");
     }
 
     @Override
@@ -38,18 +44,21 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
 
     @Override
     public void delete(ServiceConfiguration configuration, MObject object) {
-
+        // todo delete object
+        return;
     }
 
     @Override
     public void delete(ServiceConfiguration configuration, List<MObject> objects) {
+        //todo delete list of object;
 
+        return;
     }
 
     @Override
     public MObject find(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) {
         try {
-            List<MObject> mObjectList = this.dataManager.load(configuration, objectDataType, primaryKeyService.deserializePrimaryKey(id));
+            List<MObject> mObjectList = this.dataManager.load(configuration, objectDataType.getDeveloperName(), primaryKeyService.deserializePrimaryKey(id));
 
             if(mObjectList.size()>0) return mObjectList.get(0);
         } catch (Exception e) {
@@ -72,10 +81,16 @@ public class Database implements RawDatabase<ServiceConfiguration, MObject> {
     @Override
     public MObject update(ServiceConfiguration configuration, MObject object) {
         try {
-            return this.dataManager.update(configuration, object, primaryKeyService.deserializePrimaryKey(object.getExternalId()));
+            this.dataManager.update(configuration, object, primaryKeyService.deserializePrimaryKey(object.getExternalId()));
+            List<MObject> mObjectList = this.dataManager.load(configuration, object.getDeveloperName(), primaryKeyService.deserializePrimaryKey(object.getExternalId()));
+
+            if (mObjectList.size()>0) return mObjectList.get(0);
+
         } catch (Exception e) {
             throw  new RuntimeException(e.getMessage());
         }
+
+        throw new RecordNotFoundException();
     }
 
     @Override

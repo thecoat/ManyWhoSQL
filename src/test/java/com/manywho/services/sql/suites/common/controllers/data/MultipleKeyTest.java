@@ -1,6 +1,7 @@
 package com.manywho.services.sql.suites.common.controllers.data;
 
 import com.manywho.services.sql.BaseFunctionalTest;
+import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
 import org.junit.Before;
@@ -11,6 +12,8 @@ public class MultipleKeyTest extends BaseFunctionalTest {
 
     @Before
     public void setupDatabase() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("sqlserver");
+
         try (Connection connection = getSql2o().open()) {
             String sql = "CREATE TABLE " + scapeTableName("city") +
                     "(" +
@@ -35,6 +38,16 @@ public class MultipleKeyTest extends BaseFunctionalTest {
                 "suites/common/data/multiple-primary-key/load/load-request.json",
                 configurationParameters(),
                 "suites/common/data/multiple-primary-key/load/load-response.json"
+        );
+    }
+
+    @Test
+    public void testCreate() throws Exception {
+
+        DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
+                "suites/common/data/multiple-primary-key/create/create-request.json",
+                configurationParameters(),
+                "suites/common/data/multiple-primary-key/create/create-response.json"
         );
     }
 
