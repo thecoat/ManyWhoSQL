@@ -43,6 +43,13 @@
       </plugin>
     </plugins>
   </build>
+  <repositories>
+    <repository>
+      <snapshots />
+      <id>ossrh</id>
+      <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+    </repository>
+  </repositories>
   <dependencies>
     <dependency>
       <groupId>org.glassfish.jersey.test-framework.providers</groupId>
