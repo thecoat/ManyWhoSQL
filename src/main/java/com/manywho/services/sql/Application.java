@@ -11,6 +11,9 @@ import com.manywho.services.sql.services.*;
 import com.manywho.services.sql.types.RawTypeProvider;
 import com.manywho.services.sql.utilities.MobjectUtil;
 
+import javax.ws.rs.ApplicationPath;
+
+@ApplicationPath("/")
 public class Application extends BaseApplication {
 
     public static void main(String[] args) throws Exception {
@@ -28,7 +31,6 @@ public class Application extends BaseApplication {
                 bind(QueryParameterService.class).in(Singleton.class);
                 bind(TypeProvider.class).to(RawTypeProvider.class);
                 bind(MobjectUtil.class);
-
             }
         });
 
