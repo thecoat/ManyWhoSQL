@@ -66,6 +66,10 @@ public class QueryFilterConditions {
     }
 
     public void addOffset(SelectQuery selectQuery, String databaseType, Integer offset, Integer limit) {
+
+        if(limit <= 0 || limit > 1000) {
+            limit = 1000;
+        }
         switch (databaseType) {
             case "postgresql":
                 if(offset > 0) {
