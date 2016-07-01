@@ -1,55 +1,46 @@
 package com.manywho.services.sql;
-import com.google.inject.AbstractModule;
-import com.google.inject.Singleton;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 import com.manywho.sdk.services.jaxrs.resolvers.ObjectMapperContextResolver;
-import com.manywho.sdk.services.types.TypeProvider;
-import com.manywho.services.sql.managers.DataManager;
-import com.manywho.services.sql.managers.DescribeManager;
-import com.manywho.services.sql.managers.MetadataManager;
-import com.manywho.services.sql.services.*;
-import com.manywho.services.sql.types.RawTypeProvider;
-import com.manywho.services.sql.utilities.MobjectUtil;
-import org.glassfish.jersey.client.ClientConfig;
-import org.glassfish.jersey.test.JerseyTest;
+import org.jboss.resteasy.core.Dispatcher;
+import org.jboss.resteasy.mock.MockDispatcherFactory;
+import org.junit.BeforeClass;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
-import javax.ws.rs.core.Application;
+import javax.ws.rs.Path;
 import java.util.HashMap;
 import java.util.Objects;
 
-public abstract class BaseFunctionalTest extends JerseyTest {
-
+public abstract class ServiceFunctionalTest {
     private Sql2o sql2o;
+    protected static Dispatcher dispatcher;
+    protected static ObjectMapper objectMapper;
 
-    @Override
-    protected Application configure() {
-        TestApplication application = new TestApplication();
+    @BeforeClass
+    public static void setUp() {
+        Injector injector = Guice.createInjector();
+        TestApplication application = new TestApplication(injector);
 
-        application.setModule(new AbstractModule() {
-            @Override
-            protected void configure() {
-                bind(MetadataManager.class);
-                bind(DescribeService.class);
-                bind(DescribeManager.class);
-                bind(DataManager.class);
-                bind(MetadataService.class);
-                bind(DataService.class);
-                bind(QueryStrService.class);
-                bind(QueryParameterService.class).in(Singleton.class);
-                bind(TypeProvider.class).to(RawTypeProvider.class);
-                bind(MobjectUtil.class);
+
+        objectMapper = new ObjectMapperContextResolver().getContext(null);
+
+        dispatcher = MockDispatcherFactory.createDispatcher();
+
+        for (Class<?> klass : application.getClasses()) {
+            dispatcher.getRegistry().addPerRequestResource(klass);
+        }
+
+        dispatcher.getProviderFactory().registerProvider(ObjectMapperContextResolver.class);
+
+        for (Object singleton : application.getSingletons()) {
+            if (singleton.getClass().isAnnotationPresent(Path.class)) {
+                dispatcher.getRegistry().addSingletonResource(singleton);
+            } else if (singleton.getClass().getSuperclass().isAnnotationPresent(Path.class)) {
+                dispatcher.getRegistry().addSingletonResource(singleton);
             }
-        });
-
-        application.initialize();
-
-        return application;
-    }
-
-    @Override
-    protected void configureClient(ClientConfig config) {
-        config.register(ObjectMapperContextResolver.class);
+        }
     }
 
     protected Sql2o getSql2o() throws ClassNotFoundException {

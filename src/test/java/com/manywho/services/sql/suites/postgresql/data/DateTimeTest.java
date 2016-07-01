@@ -1,5 +1,5 @@
 package com.manywho.services.sql.suites.postgresql.data;
-import com.manywho.services.sql.BaseFunctionalTest;
+import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.json.JSONException;
@@ -11,7 +11,7 @@ import org.sql2o.Connection;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class DateTimeTest extends BaseFunctionalTest {
+public class DateTimeTest extends ServiceFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
@@ -37,10 +37,11 @@ public class DateTimeTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
                 "suites/postgresql/dates/load/request-dates.json",
                 configurationParameters(),
-                "suites/postgresql/dates/load/response-dates.json"
+                "suites/postgresql/dates/load/response-dates.json",
+                dispatcher
         );
     }
 
@@ -64,10 +65,11 @@ public class DateTimeTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.saveDataRequestAndAssertion("/data",
                 "suites/postgresql/dates/save/request-dates.json",
                 configurationParameters(),
-                "suites/postgresql/dates/save/response-dates.json");
+                "suites/postgresql/dates/save/response-dates.json",
+                dispatcher);
     }
 
     @After

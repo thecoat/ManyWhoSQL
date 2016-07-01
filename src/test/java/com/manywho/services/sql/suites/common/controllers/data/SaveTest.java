@@ -1,6 +1,6 @@
 package com.manywho.services.sql.suites.common.controllers.data;
 
-import com.manywho.services.sql.BaseFunctionalTest;
+import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 
-public class SaveTest extends BaseFunctionalTest {
+public class SaveTest extends ServiceFunctionalTest {
 
     @Before
     public void setupDatabase() throws Exception {
@@ -28,10 +28,12 @@ public class SaveTest extends BaseFunctionalTest {
     @Test
     public void testCreateData() throws Exception {
 
-        DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.saveDataRequestAndAssertion("/data",
                 "suites/common/data/save/create/create-request.json",
                 configurationParameters(),
-                "suites/common/data/save/create/create-response.json");
+                "suites/common/data/save/create/create-response.json",
+                dispatcher
+        );
     }
 
     @Test
@@ -42,10 +44,12 @@ public class SaveTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.saveDataRequestAndAssertion("/data",
                 "suites/common/data/save/update/update-request.json",
                 configurationParameters(),
-                "suites/common/data/save/update/update-response.json");
+                "suites/common/data/save/update/update-response.json",
+                dispatcher
+        );
     }
 
     @After

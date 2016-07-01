@@ -1,6 +1,6 @@
 package com.manywho.services.sql.suites.common.controllers.describe;
 
-import com.manywho.services.sql.BaseFunctionalTest;
+import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.json.JSONException;
 import org.junit.After;
@@ -10,7 +10,7 @@ import org.sql2o.Connection;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class DescribeTest extends BaseFunctionalTest {
+public class DescribeTest extends ServiceFunctionalTest {
 
     @Test
     public void testDescribe() throws Exception {
@@ -25,10 +25,12 @@ public class DescribeTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
+        DefaultApiRequest.describeServiceRequestAndAssertion("/metadata",
                 "suites/common/describe/without-types/metadata1-request.json",
                 configurationParameters(),
-                "suites/common/describe/without-types/metadata1-response.json");
+                "suites/common/describe/without-types/metadata1-response.json",
+                dispatcher
+        );
     }
 
     @Test
@@ -44,10 +46,12 @@ public class DescribeTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
+        DefaultApiRequest.describeServiceRequestAndAssertion("/metadata",
                 "suites/common/describe/with-types/metadata1-request.json",
                 configurationParameters(),
-                "suites/common/describe/with-types/metadata1-response.json");
+                "suites/common/describe/with-types/metadata1-response.json",
+                dispatcher
+        );
     }
 
     @Test
@@ -68,10 +72,12 @@ public class DescribeTest extends BaseFunctionalTest {
             connection.createQuery(sql1).executeUpdate();
         }
 
-        DefaultApiRequest.describeServiceRequestAndAssertion(target("/metadata"),
+        DefaultApiRequest.describeServiceRequestAndAssertion("/metadata",
                 "suites/common/describe/not-supported-types/metadata1-request.json",
                 configurationParameters(),
-                "suites/common/describe/not-supported-types/metadata1-response.json");
+                "suites/common/describe/not-supported-types/metadata1-response.json",
+                dispatcher
+        );
     }
 
     @After

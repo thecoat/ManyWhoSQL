@@ -1,6 +1,6 @@
 package com.manywho.services.sql.suites.common.controllers.data;
 
-import com.manywho.services.sql.BaseFunctionalTest;
+import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
@@ -8,7 +8,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 
-public class MultipleKeyTest extends BaseFunctionalTest {
+public class MultipleKeyTest extends ServiceFunctionalTest {
 
     @Before
     public void setupDatabase() throws Exception {
@@ -34,20 +34,22 @@ public class MultipleKeyTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
                 "suites/common/data/multiple-primary-key/load/load-request.json",
                 configurationParameters(),
-                "suites/common/data/multiple-primary-key/load/load-response.json"
+                "suites/common/data/multiple-primary-key/load/load-response.json",
+                dispatcher
         );
     }
 
     @Test
     public void testCreate() throws Exception {
 
-        DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.saveDataRequestAndAssertion("/data",
                 "suites/common/data/multiple-primary-key/create/create-request.json",
                 configurationParameters(),
-                "suites/common/data/multiple-primary-key/create/create-response.json"
+                "suites/common/data/multiple-primary-key/create/create-response.json",
+                dispatcher
         );
     }
 

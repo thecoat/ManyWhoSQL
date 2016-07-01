@@ -1,6 +1,6 @@
 package com.manywho.services.sql.suites.sqlserver.data;
-import com.manywho.services.sql.BaseFunctionalTest;
 import com.manywho.services.sql.DbConfigurationTest;
+import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.json.JSONException;
 import org.junit.After;
@@ -11,7 +11,7 @@ import org.sql2o.Connection;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class DateTimeTest extends BaseFunctionalTest {
+public class DateTimeTest extends ServiceFunctionalTest {
     @Before
     public void setupDatabase() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("sqlserver");
@@ -25,7 +25,6 @@ public class DateTimeTest extends BaseFunctionalTest {
                     "id integer NOT NULL," +
                     "datetime datetime," +
                     "datetime2 datetime2," +
-
                     "CONSTRAINT timetest_id_pk PRIMARY KEY (id)" +
                     ");";
 
@@ -38,12 +37,11 @@ public class DateTimeTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
-
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
                 "suites/sqlserver/dates/load/request.json",
                 configurationParameters(),
-                "suites/sqlserver/dates/load/response.json"
-        );
+                "suites/sqlserver/dates/load/response.json",
+                dispatcher);
     }
 
     @Test
@@ -66,10 +64,12 @@ public class DateTimeTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.saveDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.saveDataRequestAndAssertion("/data",
                 "suites/sqlserver/dates/save/request-dates.json",
                 configurationParameters(),
-                "suites/sqlserver/dates/save/response-dates.json");
+                "suites/sqlserver/dates/save/response-dates.json",
+                dispatcher
+        );
     }
 
     @After

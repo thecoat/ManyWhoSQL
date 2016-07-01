@@ -1,5 +1,6 @@
 package com.manywho.services.sql.services;
 
+import com.google.common.collect.Lists;
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.api.draw.elements.type.TypeElement;
 import com.manywho.sdk.api.draw.elements.type.TypeElementBinding;
@@ -7,7 +8,6 @@ import com.manywho.sdk.api.draw.elements.type.TypeElementProperty;
 import com.manywho.sdk.api.draw.elements.type.TypeElementPropertyBinding;
 import com.manywho.sdk.api.run.elements.type.Property;
 import com.manywho.services.sql.entities.TableMetadata;
-import jersey.repackaged.com.google.common.collect.Lists;
 import org.sql2o.data.Table;
 
 import javax.inject.Inject;

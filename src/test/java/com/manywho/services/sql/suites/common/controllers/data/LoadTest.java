@@ -1,13 +1,13 @@
 package com.manywho.services.sql.suites.common.controllers.data;
 
-import com.manywho.services.sql.BaseFunctionalTest;
+import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 
-public class LoadTest extends BaseFunctionalTest {
+public class LoadTest extends ServiceFunctionalTest {
 
     @Before
     public void setupDatabase() throws Exception {
@@ -31,10 +31,11 @@ public class LoadTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
                 "suites/common/data/load/by-external-id/load-request.json",
                 configurationParameters(),
-                "suites/common/data/load/by-external-id/load-response.json"
+                "suites/common/data/load/by-external-id/load-response.json",
+                dispatcher
         );
     }
 
@@ -49,10 +50,11 @@ public class LoadTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
                 "suites/common/data/load/by-filter/equal-and-like/load-request.json",
                 configurationParameters(),
-                "suites/common/data/load/by-filter/equal-and-like/load-response.json"
+                "suites/common/data/load/by-filter/equal-and-like/load-response.json",
+                dispatcher
         );
     }
 
@@ -67,10 +69,11 @@ public class LoadTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
                 "suites/common/data/load/by-filter/equal-or-like/load-request.json",
                 configurationParameters(),
-                "suites/common/data/load/by-filter/equal-or-like/load-response.json"
+                "suites/common/data/load/by-filter/equal-or-like/load-response.json",
+                dispatcher
         );
     }
 
@@ -87,10 +90,11 @@ public class LoadTest extends BaseFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
 
-        DefaultApiRequest.loadDataRequestAndAssertion(target("/data"),
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
                 "suites/common/data/load/by-filter/offset-and-limit/load-offset-request.json",
                 configurationParameters(),
-                "suites/common/data/load/by-filter/offset-and-limit/load-offset-response.json"
+                "suites/common/data/load/by-filter/offset-and-limit/load-offset-response.json",
+                dispatcher
         );
     }
 
