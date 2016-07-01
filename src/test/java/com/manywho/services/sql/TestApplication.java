@@ -36,6 +36,6 @@ public class TestApplication extends ServiceApplication {
             }
         });
 
-        this.initialize("com.manywho.services.sql");
+        this.initialize();
     }
 }
