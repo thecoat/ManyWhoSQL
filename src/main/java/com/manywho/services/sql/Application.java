@@ -33,7 +33,6 @@ public class Application extends ServiceApplication {
                 bind(QueryParameterService.class).in(Singleton.class);
                 bind(TypeProvider.class).to(RawTypeProvider.class);
                 bind(MobjectUtil.class);
-
             }
         });
 
