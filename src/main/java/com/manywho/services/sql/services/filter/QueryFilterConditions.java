@@ -6,10 +6,12 @@ import com.healthmarketscience.sqlbuilder.custom.postgresql.PgLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
+import com.manywho.services.sql.entities.TableMetadata;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class QueryFilterConditions {
     public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties ) {
@@ -72,30 +74,18 @@ public class QueryFilterConditions {
         }
         switch (databaseType) {
             case "postgresql":
-                if(offset > 0) {
                     selectQuery.addCustomization(new PgOffsetClause(offset));
-                }
-
-                if( limit > 0) {
                     selectQuery.addCustomization(new PgLimitClause(limit));
-                }
 
                 break;
             case "mysql":
-                if(offset > 0 || limit > 0) {
                     selectQuery.addCustomization(new MysLimitClause(offset, limit));
-                }
 
                 break;
             case "sqlserver":
-                if(offset > 0) {
                     selectQuery.setOffset(offset);
-                }
-
-                if( limit > 0) {
                     //selectQuery.addCustomization(new MssTopClause(limit));
                     selectQuery.setFetchNext(limit);
-                }
 
                 break;
             // add oracle or any other jdbc supported database
@@ -104,18 +94,34 @@ public class QueryFilterConditions {
         }
     }
 
-    public void addOrderBy(SelectQuery selectQuery, String propertyName, String direction) {
+    /**
+     * It will order by orderByPropertyName, if this field is empty will order by the primary Keys
+     *
+     * @param selectQuery
+     * @param orderByPropertyName
+     * @param direction
+     * @param tableMetadata
+     */
+    public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, String direction, TableMetadata tableMetadata) {
+        List<String> properties;
 
-        if (StringUtils.isBlank(propertyName)) {
-            return;
+        if (StringUtils.isBlank(orderByPropertyName)) {
+            properties = tableMetadata.getPrimaryKeyNames();
+        } else {
+            properties = new ArrayList<>();
+            properties.add(orderByPropertyName);
         }
 
-        switch(direction) {
-            case "DESC":
-                selectQuery.addCustomOrdering(new CustomSql(propertyName), OrderObject.Dir.DESCENDING);
-                break;
-            default:
-                selectQuery.addCustomOrdering(new CustomSql(propertyName), OrderObject.Dir.ASCENDING);
+        OrderObject.Dir typeDirection;
+
+        if (Objects.equals(direction, "DESC")) {
+            typeDirection = OrderObject.Dir.DESCENDING;
+        } else {
+            typeDirection = OrderObject.Dir.ASCENDING;
+        }
+
+        for (String property: properties) {
+            selectQuery.addCustomOrdering(new CustomSql(property), typeDirection);
         }
     }
 }

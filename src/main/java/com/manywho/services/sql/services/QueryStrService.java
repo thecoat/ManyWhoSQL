@@ -62,15 +62,16 @@ public class QueryStrService {
         return  insertQuery.validate().toString();
     }
 
-    public String getSqlFromFilter(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter) {
+    public String getSqlFromFilter(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter, TableMetadata tableMetadata) {
 
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
                 .addCustomFromTable(scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(), configuration.getDatabaseSchema(), objectDataType.getDeveloperName()));
 
         queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
         queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType());
-        queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType());
         queryFilterConditions.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
+
+        queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType(), tableMetadata);
 
         return selectQuery.validate().toString();
     }
