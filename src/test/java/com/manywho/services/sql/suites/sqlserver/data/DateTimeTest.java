@@ -30,7 +30,6 @@ public class DateTimeTest extends ServiceFunctionalTest {
 
             connection.createQuery(sqlCreate).executeUpdate();
 
-            // todo not suported datetimeoffset
             String sql = "INSERT INTO " + scapeTableName("timetest") + "(id, datetime, datetime2) VALUES " +
                                                      "('1', '2007-05-08 12:35:29.123', '2007-05-08 12:35:29. 1234567');";
 

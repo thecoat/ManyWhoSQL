@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class MetadataService {
 
@@ -62,12 +63,12 @@ public class MetadataService {
             try {
                 tableMetadata.setColumn(
                         rsColumnsMetadata.getString(4),
-                        ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5))
+                        ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5), rsColumnsMetadata.getString(6))
                 );
 
                 tableMetadata.setColumnsDatabaseType(
                         rsColumnsMetadata.getString(4),
-                       addSpecificTypes(rsColumnsMetadata.getInt(5))
+                        addDatabaseSpecificTypes(rsColumnsMetadata.getInt(5),rsColumnsMetadata.getString(6) )
                 );
 
             } catch (DataBaseTypeNotSupported e) {
@@ -76,10 +77,16 @@ public class MetadataService {
         }
     }
 
-    private String addSpecificTypes(int type) {
+    private String addDatabaseSpecificTypes(int type, String databaseSpecificType) {
         switch(type){
-            case  ContentTypeUtil.SQL_SERVER_DATETIMEOFFSET:
+            case ContentTypeUtil.SQL_SERVER_DATETIMEOFFSET:
                 return ContentTypeUtil.SQL_SERVER_dATETIMEOFFSET_TEXT;
+            case ContentTypeUtil.POSTGRESQL_UUID:
+                if (Objects.equals(databaseSpecificType, ContentTypeUtil.POSTGRESQL_UUID_TEXT)) {
+                    return ContentTypeUtil.POSTGRESQL_UUID_TEXT;
+                } else {
+                    return JDBCType.valueOf(type).getName();
+                }
             default:
                 return JDBCType.valueOf(type).getName();
         }

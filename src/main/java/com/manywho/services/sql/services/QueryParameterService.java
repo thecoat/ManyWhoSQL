@@ -8,6 +8,7 @@ import org.sql2o.Query;
 
 import java.sql.JDBCType;
 import java.text.ParseException;
+import java.util.UUID;
 
 public class QueryParameterService {
     /**
@@ -28,6 +29,8 @@ public class QueryParameterService {
             case ContentTypeUtil.SQL_SERVER_dATETIMEOFFSET_TEXT:
                 DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
                 return query.addParameter(paramName,  parser.parseDateTime(parameterValue));
+            case ContentTypeUtil.POSTGRESQL_UUID_TEXT:
+                return query.addParameter(paramName, UUID.fromString(parameterValue));
             default:
                 break;
         }

@@ -4,20 +4,25 @@ import com.manywho.sdk.api.ContentType;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 
 import java.sql.Types;
+import java.util.Objects;
 
 public class ContentTypeUtil {
-   public static final int SQL_SERVER_DATETIMEOFFSET = -155;
+    public static final int SQL_SERVER_DATETIMEOFFSET = -155;
     public static final String SQL_SERVER_dATETIMEOFFSET_TEXT = "datetimeoffset";
 
+    // UUID is detected like OTHER type by jdbc
+    public static final int POSTGRESQL_UUID = 1111;
+    public static final String POSTGRESQL_UUID_TEXT = "uuid";
     /**
      * Return the com.manywho.sdk.apy.ContentType for a java.sql.Types it will throw an exception if the type is not
      * supported
      *
      * @param  int types
+     * @param databaseSpecificType
      * @return ContentType
      * @throws Exception
      */
-    public static ContentType createFromSqlType(int types) throws DataBaseTypeNotSupported {
+    public static ContentType createFromSqlType(int types, String databaseSpecificType) throws DataBaseTypeNotSupported {
         switch(types) {
             case Types.BIT:
                 throw new DataBaseTypeNotSupported("BIT");
@@ -81,8 +86,11 @@ public class ContentTypeUtil {
                 throw new DataBaseTypeNotSupported("NULL");
 
             case Types.OTHER:
-                throw new DataBaseTypeNotSupported("OTHER");
-
+                if(Objects.equals(databaseSpecificType, POSTGRESQL_UUID_TEXT)) {
+                    return ContentType.String;
+                } else {
+                    throw new DataBaseTypeNotSupported("OTHER");
+                }
             case Types.JAVA_OBJECT:
                 throw new DataBaseTypeNotSupported("JAVA_OBJECT");
 
