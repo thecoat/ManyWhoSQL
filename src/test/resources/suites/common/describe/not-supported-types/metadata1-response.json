@@ -50,6 +50,13 @@
     "typeElementDeveloperName": null,
     "ordinal": 0,
     "required": true
+  }, {
+    "developerName": "Use SSL",
+    "contentValue": null,
+    "contentType": "ContentBoolean",
+    "typeElementDeveloperName": null,
+    "ordinal": 0,
+    "required": true
   }],
   "providesAutoBinding": false,
   "providesDatabase": true,

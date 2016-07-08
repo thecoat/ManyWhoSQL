@@ -85,6 +85,17 @@
       "contentValue": "postgres",
       "contentType": "ContentString",
       "objectData": null
+    },
+    {
+      "valueElementId": null,
+      "typeElementId": null,
+      "typeElementPropertyId": null,
+      "developerName": "Use SSL",
+      "typeElementDeveloperName": null,
+      "typeElementPropertyDeveloperName": null,
+      "contentValue": "false",
+      "contentType": null,
+      "objectData": null
     }
   ],
   "command": null,

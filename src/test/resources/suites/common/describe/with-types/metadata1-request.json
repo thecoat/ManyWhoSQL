@@ -78,6 +78,17 @@
             "contentValue": "{{schema}}",
             "contentType": null,
             "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
+            "developerName": "Use SSL",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "false",
+            "contentType": null,
+            "objectData": null
         }
     ]
 }

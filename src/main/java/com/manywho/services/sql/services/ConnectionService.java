@@ -40,12 +40,30 @@ public class ConnectionService {
             connectionStringFormat = CONNECTION_STRING_FORMAT_SQLSERVER;
         }
 
+        if(serviceConfiguration.getUseSsl()) {
+            connectionStringFormat = connectionStringFormat + addSecurity(serviceConfiguration.getDatabaseType());
+        }
+
         return new Sql2o(
                 String.format(connectionStringFormat, serviceConfiguration.getHost(), serviceConfiguration.getPort(), serviceConfiguration.getDatabaseName()),
                 serviceConfiguration.getUsername(),
                 serviceConfiguration.getPassword()
         );
     }
+
+    private String addSecurity(String databaseType) throws Exception {
+        switch (databaseType) {
+            case DATABASE_TYPE_POSTGRESQL:
+                return "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+            case DATABASE_TYPE_MYSQL:
+                return ";SSL Mode=Required";
+            case DATABASE_TYPE_SQLSERVER:
+                return ";integratedSecurity=true;encrypt=true;trustServerCertificate=true";
+            default:
+                throw new Exception("database type " + databaseType + "not supported");
+        }
+    }
+
 
     private void checkDatabaseTypeSupported(ServiceConfiguration serviceConfiguration) throws Exception {
         switch(serviceConfiguration.getDatabaseType()) {

@@ -25,6 +25,9 @@ public class ServiceConfiguration implements Configuration {
     @Configuration.Value(name="Database Schema", contentType= ContentType.String)
     private String databaseSchema;
 
+    @Configuration.Value(name="Use SSL", contentType= ContentType.Boolean)
+    private boolean useSsl;
+
     public String getUsername() {
         return username;
     }
@@ -51,5 +54,9 @@ public class ServiceConfiguration implements Configuration {
 
     public String getDatabaseSchema() {
         return databaseSchema;
+    }
+
+    public Boolean getUseSsl() {
+        return useSsl;
     }
 }
