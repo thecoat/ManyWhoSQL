@@ -12,4 +12,4 @@ before_install:
   - mysql -e "create database IF NOT EXISTS test;" -uroot
   - wget -o /tmp/sqljdbc.tar.gz https://download.microsoft.com/download/0/2/A/02AAE597-3865-456C-AE7F-613F99F850A8/sqljdbc_4.2.6420.100_enu.tar.gz
   - tar -xvf /tmp/sqljdbc.tar.gz -C /tmp
-  - mvn install:install-file -Dfile=/sqljdbc_4.2/enu/sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
+  - mvn install:install-file -Dfile=/tmp/sqljdbc_4.2/enu/sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
