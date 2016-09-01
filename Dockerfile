@@ -14,6 +14,6 @@ RUN curl -o /tmp/sqljdbc.tar.gz https://download.microsoft.com/download/0/2/A/02
 
 ADD . /usr/src/app
 
-RUN mvn -s /usr/share/maven/ref/settings-docker.xml install
+RUN mvn -s /usr/share/maven/ref/settings-docker.xml install -DskipTests=true
 
 CMD ["java", "-Xmx600m", "-jar", "/usr/src/app/target/sql-1.0-SNAPSHOT.jar"]
