@@ -20,12 +20,12 @@ public abstract class ServiceFunctionalTest {
 
     @BeforeClass
     public static void setUp() {
-        Injector injector = Guice.createInjector();
-        TestApplication application = new TestApplication(injector);
+        TestApplication application = new TestApplication();
+        application.addModule(new ApplicationSqlModule());
+        application.initialize("com.manywho.services.sql");
 
 
         objectMapper = new ObjectMapperContextResolver().getContext(null);
-
         dispatcher = MockDispatcherFactory.createDispatcher();
 
         for (Class<?> klass : application.getClasses()) {
@@ -41,6 +41,7 @@ public abstract class ServiceFunctionalTest {
                 dispatcher.getRegistry().addSingletonResource(singleton);
             }
         }
+
     }
 
     protected Sql2o getSql2o() throws ClassNotFoundException {
