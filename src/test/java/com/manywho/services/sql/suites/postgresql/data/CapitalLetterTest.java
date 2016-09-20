@@ -79,7 +79,6 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
         try (Connection connection = getSql2o().open()) {
             deleteTableIfExist("Country", connection);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

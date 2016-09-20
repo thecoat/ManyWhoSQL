@@ -10,6 +10,9 @@ public class DbConfigurationTest {
     static public String schemaForTest ;
     static public String hostForTest;
 
+    static public String userName;
+    static public String password;
+
     static public void setPorperties(String databaseType) {
         DbConfigurationTest.initialized = true;
         DbTestConfigurationProperties serviceConfigurationProperties = new DbTestConfigurationProperties();
@@ -19,6 +22,9 @@ public class DbConfigurationTest {
         DbConfigurationTest.schemaForTest = serviceConfigurationProperties.get(databaseType + "_schema");
         DbConfigurationTest.hostForTest = serviceConfigurationProperties.get(databaseType + "_host");
         DbConfigurationTest.databaseNameForTest = serviceConfigurationProperties.get(databaseType + "_databaseName");
+
+        DbConfigurationTest.userName = serviceConfigurationProperties.get(databaseType + "_userName");
+        DbConfigurationTest.password = serviceConfigurationProperties.get(databaseType + "_password");
     }
 
     static public void setPropertiesIfNotInitialized(String databaseType) {
@@ -32,6 +38,9 @@ public class DbConfigurationTest {
             DbConfigurationTest.schemaForTest = serviceConfigurationProperties.get(databaseType + "_schema");
             DbConfigurationTest.hostForTest = serviceConfigurationProperties.get(databaseType + "_host");
             DbConfigurationTest.databaseNameForTest = serviceConfigurationProperties.get(databaseType + "_databaseName");
+
+            DbConfigurationTest.userName = serviceConfigurationProperties.get(databaseType + "_userName");
+            DbConfigurationTest.password = serviceConfigurationProperties.get(databaseType + "_password");
         }
     }
 }

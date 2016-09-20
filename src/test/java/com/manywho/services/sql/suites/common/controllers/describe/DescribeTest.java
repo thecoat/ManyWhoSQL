@@ -109,7 +109,6 @@ public class DescribeTest extends ServiceFunctionalTest {
             deleteTableIfExist("country", connection);
             deleteTableIfExist("timetest", connection);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

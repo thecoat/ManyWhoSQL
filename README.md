@@ -15,6 +15,21 @@ This service is under active development and is not stable.
 If you need to run your own instance of the service (e.g. for compliance reasons), it's easy to spin up following these
 instructions:
 
+#### Building
+
+To build the service, you will need to have Maven 3 and a Java 8 implementation installed.
+Also for Sql Server you will need to install manually the drivers, download [the drivers](https://www.microsoft.com/en-gb/download/details.aspx?id=11774) from Microsoft and after install it in you machine using maven:
+
+```bash
+mvn install:install-file -Dfile=sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
+```
+
+Now you can build the runnable shaded JAR:
+
+```bash
+$ mvn clean package -DskipTests=true
+```
+
 #### Testing
 
 You will need a database for the functional test of this service.
@@ -25,34 +40,24 @@ And create a user with username "postgres" and password "admin".
 If you need to test with a different database you can change these parameters, create a new copy of configuration.properties.dist with name configuration.properties
 modify your configuration in that file
 
-
 Example of running all the suites with all the databases (you should have all the databases configured and running before execute this command)
 
 ````
-mvn clean test -Dtest=AllTestSuite
+mvn clean test 
 ````
 
-#### Building
+Or you can execute the test for a specific database
 
-To build the service, you will need to have Maven 3 and a Java 8 implementation installed.
-Also for Sql Server you will need to install manually the drivers, download the drivers from
-Microsoft and after install it in you machine using maven:
-
-```bash
-mvn install:install-file -Dfile=sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
-```
-
-Now you can build the runnable shaded JAR:
-
-```bash
-$ mvn clean package
-```
+````
+mvn clean test -Dtest=MySqlTestSuite
+mvn clean test -Dtest=PostgreSqlTestSuite
+mvn clean test -Dtest=SqlServerTestSuite
+````
 
 #### Running
 
 The service is a Jersey JAX-RS application, that by default is run under the Grizzly2 server on port 8080 (if you use 
 the packaged JAR).
-
 
 ##### Defaults
 

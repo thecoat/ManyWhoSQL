@@ -16,7 +16,7 @@
       "developerName": "Password",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "admin",
+      "contentValue": "{{password}}",
       "contentType": null,
       "objectData": null
     },
@@ -82,7 +82,7 @@
       "developerName": "Username",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "postgres",
+      "contentValue": "{{userName}}",
       "contentType": null,
       "objectData": null
     },

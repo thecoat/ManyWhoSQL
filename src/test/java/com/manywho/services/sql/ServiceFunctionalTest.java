@@ -1,6 +1,7 @@
 package com.manywho.services.sql;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.services.jaxrs.resolvers.ObjectMapperContextResolver;
+import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.junit.BeforeClass;
@@ -39,7 +40,6 @@ public abstract class ServiceFunctionalTest {
                 dispatcher.getRegistry().addSingletonResource(singleton);
             }
         }
-
     }
 
     protected Sql2o getSql2o() throws ClassNotFoundException {
@@ -70,13 +70,24 @@ public abstract class ServiceFunctionalTest {
         replacements.put("{{databaseType}}", DbConfigurationTest.databaseTypeForTest);
         replacements.put("{{schema}}", DbConfigurationTest.schemaForTest);
         replacements.put("{{host}}", DbConfigurationTest.hostForTest);
+        replacements.put("{{userName}}", DbConfigurationTest.userName);
+        replacements.put("{{password}}", DbConfigurationTest.password);
 
         return  replacements;
     }
 
     protected void deleteTableIfExist(String tableName, Connection connection){
         try {
-            connection.createQuery("DROP TABLE "+ scapeTableName(tableName)).executeUpdate();
+            String sql;
+            switch (DbConfigurationTest.databaseTypeForTest) {
+                case "sqlserver":
+                    sql = "DROP TABLE "+ scapeTableName(tableName);
+                    break;
+                default:
+                    sql = "DROP TABLE IF EXISTS "+ scapeTableName(tableName);
+            }
+
+            connection.createQuery(sql).executeUpdate();
         } catch (Exception ex){
         }
     }

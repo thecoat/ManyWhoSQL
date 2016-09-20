@@ -105,7 +105,6 @@ public class LoadTest extends ServiceFunctionalTest {
         try (Connection connection = getSql2o().open()) {
             deleteTableIfExist("country", connection);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }

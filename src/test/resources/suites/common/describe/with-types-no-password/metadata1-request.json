@@ -53,7 +53,7 @@
             "developerName": "Username",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "postgres",
+            "contentValue": "{{userName}}",
             "contentType": null,
             "objectData": null
         },

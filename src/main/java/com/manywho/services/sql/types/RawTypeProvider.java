@@ -36,7 +36,6 @@ public class RawTypeProvider implements TypeProvider {
                 return describeManager.getListTypeElementFromTableMetadata(serviceConfiguration);
             }
         } catch (Exception e) {
-            e.printStackTrace();
             throw new RuntimeException(e.getMessage());
         }
 
