@@ -4,6 +4,7 @@ import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.custom.mysql.MysLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
+import com.manywho.sdk.api.ComparisonType;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import com.manywho.services.sql.entities.TableMetadata;
@@ -24,17 +25,23 @@ public class QueryFilterConditions {
         }
     }
 
-    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, String comparisonType, String databaseType) {
+    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, ComparisonType comparisonType, String databaseType) {
         ArrayList<Condition> conditions = new ArrayList<>();
         if(whereList == null) return;
+
+        String comparisonTypeLocal = "";
 
         for (ListFilterWhere filterWhere: whereList) {
             conditions.add(getConditionFromFilterElement(filterWhere, databaseType));
         }
 
-        if (StringUtils.equals(comparisonType, "OR")) {
+        if(comparisonType!=null) {
+            comparisonTypeLocal = comparisonType.toString();
+        }
+
+        if (StringUtils.equals(comparisonTypeLocal, "OR")) {
             selectQuery.addCondition(ComboCondition.or(conditions.toArray()));
-        }else if (StringUtils.equals(comparisonType, "AND")) {
+        }else if (StringUtils.equals(comparisonTypeLocal, "AND")) {
             selectQuery.addCondition(ComboCondition.and(conditions.toArray()));
         }
     }

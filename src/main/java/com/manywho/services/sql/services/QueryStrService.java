@@ -68,7 +68,7 @@ public class QueryStrService {
                 .addCustomFromTable(scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(), configuration.getDatabaseSchema(), objectDataType.getDeveloperName()));
 
         queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties(), configuration.getDatabaseType());
-        queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType().toString(), configuration.getDatabaseType());
+        queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType(), configuration.getDatabaseType());
         queryFilterConditions.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
 
         queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType(), tableMetadata, configuration.getDatabaseType());

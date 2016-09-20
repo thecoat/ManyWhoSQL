@@ -1,5 +1,6 @@
 package com.manywho.services.sql.suites.common.controllers.describe;
 
+import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.json.JSONException;
@@ -50,6 +51,28 @@ public class DescribeTest extends ServiceFunctionalTest {
                 "suites/common/describe/with-types/metadata1-request.json",
                 configurationParameters(),
                 "suites/common/describe/with-types/metadata1-response.json",
+                dispatcher
+        );
+    }
+
+    @Test(expected = Exception.class)
+    public void testDescribeWithTypesButNotPassword() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
+        String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+                "id integer NOT NULL," +
+                "name character varying(255)," +
+                "description character varying(1024)," +
+                "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                ");";
+
+        try (Connection connection = getSql2o().open()) {
+            connection.createQuery(sql).executeUpdate();
+        }
+
+        DefaultApiRequest.describeServiceRequestAndAssertion("/metadata",
+                "suites/common/describe/with-types-no-password/metadata1-request.json",
+                configurationParameters(),
+                "suites/common/describe/with-types-no-password/metadata1-response.json",
                 dispatcher
         );
     }
