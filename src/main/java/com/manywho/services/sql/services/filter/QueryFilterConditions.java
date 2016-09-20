@@ -7,6 +7,7 @@ import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import com.manywho.services.sql.entities.TableMetadata;
+import com.manywho.services.sql.utilities.ScapeForTablesUtil;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
@@ -14,21 +15,21 @@ import java.util.List;
 import java.util.Objects;
 
 public class QueryFilterConditions {
-    public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties ) {
+    public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties, String databaseType) {
         if (StringUtils.isNotBlank(search)) {
             String searchTerm = "%" + search + "%";
             for(ObjectDataTypeProperty property: listProperties) {
-                selectQuery.addCondition(BinaryCondition.like(new CustomSql(property.getDeveloperName()), searchTerm));
+                selectQuery.addCondition(BinaryCondition.like(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, property.getDeveloperName())), searchTerm));
             }
         }
     }
 
-    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, String comparisonType) {
+    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, String comparisonType, String databaseType) {
         ArrayList<Condition> conditions = new ArrayList<>();
         if(whereList == null) return;
 
         for (ListFilterWhere filterWhere: whereList) {
-            conditions.add(getConditionFromFilterElement(filterWhere));
+            conditions.add(getConditionFromFilterElement(filterWhere, databaseType));
         }
 
         if (StringUtils.equals(comparisonType, "OR")) {
@@ -38,29 +39,29 @@ public class QueryFilterConditions {
         }
     }
 
-    private BinaryCondition getConditionFromFilterElement(ListFilterWhere filterWhere) {
+    private BinaryCondition getConditionFromFilterElement(ListFilterWhere filterWhere, String databaseType) {
 
         switch (filterWhere.getCriteriaType()) {
             case Equal:
-               return BinaryCondition.equalTo(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue());
+               return BinaryCondition.equalTo(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), filterWhere.getContentValue());
             case NotEqual:
-               return BinaryCondition.notEqualTo(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue());
+               return BinaryCondition.notEqualTo(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), filterWhere.getContentValue());
             case GreaterThan:
-               return BinaryCondition.greaterThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), false);
+               return BinaryCondition.greaterThan(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), filterWhere.getContentValue(), false);
             case GreaterThanOrEqual:
-               return BinaryCondition.greaterThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), true);
+               return BinaryCondition.greaterThan(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), filterWhere.getContentValue(), true);
             case LessThan:
-               return BinaryCondition.lessThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), false);
+               return BinaryCondition.lessThan(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), filterWhere.getContentValue(), false);
             case LessThanOrEqual:
-               return BinaryCondition.lessThan(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue(), true);
+               return BinaryCondition.lessThan(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), filterWhere.getContentValue(), true);
             case Contains:
-               return BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), "%" + filterWhere.getContentValue() + "%");
+               return BinaryCondition.like(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), "%" + filterWhere.getContentValue() + "%");
             case StartsWith:
-               return BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), filterWhere.getContentValue() + "%");
+               return BinaryCondition.like(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), filterWhere.getContentValue() + "%");
             case EndsWith:
-               return BinaryCondition.like(new CustomSql(filterWhere.getColumnName()), "%" + filterWhere.getContentValue());
+               return BinaryCondition.like(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), "%" + filterWhere.getContentValue());
             case IsEmpty:
-               return BinaryCondition.equalTo(new CustomSql(filterWhere.getColumnName()), BinaryCondition.EMPTY);
+               return BinaryCondition.equalTo(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, filterWhere.getColumnName())), BinaryCondition.EMPTY);
             default:
                 break;
         }
@@ -101,8 +102,9 @@ public class QueryFilterConditions {
      * @param orderByPropertyName
      * @param direction
      * @param tableMetadata
+     * @param databaseType
      */
-    public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, String direction, TableMetadata tableMetadata) {
+    public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, String direction, TableMetadata tableMetadata, String databaseType) {
         List<String> properties;
 
         if (StringUtils.isBlank(orderByPropertyName)) {
@@ -121,7 +123,7 @@ public class QueryFilterConditions {
         }
 
         for (String property: properties) {
-            selectQuery.addCustomOrdering(new CustomSql(property), typeDirection);
+            selectQuery.addCustomOrdering(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, property)), typeDirection);
         }
     }
 }

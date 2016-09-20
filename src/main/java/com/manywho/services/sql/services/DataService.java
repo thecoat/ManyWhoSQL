@@ -51,7 +51,7 @@ public class DataService {
 
     public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String sqlSearch, ServiceConfiguration configuration) throws SQLException {
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(sqlSearch);
+            Query query = con.createQuery(sqlSearch).setCaseSensitive(true);
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata, configuration);
         }
@@ -69,7 +69,7 @@ public class DataService {
                         query);
             }
 
-            query.executeUpdate();
+            query.setCaseSensitive(true).executeUpdate();
 
             return mObject;
         }
@@ -85,7 +85,7 @@ public class DataService {
                         tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
             }
             mObject.setExternalId(mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyNames(), mObject.getProperties()));
-            query.executeUpdate();
+            query.setCaseSensitive(true).executeUpdate();
 
             return mObject;
         }

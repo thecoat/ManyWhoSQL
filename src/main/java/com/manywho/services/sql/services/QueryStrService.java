@@ -29,7 +29,7 @@ public class QueryStrService {
                 .addCustomFromTable(scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(),tableMetadata.getSchemaName(), tableMetadata.getTableName()));
 
         for (String key: primaryKeyNames) {
-            selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(key), new CustomSql(":" + key)));
+            selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(ScapeForTablesUtil.scapeCollumnName(configuration.getDatabaseType(),key)), new CustomSql(":" + key)));
         }
 
         return selectQuery.validate().toString();
@@ -41,11 +41,11 @@ public class QueryStrService {
                 scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(), tableMetadata.getSchemaName(), tableMetadata.getTableName()));
 
         for(Property p : mObject.getProperties()) {
-            updateQuery.addCustomSetClause(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
+            updateQuery.addCustomSetClause(new CustomSql(ScapeForTablesUtil.scapeCollumnName(configuration.getDatabaseType(),p.getDeveloperName())), new CustomSql(":" + p.getDeveloperName()));
         }
 
         for (String key: primaryKeyNames) {
-            updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(key), new CustomSql(":" + key)));
+            updateQuery.addCondition(BinaryCondition.equalTo(new CustomSql(ScapeForTablesUtil.scapeCollumnName(configuration.getDatabaseType(),key)), new CustomSql(":" + key)));
         }
 
         return updateQuery.validate().toString();
@@ -56,7 +56,7 @@ public class QueryStrService {
                 scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(), tableMetadata.getSchemaName(), tableMetadata.getTableName()));
 
         for(Property p : mObject.getProperties()) {
-            insertQuery.addCustomColumn(new CustomSql(p.getDeveloperName()), new CustomSql(":" + p.getDeveloperName()));
+            insertQuery.addCustomColumn(new CustomSql(ScapeForTablesUtil.scapeCollumnName(configuration.getDatabaseType(),p.getDeveloperName())), new CustomSql(":" + p.getDeveloperName()));
         }
 
         return  insertQuery.validate().toString();
@@ -67,11 +67,11 @@ public class QueryStrService {
         SelectQuery selectQuery = new SelectQuery().addAllColumns()
                 .addCustomFromTable(scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(), configuration.getDatabaseSchema(), objectDataType.getDeveloperName()));
 
-        queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties());
-        queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType().toString());
+        queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties(), configuration.getDatabaseType());
+        queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType().toString(), configuration.getDatabaseType());
         queryFilterConditions.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
 
-        queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType(), tableMetadata);
+        queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(), filter.getOrderByDirectionType(), tableMetadata, configuration.getDatabaseType());
 
         return selectQuery.validate().toString();
     }

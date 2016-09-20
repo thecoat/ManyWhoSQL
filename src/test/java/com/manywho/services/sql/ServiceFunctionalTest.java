@@ -1,7 +1,5 @@
 package com.manywho.services.sql;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.manywho.sdk.services.jaxrs.resolvers.ObjectMapperContextResolver;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
@@ -84,7 +82,7 @@ public abstract class ServiceFunctionalTest {
     }
 
     public String scapeTableName( String tableName) {
-        String format = "%s.%s";
+        String format = "%s.\"%s\"";
 
         if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "mysql")){
             format = "`%s`.`%s`";

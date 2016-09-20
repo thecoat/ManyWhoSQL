@@ -37,9 +37,9 @@ public class DateTimeTest extends ServiceFunctionalTest {
         }
 
         DefaultApiRequest.loadDataRequestAndAssertion("/data",
-                "suites/sqlserver/dates/load/request.json",
+                "suites/sqlserver/load/request.json",
                 configurationParameters(),
-                "suites/sqlserver/dates/load/response.json",
+                "suites/sqlserver/load/response.json",
                 dispatcher);
     }
 
@@ -64,9 +64,9 @@ public class DateTimeTest extends ServiceFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
-                "suites/sqlserver/dates/save/request-dates.json",
+                "suites/sqlserver/save/request-dates.json",
                 configurationParameters(),
-                "suites/sqlserver/dates/save/response-dates.json",
+                "suites/sqlserver/save/response-dates.json",
                 dispatcher
         );
     }

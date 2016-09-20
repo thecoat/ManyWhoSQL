@@ -2,6 +2,7 @@ package com.manywho.services.sql.services;
 
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.utilities.ContentTypeUtil;
+import com.manywho.services.sql.utilities.ScapeForTablesUtil;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sql2o.Query;
@@ -22,7 +23,8 @@ public class QueryParameterService {
      * @return
      * @throws DataBaseTypeNotSupported
      */
-    public Query addParameterValueToTheQuery(String paramName, String parameterValue, String databaseType, Query query) throws DataBaseTypeNotSupported, ParseException {
+    public Query addParameterValueToTheQuery(String paramName, String parameterValue, String databaseType, Query query)
+            throws DataBaseTypeNotSupported, ParseException {
 
         // cases out of the jdbc standard
         switch(databaseType) {
