@@ -72,6 +72,7 @@ public abstract class ServiceFunctionalTest {
         replacements.put("{{host}}", DbConfigurationTest.hostForTest);
         replacements.put("{{userName}}", DbConfigurationTest.userName);
         replacements.put("{{password}}", DbConfigurationTest.password);
+        replacements.put("{{databaseName}}", DbConfigurationTest.databaseNameForTest);
 
         return  replacements;
     }

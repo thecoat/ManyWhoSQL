@@ -20,7 +20,7 @@
             "developerName": "Database Name",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
-            "contentValue": "service-sql",
+            "contentValue": "{{databaseName}}",
             "contentType": null,
             "objectData": null
         },
