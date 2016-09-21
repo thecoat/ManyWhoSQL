@@ -4,6 +4,7 @@ import java.util.Properties;
 
 public class DbTestConfigurationProperties {
     protected Properties properties;
+    protected Boolean usingPropertiesFile = true;
 
     public DbTestConfigurationProperties() {
         try {
@@ -12,7 +13,7 @@ public class DbTestConfigurationProperties {
             if(getClass().getClassLoader().getResourceAsStream("configuration.properties") != null) {
                 properties.load(getClass().getClassLoader().getResourceAsStream("configuration.properties"));
             } else {
-                properties.load(getClass().getClassLoader().getResourceAsStream("configuration.properties.dist"));
+                usingPropertiesFile = false;
             }
 
         } catch (Exception exception) {
@@ -21,7 +22,11 @@ public class DbTestConfigurationProperties {
     }
 
     public String get(String key) {
-        return properties.getProperty(key);
+        if (usingPropertiesFile) {
+            return properties.getProperty(key);
+        } else {
+            return System.getenv(key);
+        }
     }
 
     public boolean has(String key) {
