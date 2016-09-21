@@ -15,3 +15,4 @@ before_install:
   - mvn install:install-file -Dfile=/tmp/sqljdbc_4.2/enu/sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
 script:
   - mvn clean package -DskipTests=true
+  - mvn test -Dtest=UnitTestSuite
