@@ -32,13 +32,8 @@ $ mvn clean package -DskipTests=true
 
 #### Testing
 
-You will need a database for the functional test of this service.
-Create a database named service-sql with a schema called servicesql.
-Also you will need to know the host and port of the server hosting the database.
-And create a user with username "postgres" and password "admin".
-
-If you need to test with a different database you can change these parameters, create a new copy of configuration.properties.dist with name configuration.properties
-modify your configuration in that file
+Copy the file src\test\resources\configuration.properties.dist and paste it with name src\test\resources\configuration.properties
+Your configuration of the database for test is the one that you have in configuration.properties
 
 Example of running all the suites with all the databases (you should have all the databases configured and running before execute this command)
 
