@@ -6,6 +6,17 @@
             "valueElementId": null,
             "typeElementId": null,
             "typeElementPropertyId": null,
+            "developerName": "Password",
+            "typeElementDeveloperName": null,
+            "typeElementPropertyDeveloperName": null,
+            "contentValue": "{{password}}",
+            "contentType": null,
+            "objectData": null
+        },
+        {
+            "valueElementId": null,
+            "typeElementId": null,
+            "typeElementPropertyId": null,
             "developerName": "Database Type",
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
@@ -21,17 +32,6 @@
             "typeElementDeveloperName": null,
             "typeElementPropertyDeveloperName": null,
             "contentValue": "{{databaseName}}",
-            "contentType": null,
-            "objectData": null
-        },
-        {
-            "valueElementId": null,
-            "typeElementId": null,
-            "typeElementPropertyId": null,
-            "developerName": "Port",
-            "typeElementDeveloperName": null,
-            "typeElementPropertyDeveloperName": null,
-            "contentValue": "{{port}}",
             "contentType": null,
             "objectData": null
         },

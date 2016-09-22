@@ -29,10 +29,10 @@ public class TableMetadata {
         this.propertyAutoincrement = new HashMap<>();
     }
 
-    public void setColumn(String columnName, ContentType columnType, String autoincrement) {
+    public void setColumn(String columnName, ContentType columnType, Boolean autoincrement) {
         columns.put(columnName, columnType);
 
-        if (Objects.equals(autoincrement, "serial")) {
+        if (autoincrement) {
             propertyAutoincrement.put(columnName, true);
         }else {
             propertyAutoincrement.put(columnName, false);

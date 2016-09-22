@@ -61,10 +61,11 @@ public class MetadataService {
 
         while (rsColumnsMetadata.next()) {
             try {
+                // 6 => "IS_AUTOINCREMENT" but if we use the string is failing in sqlserver
                 tableMetadata.setColumn(
-                        rsColumnsMetadata.getString(4),
-                        ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5), rsColumnsMetadata.getString(6)),
-                        rsColumnsMetadata.getString(6)
+                        rsColumnsMetadata.getString("COLUMN_NAME"),
+                        ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt("DATA_TYPE"), rsColumnsMetadata.getString("TYPE_NAME")),
+                        Objects.equals(rsColumnsMetadata.getString("IS_AUTOINCREMENT"), "YES")
                 );
 
                 tableMetadata.setColumnsDatabaseType(

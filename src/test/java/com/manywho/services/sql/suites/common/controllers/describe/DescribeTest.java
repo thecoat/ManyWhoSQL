@@ -56,7 +56,7 @@ public class DescribeTest extends ServiceFunctionalTest {
     }
 
     @Test(expected = Exception.class)
-    public void testDescribeWithTypesButNotPassword() throws Exception {
+    public void testDescribeWithTypesButNotPort() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
         String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
                 "id integer NOT NULL," +
