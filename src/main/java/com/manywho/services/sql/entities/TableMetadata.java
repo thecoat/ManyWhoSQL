@@ -5,6 +5,7 @@ import com.manywho.sdk.api.ContentType;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * This object contains the metadata information about a table, it is only used internally
@@ -17,6 +18,7 @@ public class TableMetadata {
     private HashMap<String, String> columnsDatabaseType;
     private List<String> primaryKeyName;
     private String schemaName;
+    private HashMap<String, Boolean> propertyAutoincrement;
 
     public TableMetadata(String tableName, String schemaName){
         this.tableName = tableName;
@@ -24,13 +26,25 @@ public class TableMetadata {
         this.columns = new HashMap<>();
         this.primaryKeyName = new ArrayList<>();
         this.columnsDatabaseType = new HashMap<>();
+        this.propertyAutoincrement = new HashMap<>();
     }
 
-    public void setColumn(String columnName, ContentType columnType) {
+    public void setColumn(String columnName, ContentType columnType, String autoincrement) {
         columns.put(columnName, columnType);
+
+        if (Objects.equals(autoincrement, "serial")) {
+            propertyAutoincrement.put(columnName, true);
+        }else {
+            propertyAutoincrement.put(columnName, false);
+        }
+
     }
     public void setColumnsDatabaseType(String columnName, String columnType) {
         columnsDatabaseType.put(columnName, columnType);
+    }
+
+    public Boolean isColumnAutoincrement (String columnName) {
+        return propertyAutoincrement.get(columnName);
     }
 
     public String getTableName() {

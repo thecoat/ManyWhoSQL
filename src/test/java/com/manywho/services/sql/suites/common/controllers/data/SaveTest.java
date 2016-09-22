@@ -12,21 +12,20 @@ public class SaveTest extends ServiceFunctionalTest {
 
     @Before
     public void setupDatabase() throws Exception {
-        DbConfigurationTest.setPropertiesIfNotInitialized("sqlserver");
-
-        try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
-                            "id integer NOT NULL," +
-                            "name character varying(255)," +
-                            "description character varying(1024), " +
-                            "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
-                    ");";
-            connection.createQuery(sql).executeUpdate();
-        }
+        DbConfigurationTest.setPropertiesIfNotInitialized("mysql");
     }
 
     @Test
     public void testCreateData() throws Exception {
+        try (Connection connection = getSql2o().open()) {
+            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+                    "id integer NOT NULL," +
+                    "name character varying(255)," +
+                    "description character varying(1024), " +
+                    "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                    ");";
+            connection.createQuery(sql).executeUpdate();
+        }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
                 "suites/common/data/save/create/create-request.json",
@@ -38,6 +37,16 @@ public class SaveTest extends ServiceFunctionalTest {
 
     @Test
     public void testUpdateData() throws Exception {
+
+        try (Connection connection = getSql2o().open()) {
+            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+                    "id integer NOT NULL," +
+                    "name character varying(255)," +
+                    "description character varying(1024), " +
+                    "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                    ");";
+            connection.createQuery(sql).executeUpdate();
+        }
 
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";

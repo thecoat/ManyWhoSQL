@@ -56,7 +56,9 @@ public class QueryStrService {
                 scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(), tableMetadata.getSchemaName(), tableMetadata.getTableName()));
 
         for(Property p : mObject.getProperties()) {
-            insertQuery.addCustomColumn(new CustomSql(ScapeForTablesUtil.scapeCollumnName(configuration.getDatabaseType(),p.getDeveloperName())), new CustomSql(":" + p.getDeveloperName()));
+            if (!tableMetadata.isColumnAutoincrement(p.getDeveloperName())) {
+                insertQuery.addCustomColumn(new CustomSql(ScapeForTablesUtil.scapeCollumnName(configuration.getDatabaseType(), p.getDeveloperName())), new CustomSql(":" + p.getDeveloperName()));
+            }
         }
 
         return  insertQuery.validate().toString();

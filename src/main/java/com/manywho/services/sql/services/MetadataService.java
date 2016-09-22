@@ -63,7 +63,8 @@ public class MetadataService {
             try {
                 tableMetadata.setColumn(
                         rsColumnsMetadata.getString(4),
-                        ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5), rsColumnsMetadata.getString(6))
+                        ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt(5), rsColumnsMetadata.getString(6)),
+                        rsColumnsMetadata.getString(6)
                 );
 
                 tableMetadata.setColumnsDatabaseType(

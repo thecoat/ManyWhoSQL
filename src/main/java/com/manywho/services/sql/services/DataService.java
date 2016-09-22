@@ -1,15 +1,19 @@
 package com.manywho.services.sql.services;
 
+import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.Property;
+import com.manywho.sdk.services.types.Type;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.factories.MObjectFactory;
 import com.manywho.services.sql.utilities.MobjectUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
+import org.sql2o.data.Table;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
@@ -78,14 +82,32 @@ public class DataService {
     public MObject insert(MObject mObject, Sql2o sql2o, TableMetadata tableMetadata, ServiceConfiguration configuration) throws DataBaseTypeNotSupported, ParseException {
 
         try(Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata, configuration));
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata, configuration), true);
+            String autoIncrement = "";
 
             for(Property p : mObject.getProperties()) {
-                parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
-                        tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
+                if (!tableMetadata.isColumnAutoincrement(p.getDeveloperName())) {
+                    parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
+                            tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
+                } else {
+                    autoIncrement = p.getDeveloperName();
+                }
             }
+
+            Object object = query.setCaseSensitive(true).executeUpdate().getKey();
+
+            if (!StringUtils.isEmpty(autoIncrement)) {
+                List<Property> properties = mObject.getProperties();
+                Property property = new Property();
+                property.setDeveloperName(autoIncrement);
+                property.setContentType(ContentType.Number);
+                property.setContentValue(object.toString());
+                properties.add(property);
+
+                mObject.setProperties(properties);
+            }
+
             mObject.setExternalId(mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyNames(), mObject.getProperties()));
-            query.setCaseSensitive(true).executeUpdate();
 
             return mObject;
         }

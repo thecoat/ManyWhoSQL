@@ -3,6 +3,7 @@ package com.manywho.services.sql.services;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.utilities.ContentTypeUtil;
 import com.manywho.services.sql.utilities.ScapeForTablesUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sql2o.Query;
@@ -45,16 +46,16 @@ public class QueryParameterService {
                 throw new DataBaseTypeNotSupported("BIT");
 
             case TINYINT:
-                return query.addParameter(paramName, Integer.parseInt(parameterValue));
+                return query.addParameter(paramName, getInteger(parameterValue));
 
             case SMALLINT:
-                return query.addParameter(paramName, Integer.parseInt(parameterValue));
+                return query.addParameter(paramName, getInteger(parameterValue));
 
             case INTEGER:
-                return query.addParameter(paramName, Integer.parseInt(parameterValue));
+                return query.addParameter(paramName, getInteger(parameterValue));
 
             case BIGINT:
-                return query.addParameter(paramName, Integer.parseInt(parameterValue));
+                return query.addParameter(paramName, getInteger(parameterValue));
 
             case FLOAT:
                 return query.addParameter(paramName, Float.parseFloat(parameterValue));
@@ -162,6 +163,14 @@ public class QueryParameterService {
 
             default:
                 throw new DataBaseTypeNotSupported(String.valueOf(type));
+        }
+    }
+
+    private Integer getInteger(String value) {
+        if (StringUtils.isEmpty(value)) {
+            return 0;
+        } else {
+            return Integer.parseInt(value);
         }
     }
 }

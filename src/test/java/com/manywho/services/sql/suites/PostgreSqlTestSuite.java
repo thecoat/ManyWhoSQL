@@ -5,6 +5,7 @@ import com.manywho.services.sql.suites.common.controllers.data.LoadTest;
 import com.manywho.services.sql.suites.common.controllers.data.MultipleKeyTest;
 import com.manywho.services.sql.suites.common.controllers.data.SaveTest;
 import com.manywho.services.sql.suites.common.controllers.describe.DescribeTest;
+import com.manywho.services.sql.suites.postgresql.data.AutoIncrementTest;
 import com.manywho.services.sql.suites.postgresql.data.DateTimeTest;
 import com.manywho.services.sql.suites.postgresql.data.CapitalLetterTest;
 import com.manywho.services.sql.suites.postgresql.data.UuidTest;
@@ -22,7 +23,8 @@ import org.junit.runners.Suite;
         //postgresql
         DateTimeTest.class,
         UuidTest.class,
-        CapitalLetterTest.class
+        CapitalLetterTest.class,
+        AutoIncrementTest.class
 })
 public class PostgreSqlTestSuite {
     @BeforeClass
