@@ -22,5 +22,3 @@ script:
   - mvn test -Dtest=UnitTestSuite
   - mvn test -Dtest=MySqlTestSuite
   - mvn test -Dtest=PostgreSqlTestSuite
-env:
-  - ISOLATED=true
