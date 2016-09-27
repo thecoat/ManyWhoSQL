@@ -60,7 +60,7 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
     public void testUpdateData() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("Country") + "(`Id`, `Name`, `DescriptionCountry`) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            String sql = "INSERT INTO " + scapeTableName("country") + "(`Id`, `Name`, `DescriptionCountry`) VALUES ('1', 'Uruguay', 'It is a nice country');";
             connection.createQuery(sql).executeUpdate();
         }
 
@@ -79,7 +79,6 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
         try (Connection connection = getSql2o().open()) {
             deleteTableIfExist("country", connection);
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
 }
