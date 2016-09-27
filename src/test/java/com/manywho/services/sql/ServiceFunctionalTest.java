@@ -49,15 +49,15 @@ public abstract class ServiceFunctionalTest {
         } else {
             if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "postgresql")) {
                 Class.forName("com.mysql.jdbc.Driver");
-                sql2o = new Sql2o("jdbc:postgresql://" + DbConfigurationTest.hostForTest+":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, "postgres", "admin");
+                sql2o = new Sql2o("jdbc:postgresql://" + DbConfigurationTest.hostForTest+":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password);
 
             }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "sqlserver")) {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                sql2o = new Sql2o("jdbc:sqlserver://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + ";databaseName=" + DbConfigurationTest.databaseNameForTest, "postgres", "admin");
+                sql2o = new Sql2o("jdbc:sqlserver://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + ";databaseName=" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password);
 
             }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "mysql")) {
                 Class.forName("com.mysql.jdbc.Driver");
-                sql2o = new Sql2o("jdbc:mysql://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, "postgres", "admin");
+                sql2o = new Sql2o("jdbc:mysql://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password);
             }
 
             return sql2o;

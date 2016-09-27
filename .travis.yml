@@ -8,7 +8,7 @@ addons:
       - oracle-java8-installer
 services:
   - postgresql
-  #- mysql
+  - mysql
 before_install:
   - wget -O /tmp/sqljdbc.tar.gz https://download.microsoft.com/download/0/2/A/02AAE597-3865-456C-AE7F-613F99F850A8/sqljdbc_4.2.6420.100_enu.tar.gz
   - tar -xvf /tmp/sqljdbc.tar.gz -C /tmp
@@ -16,11 +16,11 @@ before_install:
   - export TZ=Europe/London
 before_script:
   - psql -c 'create database test;' -U postgres
-  #- mysql -u root -e 'create database test;'
+  - mysql -u root -e 'create database test;'
 script:
   - mvn clean package -DskipTests=true
   - mvn test -Dtest=UnitTestSuite
-  #- mvn test -Dtest=MySqlTestSuite
+  - mvn test -Dtest=MySqlTestSuite
   - mvn test -Dtest=PostgreSqlTestSuite
 env:
   - ISOLATED=true
