@@ -4,15 +4,15 @@ import com.manywho.sdk.api.run.elements.type.ListFilter;
 import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.ObjectDataType;
 import com.manywho.sdk.services.database.RawDatabase;
-import com.manywho.sdk.services.database.RecordNotFoundException;
 import com.manywho.services.sql.ServiceConfiguration;
+import com.manywho.services.sql.exceptions.RecordNotFoundException;
 import com.manywho.services.sql.managers.DataManager;
 import com.manywho.services.sql.services.PrimaryKeyService;
 
 import javax.inject.Inject;
 import java.util.List;
 
-public class Database implements RawDatabase<ServiceConfiguration, MObject> {
+public class Database implements RawDatabase<ServiceConfiguration> {
     private DataManager dataManager;
     private PrimaryKeyService primaryKeyService;
 

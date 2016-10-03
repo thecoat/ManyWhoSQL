@@ -4,28 +4,28 @@ import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.services.configuration.Configuration;
 
 public class ServiceConfiguration implements Configuration {
-    @Configuration.Value(name="Username", contentType= ContentType.String)
+    @Configuration.Setting(name="Username", contentType= ContentType.String)
     private String username;
 
-    @Configuration.Value(name="Password", contentType= ContentType.Password)
+    @Configuration.Setting(name="Password", contentType= ContentType.Password)
     private String password;
 
-    @Configuration.Value(name="Host", contentType= ContentType.String)
+    @Configuration.Setting(name="Host", contentType= ContentType.String)
     private String host;
 
-    @Configuration.Value(name="Port", contentType= ContentType.Number)
+    @Configuration.Setting(name="Port", contentType= ContentType.Number)
     private Integer port;
 
-    @Configuration.Value(name="Database Type", contentType= ContentType.String)
+    @Configuration.Setting(name="Database Type", contentType= ContentType.String)
     private String databaseType;
 
-    @Configuration.Value(name="Database Name", contentType= ContentType.String)
+    @Configuration.Setting(name="Database Name", contentType= ContentType.String)
     private String databaseName;
 
-    @Configuration.Value(name="Database Schema", contentType= ContentType.String)
+    @Configuration.Setting(name="Database Schema", contentType= ContentType.String)
     private String databaseSchema;
 
-    @Configuration.Value(name="Use SSL", contentType= ContentType.Boolean)
+    @Configuration.Setting(name="Use SSL", contentType= ContentType.Boolean)
     private boolean useSsl;
 
     public String getUsername() {

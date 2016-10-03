@@ -1,5 +1,6 @@
 package com.manywho.services.sql.services.filter;
 
+import com.google.common.base.Strings;
 import com.healthmarketscience.sqlbuilder.*;
 import com.healthmarketscience.sqlbuilder.custom.mysql.MysLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgLimitClause;
@@ -9,7 +10,6 @@ import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.utilities.ScapeForTablesUtil;
-import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +17,7 @@ import java.util.Objects;
 
 public class QueryFilterConditions {
     public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties, String databaseType) {
-        if (StringUtils.isNotBlank(search)) {
+        if (!Strings.isNullOrEmpty(search)) {
             String searchTerm = "%" + search + "%";
             for(ObjectDataTypeProperty property: listProperties) {
                 selectQuery.addCondition(BinaryCondition.like(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, property.getDeveloperName())), searchTerm));
@@ -39,9 +39,9 @@ public class QueryFilterConditions {
             comparisonTypeLocal = comparisonType.toString();
         }
 
-        if (StringUtils.equals(comparisonTypeLocal, "OR")) {
+        if ("OR".equals(comparisonTypeLocal)) {
             selectQuery.addCondition(ComboCondition.or(conditions.toArray()));
-        }else if (StringUtils.equals(comparisonTypeLocal, "AND")) {
+        }else if ("AND".equals(comparisonTypeLocal)) {
             selectQuery.addCondition(ComboCondition.and(conditions.toArray()));
         }
     }
@@ -114,7 +114,7 @@ public class QueryFilterConditions {
     public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, String direction, TableMetadata tableMetadata, String databaseType) {
         List<String> properties;
 
-        if (StringUtils.isBlank(orderByPropertyName)) {
+        if (Strings.isNullOrEmpty(orderByPropertyName)) {
             properties = tableMetadata.getPrimaryKeyNames();
         } else {
             properties = new ArrayList<>();

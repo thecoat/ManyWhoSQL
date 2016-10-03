@@ -1,19 +1,17 @@
 package com.manywho.services.sql.services;
 
+import com.google.common.base.Strings;
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.Property;
-import com.manywho.sdk.services.types.Type;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.factories.MObjectFactory;
 import com.manywho.services.sql.utilities.MobjectUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
-import org.sql2o.data.Table;
 
 import javax.inject.Inject;
 import java.sql.SQLException;
@@ -96,7 +94,7 @@ public class DataService {
 
             Object object = query.setCaseSensitive(true).executeUpdate().getKey();
 
-            if (!StringUtils.isEmpty(autoIncrement)) {
+            if (!Strings.isNullOrEmpty(autoIncrement)) {
                 List<Property> properties = mObject.getProperties();
                 Property property = new Property();
                 property.setDeveloperName(autoIncrement);

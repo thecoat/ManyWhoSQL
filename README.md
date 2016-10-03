@@ -9,7 +9,6 @@ There is more documentation at the [wiki](https://github.com/manywho/service-sql
 
 This service is under active development and is not stable.
 
-
 ## Usage
 
 If you need to run your own instance of the service (e.g. for compliance reasons), it's easy to spin up following these

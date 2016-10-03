@@ -1,9 +1,8 @@
 package com.manywho.services.sql.services;
 
+import com.google.common.base.Strings;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.utilities.ContentTypeUtil;
-import com.manywho.services.sql.utilities.ScapeForTablesUtil;
-import org.apache.commons.lang3.StringUtils;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sql2o.Query;
@@ -167,7 +166,7 @@ public class QueryParameterService {
     }
 
     private Integer getInteger(String value) {
-        if (StringUtils.isEmpty(value)) {
+        if (Strings.isNullOrEmpty(value)) {
             return 0;
         } else {
             return Integer.parseInt(value);
