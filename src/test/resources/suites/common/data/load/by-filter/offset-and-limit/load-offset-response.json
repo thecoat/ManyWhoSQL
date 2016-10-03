@@ -14,7 +14,7 @@
           "contentType":"ContentNumber",
           "contentValue":"2",
           "contentFormat":null,
-          "objectData":null
+          "objectData":[]
         },
         {
           "typeElementPropertyId":null,
@@ -22,7 +22,7 @@
           "contentType":"ContentString",
           "contentValue":"England",
           "contentFormat":null,
-          "objectData":null
+          "objectData":[]
         },
         {
           "typeElementPropertyId":null,
@@ -30,7 +30,7 @@
           "contentType":"ContentString",
           "contentValue":"England description",
           "contentFormat":null,
-          "objectData":null
+          "objectData":[]
         }
       ],
       "isSelected":false
@@ -48,7 +48,7 @@
           "contentType":"ContentNumber",
           "contentValue":"3",
           "contentFormat":null,
-          "objectData":null
+          "objectData":[]
         },
         {
           "typeElementPropertyId":null,
@@ -56,7 +56,7 @@
           "contentType":"ContentString",
           "contentValue":"Spain",
           "contentFormat":null,
-          "objectData":null
+          "objectData":[]
         },
         {
           "typeElementPropertyId":null,
@@ -64,7 +64,7 @@
           "contentType":"ContentString",
           "contentValue":"Spain description",
           "contentFormat":null,
-          "objectData":null
+          "objectData":[]
         }
       ],
       "isSelected":false

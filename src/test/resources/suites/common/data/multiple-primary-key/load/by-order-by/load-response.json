@@ -12,21 +12,21 @@
       "contentType": "ContentString",
       "contentValue": "Madrid",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "countryname",
       "contentType": "ContentString",
       "contentValue": "Spain",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "description",
       "contentType": "ContentString",
       "contentValue": null,
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }],
     "isSelected": false
   }, {
@@ -41,21 +41,21 @@
       "contentType": "ContentString",
       "contentValue": "Montevideo",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "countryname",
       "contentType": "ContentString",
       "contentValue": "Uruguay",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "description",
       "contentType": "ContentString",
       "contentValue": null,
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }],
     "isSelected": false
   }],

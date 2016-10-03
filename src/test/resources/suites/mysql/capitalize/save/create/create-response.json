@@ -12,21 +12,21 @@
       "contentType": "ContentNumber",
       "contentValue": "1",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "Name",
       "contentType": "ContentString",
       "contentValue": "Uruguay",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "DescriptionCountry",
       "contentType": "ContentString",
       "contentValue": "It is a nice country",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }],
     "isSelected": false
   }],

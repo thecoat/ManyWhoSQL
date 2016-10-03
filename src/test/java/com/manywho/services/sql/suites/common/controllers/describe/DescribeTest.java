@@ -15,6 +15,7 @@ public class DescribeTest extends ServiceFunctionalTest {
 
     @Test
     public void testDescribe() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
         String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
                         "id integer NOT NULL," +
                         "name character varying(255)," +

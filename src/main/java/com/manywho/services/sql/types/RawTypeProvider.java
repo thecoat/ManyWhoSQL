@@ -29,10 +29,10 @@ public class RawTypeProvider implements TypeProvider {
 
     @Override
     public List<TypeElement> describeTypes(DescribeServiceRequest describeServiceRequest) {
-        ServiceConfiguration serviceConfiguration = configurationParser.from(describeServiceRequest);
 
         try {
-            if (describeServiceRequest.getConfigurationValues() != null) {
+            if (describeServiceRequest.getConfigurationValues() != null && describeServiceRequest.getConfigurationValues().size()>0) {
+                ServiceConfiguration serviceConfiguration = configurationParser.from(describeServiceRequest);
                 return describeManager.getListTypeElementFromTableMetadata(serviceConfiguration);
             }
         } catch (Exception e) {

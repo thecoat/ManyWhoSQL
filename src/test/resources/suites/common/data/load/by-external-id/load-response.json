@@ -14,7 +14,7 @@
           "contentType": "ContentNumber",
           "contentValue": "1",
           "contentFormat": null,
-          "objectData": null
+          "objectData": []
         },
         {
           "typeElementPropertyId": null,
@@ -22,7 +22,7 @@
           "contentType": "ContentString",
           "contentValue": "Uruguay",
           "contentFormat": null,
-          "objectData": null
+          "objectData": []
         },
         {
           "typeElementPropertyId": null,
@@ -30,7 +30,7 @@
           "contentType": "ContentString",
           "contentValue": "It is a nice country",
           "contentFormat": null,
-          "objectData": null
+          "objectData": []
         }
       ],
       "isSelected": false

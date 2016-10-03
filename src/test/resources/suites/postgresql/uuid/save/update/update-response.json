@@ -12,14 +12,14 @@
       "contentType": "ContentString",
       "contentValue": "155e3620-42bb-11e6-beb8-9e71128cae77",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "payload",
       "contentType": "ContentString",
       "contentValue": "payload example update",
       "contentFormat": null,
-      "objectData": null
+      "objectData": []
     }],
     "isSelected": false
   }],
