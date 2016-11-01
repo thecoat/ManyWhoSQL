@@ -2,6 +2,9 @@ package com.manywho.services.sql.services;
 
 import com.manywho.services.sql.ServiceConfiguration;
 import org.sql2o.Sql2o;
+import org.sql2o.quirks.NoQuirks;
+import org.sql2o.quirks.PostgresQuirks;
+import org.sql2o.quirks.Quirks;
 
 import java.util.Objects;
 
@@ -33,11 +36,14 @@ public class ConnectionService {
 
         checkDatabaseTypeSupported(serviceConfiguration);
         String connectionStringFormat = CONNECTION_STRING_FORMAT_POSTGRESQL;
+        Quirks quirks = new NoQuirks();
 
         if(Objects.equals(serviceConfiguration.getDatabaseType(), DATABASE_TYPE_MYSQL)) {
             connectionStringFormat = CONNECTION_STRING_FORMAT_MYSQL;
         } else if(Objects.equals(serviceConfiguration.getDatabaseType(), DATABASE_TYPE_SQLSERVER)) {
             connectionStringFormat = CONNECTION_STRING_FORMAT_SQLSERVER;
+        } else {
+            quirks = new PostgresQuirks();
         }
 
         if(serviceConfiguration.getUseSsl()) {
@@ -47,7 +53,8 @@ public class ConnectionService {
         return new Sql2o(
                 String.format(connectionStringFormat, serviceConfiguration.getHost(), serviceConfiguration.getPort(), serviceConfiguration.getDatabaseName()),
                 serviceConfiguration.getUsername(),
-                serviceConfiguration.getPassword()
+                serviceConfiguration.getPassword(),
+                quirks
         );
     }
 

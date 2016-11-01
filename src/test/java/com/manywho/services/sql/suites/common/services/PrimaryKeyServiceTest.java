@@ -9,7 +9,17 @@ import static org.junit.Assert.assertEquals;
 
 public class PrimaryKeyServiceTest {
     @Test
-    public void serializeTest() {
+    public void serializeIdTest() {
+        PrimaryKeyService primaryKeyService = new PrimaryKeyService();
+        HashMap<String, String> primaryKey = new HashMap<>();
+        primaryKey.put("id", "1");
+        String serialized = primaryKeyService.serializePrimaryKey(primaryKey);
+
+        assertEquals("eyJpZCI6IjEifQ==", serialized);
+    }
+
+    @Test
+    public void serializeMultipleIdTest() {
         PrimaryKeyService primaryKeyService = new PrimaryKeyService();
         HashMap<String, String> primaryKey = new HashMap<>();
         primaryKey.put("countryname", "Uruguay");

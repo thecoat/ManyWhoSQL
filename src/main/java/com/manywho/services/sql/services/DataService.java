@@ -110,4 +110,19 @@ public class DataService {
             return mObject;
         }
     }
+
+    public void deleteByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId, ServiceConfiguration configuration) throws ParseException {
+        try(Connection con = sql2o.open()) {
+            Query query = con.createQuery(queryStrService.createQueryWithParametersForDeleteByPrimaryKey(tableMetadata, externalId.keySet(), configuration));
+
+            for(String key: externalId.keySet()) {
+                String paramType = tableMetadata.getColumnsDatabaseType().get(key);
+                parameterSanitaizerService.addParameterValueToTheQuery(key, externalId.get(key), paramType, query);
+            }
+
+            query.executeUpdate();
+        } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
+            throw new RuntimeException(dataBaseTypeNotSupported);
+        }
+    }
 }

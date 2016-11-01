@@ -1,12 +1,12 @@
 package com.manywho.services.sql;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.services.jaxrs.resolvers.ObjectMapperContextResolver;
-import com.sun.org.apache.bcel.internal.generic.SWITCH;
 import org.jboss.resteasy.core.Dispatcher;
 import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.junit.BeforeClass;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.quirks.PostgresQuirks;
 
 import javax.ws.rs.Path;
 import java.util.HashMap;
@@ -49,7 +49,8 @@ public abstract class ServiceFunctionalTest {
         } else {
             if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "postgresql")) {
                 Class.forName("com.mysql.jdbc.Driver");
-                sql2o = new Sql2o("jdbc:postgresql://" + DbConfigurationTest.hostForTest+":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password);
+                sql2o = new Sql2o("jdbc:postgresql://" + DbConfigurationTest.hostForTest+":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password,
+                        new PostgresQuirks());
 
             }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "sqlserver")) {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");

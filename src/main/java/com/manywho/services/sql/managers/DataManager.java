@@ -55,4 +55,10 @@ public class DataManager {
         return dataService.insert(mObject, connectionService.getSql2Object(configuration),
                 metadataManager.getMetadataTable(configuration, mObject.getDeveloperName()), configuration);
     }
+
+    public void delete(ServiceConfiguration configuration, String developerName, HashMap<String, String> id) throws Exception {
+        dataService.deleteByPrimaryKey(
+                metadataManager.getMetadataTable(configuration, developerName),
+                connectionService.getSql2Object(configuration), id, configuration);
+    }
 }

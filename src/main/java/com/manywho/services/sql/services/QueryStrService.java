@@ -35,6 +35,17 @@ public class QueryStrService {
         return selectQuery.validate().toString();
     }
 
+    public String createQueryWithParametersForDeleteByPrimaryKey(TableMetadata tableMetadata, Set<String> primaryKeyNames, ServiceConfiguration configuration) {
+
+        DeleteQuery selectQuery = new DeleteQuery(scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(), tableMetadata.getSchemaName(), tableMetadata.getTableName()));
+
+        for (String key: primaryKeyNames) {
+            selectQuery.addCondition(BinaryCondition.equalTo(new CustomSql(ScapeForTablesUtil.scapeCollumnName(configuration.getDatabaseType(),key)), new CustomSql(":" + key)));
+        }
+
+        return selectQuery.validate().toString();
+    }
+
     public String createQueryWithParametersForUpdate(MObject mObject, TableMetadata tableMetadata, Set<String> primaryKeyNames, ServiceConfiguration configuration){
 
         UpdateQuery updateQuery = new UpdateQuery(

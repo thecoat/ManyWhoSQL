@@ -44,8 +44,11 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
     @Override
     public void delete(ServiceConfiguration configuration, MObject object) {
-        // todo delete object
-        return;
+        try {
+            this.dataManager.delete(configuration, object.getDeveloperName(), primaryKeyService.deserializePrimaryKey(object.getExternalId()));
+        } catch (Exception e) {
+            throw  new RuntimeException(e.getMessage());
+        }
     }
 
     @Override
