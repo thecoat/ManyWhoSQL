@@ -34,9 +34,10 @@ public class ConnectionService {
             return sql2o;
         }
 
+        Quirks quirks = new NoQuirks();
+
         checkDatabaseTypeSupported(serviceConfiguration);
         String connectionStringFormat = CONNECTION_STRING_FORMAT_POSTGRESQL;
-        Quirks quirks = new NoQuirks();
 
         if(Objects.equals(serviceConfiguration.getDatabaseType(), DATABASE_TYPE_MYSQL)) {
             connectionStringFormat = CONNECTION_STRING_FORMAT_MYSQL;

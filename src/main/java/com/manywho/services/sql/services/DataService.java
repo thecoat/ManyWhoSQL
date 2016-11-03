@@ -92,14 +92,15 @@ public class DataService {
                 }
             }
 
-            Object object = query.setCaseSensitive(true).executeUpdate().getKey();
+            Object objects[] = query.executeUpdate().getKeys();
 
             if (!Strings.isNullOrEmpty(autoIncrement)) {
+
                 List<Property> properties = mObject.getProperties();
                 Property property = new Property();
                 property.setDeveloperName(autoIncrement);
                 property.setContentType(ContentType.Number);
-                property.setContentValue(object.toString());
+                property.setContentValue(String.valueOf(objects[tableMetadata.getColumnNames().indexOf(autoIncrement)]));
                 properties.add(property);
 
                 mObject.setProperties(properties);

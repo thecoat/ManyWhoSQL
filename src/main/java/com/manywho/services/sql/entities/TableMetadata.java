@@ -15,6 +15,7 @@ public class TableMetadata {
 
     private String tableName;
     private HashMap<String, ContentType> columns;
+    private List<String> columnNames;
     private HashMap<String, String> columnsDatabaseType;
     private List<String> primaryKeyName;
     private String schemaName;
@@ -25,12 +26,14 @@ public class TableMetadata {
         this.schemaName = schemaName;
         this.columns = new HashMap<>();
         this.primaryKeyName = new ArrayList<>();
+        this.columnNames = new ArrayList<>();
         this.columnsDatabaseType = new HashMap<>();
         this.propertyAutoincrement = new HashMap<>();
     }
 
     public void setColumn(String columnName, ContentType columnType, Boolean autoincrement) {
         columns.put(columnName, columnType);
+        columnNames.add(columnName);
 
         if (autoincrement) {
             propertyAutoincrement.put(columnName, true);
@@ -70,4 +73,6 @@ public class TableMetadata {
     public String getSchemaName() {
         return schemaName;
     }
+
+    public List<String> getColumnNames() {return columnNames;}
 }

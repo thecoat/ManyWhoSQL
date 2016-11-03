@@ -6,6 +6,7 @@ import org.jboss.resteasy.mock.MockDispatcherFactory;
 import org.junit.BeforeClass;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
+import org.sql2o.quirks.NoQuirks;
 import org.sql2o.quirks.PostgresQuirks;
 
 import javax.ws.rs.Path;
@@ -54,11 +55,13 @@ public abstract class ServiceFunctionalTest {
 
             }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "sqlserver")) {
                 Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-                sql2o = new Sql2o("jdbc:sqlserver://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + ";databaseName=" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password);
+                sql2o = new Sql2o("jdbc:sqlserver://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + ";databaseName=" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password,
+                        new NoQuirks());
 
             }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "mysql")) {
                 Class.forName("com.mysql.jdbc.Driver");
-                sql2o = new Sql2o("jdbc:mysql://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password);
+                sql2o = new Sql2o("jdbc:mysql://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password,
+                        new NoQuirks());
             }
 
             return sql2o;

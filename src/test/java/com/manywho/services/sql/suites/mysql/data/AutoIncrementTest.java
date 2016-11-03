@@ -15,8 +15,8 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
 
         try (Connection connection = getSql2o().open()) {
             String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
-                    "id INT NOT NULL AUTO_INCREMENT," +
                     "name character varying(255)," +
+                    "id INT NOT NULL AUTO_INCREMENT," +
                     "description character varying(1024), " +
                     "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
                     ");";
