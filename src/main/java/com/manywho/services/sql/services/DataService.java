@@ -100,7 +100,15 @@ public class DataService {
                 Property property = new Property();
                 property.setDeveloperName(autoIncrement);
                 property.setContentType(ContentType.Number);
-                property.setContentValue(String.valueOf(objects[tableMetadata.getColumnNames().indexOf(autoIncrement)]));
+
+                // for not postgres db
+                if (objects.length<tableMetadata.getColumnNames().size()) {
+                    property.setContentValue(String.valueOf(objects[0]));
+                } else {
+                    // for postgres db
+                    property.setContentValue(String.valueOf(objects[tableMetadata.getColumnNames().indexOf(autoIncrement)]));
+                }
+
                 properties.add(property);
 
                 mObject.setProperties(properties);
