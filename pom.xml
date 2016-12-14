@@ -52,7 +52,7 @@
         <dependency>
             <groupId>com.github.manywho.sql2o</groupId>
             <artifactId>sql2o-postgres</artifactId>
-            <version>486b7a4e3c7362706f13d30a71bf507e67cb63a3</version>
+            <version>dcf87b69a5821b7e8078db0a1e7d65f95b641765</version>
         </dependency>
         <dependency>
             <groupId>com.github.manywho</groupId>
