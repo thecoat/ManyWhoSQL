@@ -14,9 +14,8 @@ before_install:
   - tar -xvf /tmp/sqljdbc.tar.gz -C /tmp
   - mvn install:install-file -Dfile=/tmp/sqljdbc_4.2/enu/sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
   - export TZ=Europe/London
-before_script:
-  - psql -c 'create database test;' -U postgres
   - mysql -u root -e 'create database test;'
+  - psql -c 'create database test;' -U postgres
 script:
   - mvn clean package -DskipTests=true
   - mvn test -Dtest=UnitTestSuite
