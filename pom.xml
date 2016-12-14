@@ -52,12 +52,12 @@
         <dependency>
             <groupId>com.github.manywho.sql2o</groupId>
             <artifactId>sql2o-postgres</artifactId>
-            <version>49f9f26d6c430ab4125ea4cadb3b87ffd07234bc</version>
+            <version>486b7a4e3c7362706f13d30a71bf507e67cb63a3</version>
         </dependency>
         <dependency>
             <groupId>com.github.manywho</groupId>
             <artifactId>sql2o</artifactId>
-            <version>49f9f26d6c430ab4125ea4cadb3b87ffd07234bc</version>
+            <version>dcf87b69a5821b7e8078db0a1e7d65f95b641765</version>
         </dependency>
         <dependency>
             <groupId>com.healthmarketscience.sqlbuilder</groupId>
