@@ -81,7 +81,7 @@ public class QueryParameterService {
                 return query.addParameter(paramName, parameterValue);
 
             case DATE:
-                throw new DataBaseTypeNotSupported("BINARY");
+                throw new DataBaseTypeNotSupported("DATE");
 
             case TIME:
                 throw new DataBaseTypeNotSupported("TIME");
