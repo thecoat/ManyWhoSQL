@@ -17,14 +17,14 @@
       "typeElementPropertyId": null,
       "developerName": "datetime",
       "contentType": "ContentDateTime",
-      "contentValue": "2007-05-08 12:35:29.123",
+      "contentValue": "2007-05-08T11:35:29.123Z",
       "contentFormat": null,
       "objectData": []
     }, {
       "typeElementPropertyId": null,
       "developerName": "datetime2",
       "contentType": "ContentDateTime",
-      "contentValue": "2007-05-08 12:35:29.1234567",
+      "contentValue": "2007-05-08T11:35:29.1234567Z",
       "contentFormat": null,
       "objectData": []
     }],

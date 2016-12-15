@@ -58,7 +58,7 @@ public class DateTimeTest extends ServiceFunctionalTest {
             connection.createQuery(sqlCreate).executeUpdate();
 
             String sql = "INSERT INTO " + scapeTableName("timetest") +"(id, datetime, datetime2, datetimeoffset) VALUES " +
-                    "('1', '2007-05-08 12:35:29.123', '2007-05-08 12:35:29. 1234567', '2007-05-08 12:35:29.123+00:02');";
+                    "('1', '2007-05-08 12:35:29.123', '2007-05-08 12:35:29. 1234567', '2007-05-08T12:35:29.123+00:02');";
 
             connection.createQuery(sql).executeUpdate();
         }

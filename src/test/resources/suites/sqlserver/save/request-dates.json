@@ -167,7 +167,7 @@
         {
           "typeElementPropertyId": "162fe6a7-2b25-450f-8c40-10f585e25b6f",
           "developerName": "datetimeoffset",
-          "contentValue": "2016-06-27T09:23:00+00:00",
+          "contentValue": "2016-06-27T09:23:00+02:00",
           "contentType": "ContentDateTime",
           "contentFormat": "",
           "objectData": null

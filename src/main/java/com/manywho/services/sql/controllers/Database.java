@@ -47,7 +47,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
         try {
             this.dataManager.delete(configuration, object.getDeveloperName(), primaryKeyService.deserializePrimaryKey(object.getExternalId()));
         } catch (Exception e) {
-            throw  new RuntimeException(e.getMessage());
+            throw  new RuntimeException(e);
         }
     }
 
@@ -65,7 +65,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
             if(mObjectList.size()>0) return mObjectList.get(0);
         } catch (Exception e) {
-            throw  new RuntimeException(e.getMessage());
+            throw  new RuntimeException(e);
         }
 
         throw new RecordNotFoundException();
@@ -77,7 +77,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             return this.dataManager.loadBySearch(configuration, objectDataType,  filter);
 
         } catch (Exception e) {
-            throw  new RuntimeException(e.getMessage());
+            throw  new RuntimeException(e);
         }
     }
 
@@ -90,7 +90,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             if (mObjectList.size()>0) return mObjectList.get(0);
 
         } catch (Exception e) {
-            throw  new RuntimeException(e.getMessage());
+            throw  new RuntimeException(e);
         }
 
         throw new RecordNotFoundException();

@@ -7,11 +7,17 @@ import com.manywho.sdk.api.draw.elements.type.TypeElementBinding;
 import com.manywho.sdk.api.draw.elements.type.TypeElementProperty;
 import com.manywho.sdk.api.draw.elements.type.TypeElementPropertyBinding;
 import com.manywho.sdk.api.run.elements.type.Property;
+import com.manywho.sdk.services.types.TypePropertyInvalidException;
 import com.manywho.services.sql.entities.TableMetadata;
+import microsoft.sql.DateTimeOffset;
 import org.sql2o.data.Table;
-
 import javax.inject.Inject;
 import java.sql.SQLException;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -51,12 +57,34 @@ public class DescribeService {
     }
 
     public void populateProperty(String propertyName, String propertyValue, List<Property> propertyList) {
-        for (Property p: propertyList) {
-            if(Objects.equals(p.getDeveloperName(), propertyName)) {
-                p.setContentValue(propertyValue);
+        propertyList.stream()
+                .filter(p -> Objects.equals(p.getDeveloperName(), propertyName))
+                .forEach(p-> p.setContentValue(propertyValue));
+    }
 
-                return;
-            }
+    public void populatePropertyDate(String propertyName, Object propertyValue, List<Property> propertyList) {;
+
+        propertyList.stream()
+                .filter(p -> Objects.equals(p.getDeveloperName(), propertyName))
+                .forEach(p-> p.setContentValue(convertDateTime(p.getDeveloperName(), propertyValue)));
+    }
+
+    private String convertDateTime(String property, Object object) {
+        if (object instanceof TemporalAccessor) {
+            return java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format((TemporalAccessor) object);
+        } else if (object instanceof Date) {
+            OffsetDateTime dateTime = OffsetDateTime.ofInstant(((Date) object).toInstant(), ZoneId.of("UTC"));
+
+            return java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(dateTime);
+        } else if (object instanceof DateTimeOffset) {
+            java.sql.Timestamp timestamp =  ((DateTimeOffset) object).getTimestamp();
+            Integer minutesOffset =  ((DateTimeOffset) object).getMinutesOffset();
+            OffsetDateTime offsetDateTime = OffsetDateTime.of(timestamp.toLocalDateTime(),
+                    ZoneOffset.ofTotalSeconds(minutesOffset*60));
+
+            return DateTimeFormatter.ISO_OFFSET_DATE_TIME.format(offsetDateTime);
         }
+
+        throw new TypePropertyInvalidException(property, "DateTime");
     }
 }

@@ -19,13 +19,7 @@ instructions:
 #### Building
 
 To build the service, you will need to have Maven 3 and a Java 8 implementation installed.
-Also for Sql Server you will need to install manually the drivers, download [the drivers](https://www.microsoft.com/en-gb/download/details.aspx?id=11774) from Microsoft and after install it in you machine using maven:
-
-```bash
-mvn install:install-file -Dfile=sqljdbc42.jar -DgroupId=com.microsoft.sqlserver -DartifactId=sqljdbc4 -Dversion=4.2 -Dpackaging=jar
-```
-
-Now you can build the runnable shaded JAR:
+You can build the runnable shaded JAR:
 
 ```bash
 $ mvn clean package -DskipTests=true

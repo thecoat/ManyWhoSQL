@@ -8,7 +8,6 @@ import com.manywho.services.sql.services.DescribeService;
 import com.manywho.services.sql.utilities.MobjectUtil;
 import org.sql2o.data.Row;
 import org.sql2o.data.Table;
-
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,11 @@ public class MObjectFactory {
             List<Property> properties = describeService.createProperties(table, tableMetadata);
 
             for (Property property : properties) {
-                describeService.populateProperty(property.getDeveloperName(), row.getString(property.getDeveloperName()), properties);
+                if (property.getContentType() == com.manywho.sdk.api.ContentType.DateTime) {
+                    describeService.populatePropertyDate(property.getDeveloperName(), row.getObject(property.getDeveloperName()), properties);
+                } else {
+                    describeService.populateProperty(property.getDeveloperName(), row.getString(property.getDeveloperName()), properties);
+                }
             }
 
             mObjects.add(new MObject(tableMetadata.getTableName(), mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyNames(), properties), properties));
