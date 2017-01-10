@@ -5,7 +5,6 @@ import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sql2o.Connection;
 
@@ -25,7 +24,6 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
             connection.createQuery(sql).executeUpdate();
         }
     }
-
 
     @Test
     public void testLoadDataByEqualOrLikeFilterCapitalLetters() throws Exception {
@@ -72,7 +70,6 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
                 dispatcher
         );
     }
-
 
     @After
     public void cleanDatabaseAfterEachTest() {

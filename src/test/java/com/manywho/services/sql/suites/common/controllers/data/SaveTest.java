@@ -9,14 +9,8 @@ import org.junit.Test;
 import org.sql2o.Connection;
 
 public class SaveTest extends ServiceFunctionalTest {
-
-    @Before
-    public void setupDatabase() throws Exception {
-        DbConfigurationTest.setPropertiesIfNotInitialized("mysql");
-    }
-
     @Test
-    public void testCreateData() throws Exception {
+    public void testCreate() throws Exception {
         try (Connection connection = getSql2o().open()) {
             String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
                     "id integer NOT NULL," +
@@ -36,7 +30,38 @@ public class SaveTest extends ServiceFunctionalTest {
     }
 
     @Test
-    public void testUpdateData() throws Exception {
+    public void testCreateWithAlias() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
+
+        try (Connection connection = getSql2o().open()) {
+            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+                    "id integer NOT NULL," +
+                    "name character varying(255)," +
+                    "description character varying(1024), " +
+                    "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                    ");";
+            connection.createQuery(sql).executeUpdate();
+
+            String aliasId = "COMMENT ON COLUMN " + scapeTableName("country") + ".id IS '{{ManyWhoName:The Id}}';";
+            connection.createQuery(aliasId).executeUpdate();
+
+            String aliasName = "COMMENT ON COLUMN " + scapeTableName("country") + ".name IS '{{ManyWhoName:The Name}}';";
+            connection.createQuery(aliasName).executeUpdate();
+
+            String aliasDescription = "COMMENT ON COLUMN " + scapeTableName("country") + ".description IS '{{ManyWhoName:The Description}}';";
+            connection.createQuery(aliasDescription).executeUpdate();
+        }
+
+        DefaultApiRequest.saveDataRequestAndAssertion("/data",
+                "suites/common/data/save/create-with-alias/create-request.json",
+                configurationParameters(),
+                "suites/common/data/save/create-with-alias/create-response.json",
+                dispatcher
+        );
+    }
+
+    @Test
+    public void testUpdate() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
             String sql = "CREATE TABLE " + scapeTableName("country") + "(" +

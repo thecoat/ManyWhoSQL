@@ -10,6 +10,7 @@ import com.manywho.services.sql.managers.DataManager;
 import com.manywho.services.sql.services.PrimaryKeyService;
 
 import javax.inject.Inject;
+import java.util.HashMap;
 import java.util.List;
 
 public class Database implements RawDatabase<ServiceConfiguration> {
@@ -26,9 +27,12 @@ public class Database implements RawDatabase<ServiceConfiguration> {
     public MObject create(ServiceConfiguration configuration, MObject object) {
         try {
             dataManager.create(configuration, object);
-            List<MObject> mObjectList = this.dataManager.load(configuration, object.getDeveloperName(), primaryKeyService.deserializePrimaryKey(object.getExternalId()));
+            HashMap<String, String> primaryKey = primaryKeyService.deserializePrimaryKey(object.getExternalId());
+            List<MObject> mObjectList = this.dataManager.load(configuration, object.getDeveloperName(), primaryKey);
 
-            if(mObjectList.size()>0) return mObjectList.get(0);
+            if(mObjectList.size()>0){
+                return mObjectList.get(0);
+            }
 
         } catch (Exception e) {
             throw new RuntimeException("problem creating object" + e.getMessage());

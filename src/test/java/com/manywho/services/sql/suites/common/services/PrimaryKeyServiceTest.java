@@ -30,6 +30,17 @@ public class PrimaryKeyServiceTest {
     }
 
     @Test
+    public void serializeMultipleIdExampleAliasesTest() {
+        PrimaryKeyService primaryKeyService = new PrimaryKeyService();
+        HashMap<String, String> primaryKey = new HashMap<>();
+        primaryKey.put("Country Name", "Uruguay");
+        primaryKey.put("City Name", "Montevideo");
+        String serialized = primaryKeyService.serializePrimaryKey(primaryKey);
+
+        assertEquals("eyJDb3VudHJ5IE5hbWUiOiJVcnVndWF5IiwiQ2l0eSBOYW1lIjoiTW9udGV2aWRlbyJ9", serialized);
+    }
+
+    @Test
     public void deserializeTest() {
         PrimaryKeyService primaryKeyService = new PrimaryKeyService();
         HashMap<String, String> primaryKey = primaryKeyService.deserializePrimaryKey("eyJjaXR5bmFtZSI6Ik1vbnRldmlkZW8iLCJjb3VudHJ5bmFtZSI6IlVydWd1YXkifQ==");

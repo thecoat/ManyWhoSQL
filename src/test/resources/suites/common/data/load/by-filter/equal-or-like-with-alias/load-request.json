@@ -8,7 +8,7 @@
     "runningAuthenticationId": null,
     "globalAuthenticationType": "PUBLIC"
   },
-  "configurationValues":[
+  "configurationValues": [
     {
       "valueElementId": null,
       "typeElementId": null,
@@ -18,7 +18,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{password}}",
       "contentType": "ContentPassword",
-      "objectData": null
+      "objectData": []
     },
     {
       "valueElementId": null,
@@ -29,7 +29,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{databaseType}}",
       "contentType": "ContentString",
-      "objectData": null
+      "objectData": []
     },
     {
       "valueElementId": null,
@@ -40,7 +40,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{databaseName}}",
       "contentType": "ContentString",
-      "objectData": null
+      "objectData": []
     },
     {
       "valueElementId": null,
@@ -51,7 +51,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{port}}",
       "contentType": "ContentNumber",
-      "objectData": null
+      "objectData": []
     },
     {
       "valueElementId": null,
@@ -62,7 +62,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{host}}",
       "contentType": "ContentString",
-      "objectData": null
+      "objectData": []
     },
     {
       "valueElementId": null,
@@ -73,7 +73,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{schema}}",
       "contentType": "ContentString",
-      "objectData": null
+      "objectData": []
     },
     {
       "valueElementId": null,
@@ -84,7 +84,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "{{userName}}",
       "contentType": "ContentString",
-      "objectData": null
+      "objectData": []
     },
     {
       "valueElementId": null,
@@ -95,7 +95,7 @@
       "typeElementPropertyDeveloperName": null,
       "contentValue": "false",
       "contentType": null,
-      "objectData": null
+      "objectData": []
     }
   ],
   "command": null,
@@ -109,7 +109,7 @@
     "variant": null
   },
   "listFilter": {
-    "id": "eyJjaXR5bmFtZSI6Ik1vbnRldmlkZW8iLCJjb3VudHJ5bmFtZSI6IlVydWd1YXkifQ==",
+    "id": null,
     "filterByProvidedObjects": false,
     "orderByPropertyDeveloperName": null,
     "orderByDirectionType": "",
@@ -118,59 +118,74 @@
     "offset": 0,
     "search": null,
     "searchCriteria": null,
-    "comparisonType": "",
-    "where": null,
+    "comparisonType": "OR",
+    "where": [
+      {
+        "columnName": "The Name",
+        "criteriaType": "EQUAL",
+        "value": "France",
+        "contentValue": "France",
+        "objectData": []
+      },
+      {
+        "columnName": "The Description",
+        "criteriaType": "STARTS_WITH",
+        "value": "It is a beautiful",
+        "contentValue": "It is a beautiful",
+        "objectData": []
+      }
+    ],
     "listFilters": null
   },
   "objectDataType": {
-    "typeElementId": "ce347c69-e57c-4b00-a6c7-52151b48a266",
-    "developerName": "city",
+    "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
+    "developerName": "country",
     "properties": [
       {
-        "developerName": "cityname",
+        "developerName": "The Name",
         "list": null
       },
       {
-        "developerName": "countryname",
+        "developerName": "The Description",
         "list": null
       },
       {
-        "developerName": "description",
+        "developerName": "id",
         "list": null
       }
     ]
   },
   "objectData": [
     {
-      "internalId": "cd9bb102-8ead-46df-91a3-0bf9cf29c4cd",
-      "externalId": "eyJjaXR5bmFtZSI6Ik1vbnRldmlkZW8iLCJjb3VudHJ5bmFtZSI6IlVydWd1YXkifQ==",
-      "developerName": "city",
-      "typeElementId": "ce347c69-e57c-4b00-a6c7-52151b48a266",
+      "internalId": "680b37be-3cf1-4bed-bf46-69bf8acd2b3c",
+      "externalId": "eyJpZCI6IjEifQ==",
+      "developerName": "country",
+      "typeElementId": "737809a7-5825-4b04-8d38-b271963732e5",
       "order": 0,
       "properties": [
         {
-          "typeElementPropertyId": "8dd9eba6-ff9c-4da3-a981-65d977a10a39",
-          "developerName": "cityname",
+          "typeElementPropertyId": "1e40c529-9279-4a0f-b519-0b5223d139f8",
+          "developerName": "The Name",
           "contentValue": "",
           "contentType": "ContentString",
-          "contentFormat": null,
-          "objectData": null
+          "contentFormat": "",
+          "objectData": []
         },
         {
-          "typeElementPropertyId": "31cee705-2a72-401d-b061-3145cf109606",
-          "developerName": "countryname",
+          "typeElementPropertyId": "cfa7fc9b-6d3c-4dba-9a8d-e5f44b7178cc",
+          "developerName": "The Description",
           "contentValue": "",
           "contentType": "ContentString",
-          "contentFormat": null,
-          "objectData": null
+          "contentFormat": "",
+          "objectData": []
         },
         {
-          "typeElementPropertyId": "31cee705-2a72-401d-b061-3145cf109606",
-          "developerName": "description",
+          "typeElementPropertyId": "3edb9e80-7c52-4051-b993-74b338fb1b8f",
+          "developerName": "id",
           "contentValue": "",
-          "contentType": "ContentString",
-          "contentFormat": null,
-          "objectData": null
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": []
         }
       ],
       "isSelected": false

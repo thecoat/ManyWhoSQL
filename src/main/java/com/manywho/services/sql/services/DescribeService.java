@@ -27,14 +27,14 @@ public class DescribeService {
     public DescribeService(){}
 
     public TypeElement createTypeElementFromTableMetadata(TableMetadata tableMetadata) throws SQLException {
-        HashMap<String, ContentType> metadataProperties = tableMetadata.getColumns();
+        HashMap<String, ContentType> metadataProperties = tableMetadata.getColumnsAndContentTypeWithAlias();
 
         List<TypeElementProperty> properties = Lists.newArrayList();
         List<TypeElementPropertyBinding> propertyBindings = Lists.newArrayList();
 
         for(Map.Entry<String, ContentType> property: metadataProperties.entrySet()) {
             properties.add(new TypeElementProperty(property.getKey(), property.getValue()));
-            propertyBindings.add(new TypeElementPropertyBinding(property.getKey(), property.getKey(), tableMetadata.getColumnsDatabaseType().get(property.getKey())));
+            propertyBindings.add(new TypeElementPropertyBinding(property.getKey(), property.getKey(), tableMetadata.getColumnDatabaseType(property.getKey())));
         }
 
         List<TypeElementBinding> bindings = Lists.newArrayList();

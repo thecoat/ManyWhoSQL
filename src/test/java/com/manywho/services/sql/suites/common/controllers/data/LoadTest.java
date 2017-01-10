@@ -4,29 +4,28 @@ import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.sql2o.Connection;
 
 public class LoadTest extends ServiceFunctionalTest {
 
-    @Before
-    public void setupDatabase() throws Exception {
+    private void setupTableCountryTable() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("sqlserver");
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("country") + "("+
+            String sqlCreateTable = "CREATE TABLE " + scapeTableName("country") + "("+
                             "id integer NOT NULL,"+
                             "name character varying(255)," +
                             "description character varying(1024)," +
                             "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
                         ");";
 
-            connection.createQuery(sql).executeUpdate();
+            connection.createQuery(sqlCreateTable).executeUpdate();
         }
     }
 
     @Test
     public void testLoadDataByExternalId() throws Exception {
+        setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO "+scapeTableName("country")+"(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
@@ -43,6 +42,7 @@ public class LoadTest extends ServiceFunctionalTest {
 
     @Test
     public void testLoadDataByEqualAndLikeFilter() throws Exception {
+        setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO "+scapeTableName("country")+"(id, name, description) VALUES " +
@@ -61,7 +61,42 @@ public class LoadTest extends ServiceFunctionalTest {
     }
 
     @Test
+    public void testLoadDataByEqualOrLikeFilterWithAlias() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
+        try (Connection connection = getSql2o().open()) {
+            String sqlCreateTable = "CREATE TABLE " + scapeTableName("country") + "("+
+                    "id integer NOT NULL,"+
+                    "name character varying(255)," +
+                    "description character varying(1024)," +
+                    "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                    ");";
+
+            connection.createQuery(sqlCreateTable).executeUpdate();
+
+            String aliasName = "COMMENT ON COLUMN " + scapeTableName("country") + ".name IS '{{ManyWhoName:The Name}}';";
+            connection.createQuery(aliasName).executeUpdate();
+
+            String aliasDescription = "COMMENT ON COLUMN " + scapeTableName("country") + ".description IS '{{ManyWhoName:The Description}}';";
+            connection.createQuery(aliasDescription).executeUpdate();
+
+            String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +
+                    "('1', 'Uruguay', 'It is a nice country')," +
+                    "('2', 'England', 'It is a beautiful country');";
+
+            connection.createQuery(sql).executeUpdate();
+        }
+
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
+                "suites/common/data/load/by-filter/equal-or-like-with-alias/load-request.json",
+                configurationParameters(),
+                "suites/common/data/load/by-filter/equal-or-like-with-alias/load-response.json",
+                dispatcher
+        );
+    }
+
+    @Test
     public void testLoadDataByEqualOrLikeFilter() throws Exception {
+        setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +
@@ -81,6 +116,7 @@ public class LoadTest extends ServiceFunctionalTest {
 
     @Test
     public void testLoadDataByFilterWithOffsetAndLimit() throws Exception {
+        setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
             String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +

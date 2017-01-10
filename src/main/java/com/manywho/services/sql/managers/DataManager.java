@@ -9,7 +9,6 @@ import com.manywho.services.sql.services.ConnectionService;
 import com.manywho.services.sql.services.DataService;
 import com.manywho.services.sql.services.QueryStrService;
 import org.sql2o.Sql2o;
-
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
@@ -52,13 +51,23 @@ public class DataManager {
     }
 
     public MObject create(ServiceConfiguration configuration, MObject mObject) throws Exception {
-        return dataService.insert(mObject, connectionService.getSql2Object(configuration),
-                metadataManager.getMetadataTable(configuration, mObject.getDeveloperName()), configuration);
+        TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, mObject.getDeveloperName());
+        mObject.getProperties().forEach(p -> p.setDeveloperName(tableMetadata.getColumnNameOrAlias(p.getDeveloperName())));
+
+        dataService.insert(mObject, connectionService.getSql2Object(configuration), tableMetadata, configuration);
+        mObject.getProperties().forEach(p -> p.setDeveloperName(tableMetadata.getColumnAliasOrName(p.getDeveloperName())));
+
+        return mObject;
     }
 
     public void delete(ServiceConfiguration configuration, String developerName, HashMap<String, String> id) throws Exception {
-        dataService.deleteByPrimaryKey(
-                metadataManager.getMetadataTable(configuration, developerName),
-                connectionService.getSql2Object(configuration), id, configuration);
+        TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, developerName);
+        // the request can have aliases for the ids
+        HashMap<String, String> paramsWithOriginalNames = new HashMap<>();
+        id.entrySet()
+                .forEach(p-> paramsWithOriginalNames.put(tableMetadata.getColumnNameOrAlias(p.getKey()), p.getValue()));
+
+        dataService.deleteByPrimaryKey(tableMetadata, connectionService.getSql2Object(configuration),
+                paramsWithOriginalNames, configuration);
     }
 }

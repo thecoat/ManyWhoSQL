@@ -2,7 +2,6 @@ package com.manywho.services.sql.utilities;
 
 import com.manywho.sdk.api.run.elements.type.Property;
 import com.manywho.services.sql.services.PrimaryKeyService;
-
 import javax.inject.Inject;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +16,11 @@ public class MobjectUtil {
     }
 
     public String getPrimaryKeyValue(List<String> primaryKeyNames, List<Property> properties) {
+
+        return primaryKeyService.serializePrimaryKey(getPrimaryKeyProperties(primaryKeyNames, properties));
+    }
+
+    public HashMap<String, String> getPrimaryKeyProperties(List<String> primaryKeyNames, List<Property> properties) {
         HashMap<String, String> primaryKeys = new HashMap<>();
 
         for(String primaryKey: primaryKeyNames) {
@@ -25,6 +29,6 @@ public class MobjectUtil {
                     .forEach(property -> {primaryKeys.put(primaryKey, property.getContentValue());});
         }
 
-        return primaryKeyService.serializePrimaryKey(primaryKeys);
+        return primaryKeys;
     }
 }

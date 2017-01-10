@@ -109,7 +109,7 @@
     "variant": null
   },
   "listFilter": {
-    "id": "eyJjaXR5bmFtZSI6Ik1vbnRldmlkZW8iLCJjb3VudHJ5bmFtZSI6IlVydWd1YXkifQ==",
+    "id": "eyJDb3VudHJ5IE5hbWUiOiJVcnVndWF5IiwiQ2l0eSBOYW1lIjoiTW9udGV2aWRlbyJ9",
     "filterByProvidedObjects": false,
     "orderByPropertyDeveloperName": null,
     "orderByDirectionType": "",
@@ -127,11 +127,11 @@
     "developerName": "city",
     "properties": [
       {
-        "developerName": "cityname",
+        "developerName": "City Name",
         "list": null
       },
       {
-        "developerName": "countryname",
+        "developerName": "Country Name",
         "list": null
       },
       {
@@ -143,14 +143,14 @@
   "objectData": [
     {
       "internalId": "cd9bb102-8ead-46df-91a3-0bf9cf29c4cd",
-      "externalId": "eyJjaXR5bmFtZSI6Ik1vbnRldmlkZW8iLCJjb3VudHJ5bmFtZSI6IlVydWd1YXkifQ==",
+      "externalId": "eyJDb3VudHJ5IE5hbWUiOiJVcnVndWF5IiwiQ2l0eSBOYW1lIjoiTW9udGV2aWRlbyJ9",
       "developerName": "city",
       "typeElementId": "ce347c69-e57c-4b00-a6c7-52151b48a266",
       "order": 0,
       "properties": [
         {
           "typeElementPropertyId": "8dd9eba6-ff9c-4da3-a981-65d977a10a39",
-          "developerName": "cityname",
+          "developerName": "City Name",
           "contentValue": "",
           "contentType": "ContentString",
           "contentFormat": null,
@@ -158,7 +158,7 @@
         },
         {
           "typeElementPropertyId": "31cee705-2a72-401d-b061-3145cf109606",
-          "developerName": "countryname",
+          "developerName": "Country Name",
           "contentValue": "",
           "contentType": "ContentString",
           "contentFormat": null,

@@ -36,7 +36,7 @@ public class MetadataService {
         List<TableMetadata> tableList = new ArrayList<>();
 
         while(rsTablesMetadata.next()) {
-            TableMetadata tableMetadata = new TableMetadata(rsTablesMetadata.getString(3), schemaName);
+            TableMetadata tableMetadata = new TableMetadata(rsTablesMetadata.getString(3), rsTablesMetadata.getString(5), schemaName);
             populateColumnForTable(catalog, schemaName, tableMetadata, metaData);
             populatePrimaryKeyForTable(catalog, schemaName, tableMetadata, metaData);
             tableList.add(tableMetadata);
@@ -65,7 +65,8 @@ public class MetadataService {
                 tableMetadata.setColumn(
                         rsColumnsMetadata.getString("COLUMN_NAME"),
                         ContentTypeUtil.createFromSqlType(rsColumnsMetadata.getInt("DATA_TYPE"), rsColumnsMetadata.getString("TYPE_NAME")),
-                        Objects.equals(rsColumnsMetadata.getString("IS_AUTOINCREMENT"), "YES")
+                        Objects.equals(rsColumnsMetadata.getString("IS_AUTOINCREMENT"), "YES"),
+                        rsColumnsMetadata.getString("REMARKS")
                 );
 
                 tableMetadata.setColumnsDatabaseType(
