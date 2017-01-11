@@ -42,8 +42,7 @@ public class DataManager {
                 queryStrService.getSqlFromFilter(configuration, objectDataType, filters, tableMetadata), configuration);
     }
 
-    public MObject update(ServiceConfiguration configuration, MObject mObject, HashMap<String, String> primaryKeyHashMap) throws Exception {
-        TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, mObject.getDeveloperName());
+    public MObject update(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject, HashMap<String, String> primaryKeyHashMap) throws Exception {
         Sql2o sql2o = connectionService.getSql2Object(configuration);
         dataService.update(mObject, sql2o, tableMetadata, primaryKeyHashMap, configuration);
 

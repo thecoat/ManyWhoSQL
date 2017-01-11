@@ -5,10 +5,7 @@ import com.manywho.services.sql.suites.common.controllers.data.LoadTest;
 import com.manywho.services.sql.suites.common.controllers.data.MultipleKeyTest;
 import com.manywho.services.sql.suites.common.controllers.data.SaveTest;
 import com.manywho.services.sql.suites.common.controllers.describe.DescribeTest;
-import com.manywho.services.sql.suites.postgresql.data.AutoIncrementTest;
-import com.manywho.services.sql.suites.postgresql.data.DateTimeTest;
-import com.manywho.services.sql.suites.postgresql.data.CapitalLetterTest;
-import com.manywho.services.sql.suites.postgresql.data.UuidTest;
+import com.manywho.services.sql.suites.postgresql.data.*;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -24,7 +21,12 @@ import org.junit.runners.Suite;
         DateTimeTest.class,
         UuidTest.class,
         CapitalLetterTest.class,
-        AutoIncrementTest.class
+        AutoIncrementTest.class,
+        DeleteTest.class,
+        com.manywho.services.sql.suites.postgresql.data.LoadTest.class,
+        com.manywho.services.sql.suites.postgresql.data.DeleteTest.class,
+        com.manywho.services.sql.suites.postgresql.data.SaveTest.class
+
 })
 public class PostgreSqlTestSuite {
     @BeforeClass

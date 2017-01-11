@@ -1,7 +1,7 @@
-package com.manywho.services.sql.suites.common.controllers.data;
+package com.manywho.services.sql.suites.postgresql.data;
 
-import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.DbConfigurationTest;
+import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
 import org.junit.Test;
@@ -9,7 +9,9 @@ import org.sql2o.Connection;
 
 public class SaveTest extends ServiceFunctionalTest {
     @Test
-    public void testCreate() throws Exception {
+    public void testCreateWithAlias() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
+
         try (Connection connection = getSql2o().open()) {
             String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
                     "id integer NOT NULL," +
@@ -18,19 +20,29 @@ public class SaveTest extends ServiceFunctionalTest {
                     "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
                     ");";
             connection.createQuery(sql).executeUpdate();
+
+            String aliasId = "COMMENT ON COLUMN " + scapeTableName("country") + ".id IS '{{ManyWhoName:The Id}}';";
+            connection.createQuery(aliasId).executeUpdate();
+
+            String aliasName = "COMMENT ON COLUMN " + scapeTableName("country") + ".name IS '{{ManyWhoName:The Name}}';";
+            connection.createQuery(aliasName).executeUpdate();
+
+            String aliasDescription = "COMMENT ON COLUMN " + scapeTableName("country") + ".description IS '{{ManyWhoName:The Description}}';";
+            connection.createQuery(aliasDescription).executeUpdate();
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
-                "suites/common/data/save/create/create-request.json",
+                "suites/common/data/save/create-with-alias/create-request.json",
                 configurationParameters(),
-                "suites/common/data/save/create/create-response.json",
+                "suites/common/data/save/create-with-alias/create-response.json",
                 dispatcher
         );
     }
 
     @Test
-    public void testUpdate() throws Exception {
+    public void testUpdateWithAliases() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
+
         try (Connection connection = getSql2o().open()) {
             String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
                     "id integer NOT NULL," +
@@ -39,6 +51,15 @@ public class SaveTest extends ServiceFunctionalTest {
                     "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
                     ");";
             connection.createQuery(sql).executeUpdate();
+
+            String aliasId = "COMMENT ON COLUMN " + scapeTableName("country") + ".id IS '{{ManyWhoName:The Id}}';";
+            connection.createQuery(aliasId).executeUpdate();
+
+            String aliasName = "COMMENT ON COLUMN " + scapeTableName("country") + ".name IS '{{ManyWhoName:The Name}}';";
+            connection.createQuery(aliasName).executeUpdate();
+
+            String aliasDescription = "COMMENT ON COLUMN " + scapeTableName("country") + ".description IS '{{ManyWhoName:The Description}}';";
+            connection.createQuery(aliasDescription).executeUpdate();
         }
 
         try (Connection connection = getSql2o().open()) {
@@ -47,9 +68,9 @@ public class SaveTest extends ServiceFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
-                "suites/common/data/save/update/update-request.json",
+                "suites/common/data/save/update-with-alias/update-request.json",
                 configurationParameters(),
-                "suites/common/data/save/update/update-response.json",
+                "suites/common/data/save/update-with-alias/update-response.json",
                 dispatcher
         );
     }

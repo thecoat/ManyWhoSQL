@@ -113,9 +113,21 @@ public class TableMetadata {
     }
 
     public String getColumnAliasOrName(String aliasOrName) {
-        if (aliases.get(aliasOrName)!= null) {
-            return aliases.get(aliasOrName);
+        if (columns.get(aliasOrName)== null) {
+            // it is not a column
+            Optional<Map.Entry<String, String>> alias = aliases.entrySet().stream().filter(p -> Objects.equals(p.getValue(), aliasOrName)).findFirst();
+
+            if (alias.isPresent()) {
+                return alias.get().getValue();
+            }
+
         } else if (columns.get(aliasOrName)!= null){
+            if (aliases.get(aliasOrName) != null) {
+                // it is a column and exist an alias for it
+                return aliases.get(aliasOrName);
+            }
+
+            // it is a column but there isn't alias for it
             return aliasOrName;
         }
 

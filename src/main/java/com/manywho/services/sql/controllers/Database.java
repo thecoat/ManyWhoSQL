@@ -3,10 +3,13 @@ package com.manywho.services.sql.controllers;
 import com.manywho.sdk.api.run.elements.type.ListFilter;
 import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.ObjectDataType;
+import com.manywho.sdk.api.run.elements.type.Property;
 import com.manywho.sdk.services.database.RawDatabase;
 import com.manywho.services.sql.ServiceConfiguration;
+import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.exceptions.RecordNotFoundException;
 import com.manywho.services.sql.managers.DataManager;
+import com.manywho.services.sql.managers.MetadataManager;
 import com.manywho.services.sql.services.PrimaryKeyService;
 
 import javax.inject.Inject;
@@ -16,11 +19,13 @@ import java.util.List;
 public class Database implements RawDatabase<ServiceConfiguration> {
     private DataManager dataManager;
     private PrimaryKeyService primaryKeyService;
+    private MetadataManager metadataManager;
 
     @Inject
-    public Database(DataManager dataManager, PrimaryKeyService primaryKeyService) {
+    public Database(DataManager dataManager, PrimaryKeyService primaryKeyService, MetadataManager metadataManager) {
         this.dataManager = dataManager;
         this.primaryKeyService = primaryKeyService;
+        this.metadataManager = metadataManager;
     }
 
     @Override
@@ -88,10 +93,24 @@ public class Database implements RawDatabase<ServiceConfiguration> {
     @Override
     public MObject update(ServiceConfiguration configuration, MObject object) {
         try {
-            this.dataManager.update(configuration, object, primaryKeyService.deserializePrimaryKey(object.getExternalId()));
-            List<MObject> mObjectList = this.dataManager.load(configuration, object.getDeveloperName(), primaryKeyService.deserializePrimaryKey(object.getExternalId()));
+            TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, object.getDeveloperName());
+            HashMap<String, String> idWithAlias = primaryKeyService.deserializePrimaryKey(object.getExternalId());
+            HashMap<String, String> idProperties = new HashMap<>();
+            idWithAlias.entrySet()
+                    .forEach(property -> idProperties.put(tableMetadata.getColumnNameOrAlias(property.getKey()), property.getValue()));
 
-            if (mObjectList.size()>0) return mObjectList.get(0);
+            object.getProperties()
+                    .forEach(p -> p.setDeveloperName( tableMetadata.getColumnNameOrAlias(p.getDeveloperName())));
+
+            this.dataManager.update(configuration, tableMetadata, object, idProperties);
+
+            List<MObject> mObjectList = this.dataManager.load(configuration, object.getDeveloperName(), idProperties);
+            if (mObjectList.size()>0) {
+                MObject mObject = mObjectList.get(0);
+                mObject.getProperties().forEach(p -> p.setDeveloperName(tableMetadata.getColumnAliasOrName(p.getDeveloperName())));
+
+                return mObject;
+            }
 
         } catch (Exception e) {
             throw  new RuntimeException(e);

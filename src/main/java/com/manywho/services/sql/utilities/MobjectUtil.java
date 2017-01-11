@@ -26,7 +26,7 @@ public class MobjectUtil {
         for(String primaryKey: primaryKeyNames) {
             properties.stream()
                     .filter(property -> Objects.equals(property.getDeveloperName(), primaryKey))
-                    .forEach(property -> {primaryKeys.put(primaryKey, property.getContentValue());});
+                    .forEach(property -> primaryKeys.put(primaryKey, property.getContentValue()));
         }
 
         return primaryKeys;
