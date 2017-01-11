@@ -20,3 +20,6 @@ script:
   - mvn test -Dtest=MySqlTestSuite
   - mvn test -Dtest=PostgreSqlTestSuite
   - mvn test -Dtest=SqlServerTestSuite
+cache:
+  directories:
+  - $HOME/.m2
