@@ -13,7 +13,7 @@ before_install:
     - export TZ=Europe/London
 before_script:
   - psql -c 'create database test;' -U postgres
-  - mysql -u root -e 'create database test;'
+  - mysql -e 'create database test;'
 script:
   - mvn clean package -DskipTests=true
   - mvn test -Dtest=UnitTestSuite
