@@ -1,13 +1,11 @@
 language: java
 jdk:
   - oraclejdk8
-dist: trusty
+dist: precise
 addons:
   apt:
     packages:
       - oracle-java8-installer
-      - mysql-server-5.5
-      - mysql-client-5.5
 services:
   - postgresql
   - mysql
