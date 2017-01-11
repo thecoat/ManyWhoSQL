@@ -8,9 +8,10 @@ import com.manywho.services.sql.suites.common.controllers.describe.DescribeTest;
 import com.manywho.services.sql.suites.mysql.data.AutoIncrementTest;
 import com.manywho.services.sql.suites.mysql.data.CapitalLetterTest;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
-
+@Ignore
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         // common
