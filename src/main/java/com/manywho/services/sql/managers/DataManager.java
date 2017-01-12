@@ -7,6 +7,7 @@ import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.ConnectionService;
 import com.manywho.services.sql.services.DataService;
+import com.manywho.services.sql.services.PrimaryKeyService;
 import com.manywho.services.sql.services.QueryStrService;
 import org.sql2o.Sql2o;
 import javax.inject.Inject;
@@ -19,20 +20,22 @@ public class DataManager {
     private DataService dataService;
     private MetadataManager metadataManager;
     private QueryStrService queryStrService;
+    private PrimaryKeyService primaryKeyService;
 
     @Inject
-    public DataManager(ConnectionService connectionService, DataService dataService, MetadataManager metadataManager, QueryStrService queryStrService){
+    public DataManager(ConnectionService connectionService, DataService dataService, MetadataManager metadataManager,
+                       QueryStrService queryStrService, PrimaryKeyService primaryKeyService){
         this.connectionService = connectionService;
         this.dataService = dataService;
         this.metadataManager = metadataManager;
         this.queryStrService = queryStrService;
+        this.primaryKeyService = primaryKeyService;
     }
 
-    public List<MObject> load(ServiceConfiguration configuration, String objectDataType, HashMap<String, String> id) throws Exception {
+    public List<MObject> load(ServiceConfiguration configuration, TableMetadata tableMetadata,
+                              HashMap<String, String> id) throws Exception {
 
-        return dataService.fetchByPrimaryKey(
-                metadataManager.getMetadataTable(configuration, objectDataType),
-                        connectionService.getSql2Object(configuration), id, configuration);
+        return dataService.fetchByPrimaryKey(tableMetadata, connectionService.getSql2Object(configuration), id, configuration);
     }
 
     public List<MObject> loadBySearch(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filters) throws Exception {
@@ -42,31 +45,25 @@ public class DataManager {
                 queryStrService.getSqlFromFilter(configuration, objectDataType, filters, tableMetadata), configuration);
     }
 
-    public MObject update(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject, HashMap<String, String> primaryKeyHashMap) throws Exception {
+    public MObject update(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
         Sql2o sql2o = connectionService.getSql2Object(configuration);
+        HashMap<String, String> primaryKeyHashMap = primaryKeyService.deserializePrimaryKey(mObject.getExternalId());
         dataService.update(mObject, sql2o, tableMetadata, primaryKeyHashMap, configuration);
 
         return dataService.fetchByPrimaryKey(tableMetadata, sql2o, primaryKeyHashMap, configuration).get(0);
     }
 
-    public MObject create(ServiceConfiguration configuration, MObject mObject) throws Exception {
-        TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, mObject.getDeveloperName());
-        mObject.getProperties().forEach(p -> p.setDeveloperName(tableMetadata.getColumnNameOrAlias(p.getDeveloperName())));
+    public MObject create(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
 
         dataService.insert(mObject, connectionService.getSql2Object(configuration), tableMetadata, configuration);
-        mObject.getProperties().forEach(p -> p.setDeveloperName(tableMetadata.getColumnAliasOrName(p.getDeveloperName())));
 
         return mObject;
     }
 
-    public void delete(ServiceConfiguration configuration, String developerName, HashMap<String, String> id) throws Exception {
-        TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, developerName);
-        // the request can have aliases for the ids
-        HashMap<String, String> paramsWithOriginalNames = new HashMap<>();
-        id.entrySet()
-                .forEach(p-> paramsWithOriginalNames.put(tableMetadata.getColumnNameOrAlias(p.getKey()), p.getValue()));
+    public void delete(ServiceConfiguration configuration,TableMetadata tableMetadata,
+                       HashMap<String, String> id) throws Exception {
 
         dataService.deleteByPrimaryKey(tableMetadata, connectionService.getSql2Object(configuration),
-                paramsWithOriginalNames, configuration);
+                id, configuration);
     }
 }

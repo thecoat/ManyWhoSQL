@@ -22,9 +22,12 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DescribeService {
+    private AliasService aliasService;
 
     @Inject
-    public DescribeService(){}
+    public DescribeService(AliasService aliasService){
+        this.aliasService = aliasService;
+    }
 
     public TypeElement createTypeElementFromTableMetadata(TableMetadata tableMetadata) throws SQLException {
         HashMap<String, ContentType> metadataProperties = tableMetadata.getColumnsAndContentTypeWithAlias();
@@ -34,7 +37,8 @@ public class DescribeService {
 
         for(Map.Entry<String, ContentType> property: metadataProperties.entrySet()) {
             properties.add(new TypeElementProperty(property.getKey(), property.getValue()));
-            propertyBindings.add(new TypeElementPropertyBinding(property.getKey(), property.getKey(), tableMetadata.getColumnDatabaseType(property.getKey())));
+            propertyBindings.add(new TypeElementPropertyBinding(property.getKey(), property.getKey(),
+                    aliasService.getColumnDatabaseType(tableMetadata, property.getKey())));
         }
 
         List<TypeElementBinding> bindings = Lists.newArrayList();

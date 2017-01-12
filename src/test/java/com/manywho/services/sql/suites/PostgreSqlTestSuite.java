@@ -25,7 +25,8 @@ import org.junit.runners.Suite;
         DeleteTest.class,
         com.manywho.services.sql.suites.postgresql.data.LoadTest.class,
         com.manywho.services.sql.suites.postgresql.data.DeleteTest.class,
-        com.manywho.services.sql.suites.postgresql.data.SaveTest.class
+        com.manywho.services.sql.suites.postgresql.data.SaveTest.class,
+        com.manywho.services.sql.suites.postgresql.describe.DescribeTest.class
 
 })
 public class PostgreSqlTestSuite {

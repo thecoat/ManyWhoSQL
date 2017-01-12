@@ -14,11 +14,14 @@ import java.util.Set;
 public class QueryStrService {
     private QueryFilterConditions queryFilterConditions;
     private ScapeForTablesUtil scapeForTablesUtil;
+    private AliasService aliasService;
 
     @Inject
-    public QueryStrService(QueryFilterConditions queryFilterConditions, ScapeForTablesUtil scapeForTablesUtil) {
+    public QueryStrService(QueryFilterConditions queryFilterConditions, ScapeForTablesUtil scapeForTablesUtil,
+                           AliasService aliasService) {
         this.queryFilterConditions = queryFilterConditions;
         this.scapeForTablesUtil = scapeForTablesUtil;
+        this.aliasService = aliasService;
     }
 
     public String createQueryWithParametersForSelectByPrimaryKey(TableMetadata tableMetadata, Set<String> primaryKeyNames, ServiceConfiguration configuration) {
@@ -93,7 +96,7 @@ public class QueryStrService {
     }
 
     private List<ListFilterWhere> getFiltersWithoutNames(TableMetadata tableMetadata, List<ListFilterWhere> listFilterWheres) {
-        listFilterWheres.forEach(f -> f.setColumnName(tableMetadata.getColumnNameOrAlias(f.getColumnName())));
+        listFilterWheres.forEach(f -> f.setColumnName(aliasService.getColumnNameOrAlias(tableMetadata, f.getColumnName())));
 
         return listFilterWheres;
     }

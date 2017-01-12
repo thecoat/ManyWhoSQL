@@ -1,6 +1,5 @@
 package com.manywho.services.sql.entities;
 
-import com.google.common.base.Strings;
 import com.manywho.sdk.api.ContentType;
 import com.manywho.services.sql.utilities.ManyWhoSpecialComment;
 
@@ -79,63 +78,12 @@ public class TableMetadata {
         return response;
     }
 
+    public HashMap<String, String> getAliases() {
+        return aliases;
+    }
+
     public HashMap<String, String> getColumnsDatabaseType() {
         return columnsDatabaseType;
-    }
-
-    public String getColumnDatabaseType(String nameOrAlias) {
-        String name = nameOrAlias;
-
-        if (isAlias(nameOrAlias)) {
-            return columnsDatabaseType.get(getColumnNameOrAlias(nameOrAlias));
-        }
-
-        return columnsDatabaseType.get(name);
-    }
-
-    public String getColumnNameOrAlias(String nameOrAlias) {
-        if (columns.get(nameOrAlias) == null) {
-            //is alias
-
-            Optional<Map.Entry<String, String>> first = aliases.entrySet().stream()
-                    .filter(c -> c.getValue() != null && Objects.equals(c.getValue(), nameOrAlias))
-                    .findFirst();
-
-            if (first.isPresent()) {
-                return first.get().getKey();
-            }
-
-            throw new RuntimeException("Name of Column not found");
-        }
-
-        //is name
-        return nameOrAlias;
-    }
-
-    public String getColumnAliasOrName(String aliasOrName) {
-        if (columns.get(aliasOrName)== null) {
-            // it is not a column
-            Optional<Map.Entry<String, String>> alias = aliases.entrySet().stream().filter(p -> Objects.equals(p.getValue(), aliasOrName)).findFirst();
-
-            if (alias.isPresent()) {
-                return alias.get().getValue();
-            }
-
-        } else if (columns.get(aliasOrName)!= null){
-            if (aliases.get(aliasOrName) != null) {
-                // it is a column and exist an alias for it
-                return aliases.get(aliasOrName);
-            }
-
-            // it is a column but there isn't alias for it
-            return aliasOrName;
-        }
-
-        throw new RuntimeException("Name of Column not found");
-    }
-
-    private boolean isAlias(String columnName) {
-        return columns.get(columnName) == null;
     }
 
     public List<String> getPrimaryKeyNames() {

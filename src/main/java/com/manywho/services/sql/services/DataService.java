@@ -43,7 +43,7 @@ public class DataService {
                 parameterSanitaizerService.addParameterValueToTheQuery(key, externalId.get(key), paramType, query);
             }
 
-            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata, configuration);
+            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             dataBaseTypeNotSupported.printStackTrace();
         }
@@ -55,7 +55,7 @@ public class DataService {
         try(Connection con = sql2o.open()) {
             Query query = con.createQuery(sqlSearch).setCaseSensitive(true);
 
-            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata, configuration);
+            return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         }
     }
 

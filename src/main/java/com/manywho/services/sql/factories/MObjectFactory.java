@@ -2,13 +2,14 @@ package com.manywho.services.sql.factories;
 
 import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.Property;
-import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
+import com.manywho.services.sql.services.AliasService;
 import com.manywho.services.sql.services.DescribeService;
 import com.manywho.services.sql.services.PrimaryKeyService;
 import com.manywho.services.sql.utilities.MobjectUtil;
 import org.sql2o.data.Row;
 import org.sql2o.data.Table;
+
 import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,15 +19,18 @@ public class MObjectFactory {
     private DescribeService describeService;
     private MobjectUtil mobjectUtil;
     private PrimaryKeyService primaryKeyService;
+    private AliasService aliasService;
 
     @Inject
-    public MObjectFactory(DescribeService describeService, MobjectUtil mobjectUtil, PrimaryKeyService primaryKeyService){
+    public MObjectFactory(DescribeService describeService, MobjectUtil mobjectUtil, PrimaryKeyService primaryKeyService,
+                          AliasService aliasService){
         this.describeService = describeService;
         this.mobjectUtil = mobjectUtil;
         this.primaryKeyService = primaryKeyService;
+        this.aliasService = aliasService;
     }
 
-    public List<MObject> createFromTable(Table table, TableMetadata tableMetadata, ServiceConfiguration configuration) {
+    public List<MObject> createFromTable(Table table, TableMetadata tableMetadata) {
         List<MObject> mObjects = new ArrayList<>();
 
         for (Row row: table.rows()) {
@@ -43,7 +47,7 @@ public class MObjectFactory {
             HashMap<String, String> primaryKeyAlias = new HashMap<>();
             mobjectUtil.getPrimaryKeyProperties(tableMetadata.getPrimaryKeyNames(), properties)
                     .entrySet()
-                    .forEach(p -> primaryKeyAlias.put(tableMetadata.getColumnAliasOrName(p.getKey()), p.getValue()));
+                    .forEach(p -> primaryKeyAlias.put(aliasService.getColumnAliasOrName(tableMetadata, p.getKey()), p.getValue()));
 
             mObjects.add(new MObject(tableMetadata.getTableName(), primaryKeyService.serializePrimaryKey(primaryKeyAlias), properties));
             renamePropertiesUsingAliases(tableMetadata, properties);
@@ -53,6 +57,6 @@ public class MObjectFactory {
     }
 
     private void renamePropertiesUsingAliases(TableMetadata tableMetadata, List<Property> originalProperties) {
-        originalProperties.forEach(p -> p.setDeveloperName(tableMetadata.getColumnAliasOrName(p.getDeveloperName())));
+        originalProperties.forEach(p -> p.setDeveloperName(aliasService.getColumnAliasOrName(tableMetadata, p.getDeveloperName())));
     }
 }
