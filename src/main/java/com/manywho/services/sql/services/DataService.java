@@ -51,7 +51,7 @@ public class DataService {
         return null;
     }
 
-    public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String sqlSearch, ServiceConfiguration configuration) throws SQLException {
+    public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String sqlSearch) throws SQLException {
         try(Connection con = sql2o.open()) {
             Query query = con.createQuery(sqlSearch).setCaseSensitive(true);
 
@@ -85,8 +85,12 @@ public class DataService {
 
             for(Property p : mObject.getProperties()) {
                 if (!tableMetadata.isColumnAutoincrement(p.getDeveloperName())) {
-                    parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
-                            tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
+                    try {
+                        parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
+                                tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
                 } else {
                     autoIncrement = p.getDeveloperName();
                 }

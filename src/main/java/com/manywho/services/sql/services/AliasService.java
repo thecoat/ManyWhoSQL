@@ -1,12 +1,12 @@
 package com.manywho.services.sql.services;
 
+import com.google.common.base.Strings;
+import com.manywho.sdk.api.run.elements.type.ListFilter;
 import com.manywho.sdk.api.run.elements.type.MObject;
+import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import com.manywho.services.sql.entities.TableMetadata;
 import javax.inject.Inject;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
 
 public class AliasService {
     private PrimaryKeyService primaryKeyService;
@@ -21,10 +21,7 @@ public class AliasService {
 
         if (object.getExternalId() != null) {
             HashMap<String, String> idWithAlias = primaryKeyService.deserializePrimaryKey(object.getExternalId());
-
-            HashMap<String, String> idWithColumnNames = new HashMap<>();
-            idWithAlias.entrySet()
-                    .forEach(property -> idWithColumnNames.put(getColumnNameOrAlias(tableMetadata, property.getKey()), property.getValue()));
+            HashMap<String, String> idWithColumnNames = getOriginalKeys(idWithAlias, tableMetadata);
 
             externalId = primaryKeyService.serializePrimaryKey(idWithColumnNames);
         }
@@ -36,7 +33,7 @@ public class AliasService {
 
         return object;
     }
-
+    
     public MObject getMObjectWithAliases(MObject object, TableMetadata tableMetadata) {
         HashMap<String, String> idWithColumnNames = primaryKeyService.deserializePrimaryKey(object.getExternalId());
 
@@ -117,5 +114,37 @@ public class AliasService {
 
     private boolean isAlias(TableMetadata tableMetadata, String columnName) {
         return tableMetadata.getColumns().get(columnName) == null;
+    }
+
+    public ListFilter setFiltersOriginalNames(TableMetadata tableMetadata, ListFilter filter) {
+        filter.getWhere().forEach(f -> f.setColumnName(getColumnNameOrAlias(tableMetadata, f.getColumnName())));
+        if (!Strings.isNullOrEmpty(filter.getOrderByPropertyDeveloperName())) {
+            filter.setOrderByPropertyDeveloperName(getColumnNameOrAlias(tableMetadata, filter.getOrderByPropertyDeveloperName()));
+        }
+        return filter;
+    }
+
+    public List<ObjectDataTypeProperty> setPropertiesOriginalName(TableMetadata tableMetadata, List<ObjectDataTypeProperty> properties) {
+        properties.forEach(p -> p.setDeveloperName(getColumnNameOrAlias(tableMetadata, p.getDeveloperName())));
+
+        return properties;
+    }
+
+    public HashMap<String,String> getOriginalKeys(HashMap<String, String> idWithAlias, TableMetadata tableMetadata) {
+        HashMap<String, String> idWithColumnNames = new HashMap<>();
+
+        idWithAlias.entrySet()
+                .forEach(property -> idWithColumnNames.put(getColumnNameOrAlias(tableMetadata, property.getKey()), property.getValue()));
+
+        return idWithColumnNames;
+
+    }
+
+    public List<MObject> getMObjectsWithAlias(List<MObject> mObjects, TableMetadata tableMetadata) {
+        List<MObject> mObjectsWithAlias = new ArrayList<>();
+
+        mObjects.forEach(original -> mObjectsWithAlias.add(getMObjectWithAliases(original, tableMetadata)));
+
+        return mObjectsWithAlias;
     }
 }

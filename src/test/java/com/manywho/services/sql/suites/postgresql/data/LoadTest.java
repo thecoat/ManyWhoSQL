@@ -42,6 +42,33 @@ public class LoadTest extends ServiceFunctionalTest {
         );
     }
 
+    @Test
+    public void testLoadDataByExternalIdWithFilters() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
+        try (Connection connection = getSql2o().open()) {
+            String sqlCreateTable = "CREATE TABLE " + scapeTableName("country") + "("+
+                    "id integer NOT NULL,"+
+                    "name character varying(255)," +
+                    "description character varying(1024)," +
+                    "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                    ");";
+            connection.createQuery(sqlCreateTable).executeUpdate();
+
+            String sql = "INSERT INTO " + scapeTableName("country")+"(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            connection.createQuery(sql).executeUpdate();
+
+            String aliasName = "COMMENT ON COLUMN " + scapeTableName("country") + ".id IS '{{ManyWhoName:The ID}}';";
+            connection.createQuery(aliasName).executeUpdate();
+        }
+
+        DefaultApiRequest.loadDataRequestAndAssertion("/data",
+                "suites/common/data/load/by-external-id-with-alias/load-request.json",
+                configurationParameters(),
+                "suites/common/data/load/by-external-id-with-alias/load-response.json",
+                dispatcher
+        );
+    }
+
     @After
     public void cleanDatabaseAfterEachTest() {
         try (Connection connection = getSql2o().open()) {

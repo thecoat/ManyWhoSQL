@@ -74,7 +74,9 @@ public class DescribeService {
     }
 
     private String convertDateTime(String property, Object object) {
-        if (object instanceof TemporalAccessor) {
+        if (object == null){
+            return null;
+        } else if (object instanceof TemporalAccessor) {
             return java.time.format.DateTimeFormatter.ISO_OFFSET_DATE_TIME.format((TemporalAccessor) object);
         } else if (object instanceof Date) {
             OffsetDateTime dateTime = OffsetDateTime.ofInstant(((Date) object).toInstant(), ZoneId.of("UTC"));

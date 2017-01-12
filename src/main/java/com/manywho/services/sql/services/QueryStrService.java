@@ -1,14 +1,16 @@
 package com.manywho.services.sql.services;
 
 import com.healthmarketscience.sqlbuilder.*;
-import com.manywho.sdk.api.run.elements.type.*;
+import com.manywho.sdk.api.run.elements.type.ListFilter;
+import com.manywho.sdk.api.run.elements.type.MObject;
+import com.manywho.sdk.api.run.elements.type.ObjectDataType;
+import com.manywho.sdk.api.run.elements.type.Property;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.filter.QueryFilterConditions;
 import com.manywho.services.sql.utilities.ScapeForTablesUtil;
 
 import javax.inject.Inject;
-import java.util.List;
 import java.util.Set;
 
 public class QueryStrService {
@@ -82,22 +84,15 @@ public class QueryStrService {
                 .addCustomFromTable(scapeForTablesUtil.scapeTableName(configuration.getDatabaseType(),
                         configuration.getDatabaseSchema(), objectDataType.getDeveloperName()));
 
+        aliasService.setFiltersOriginalNames(tableMetadata, filter);
+        objectDataType.setProperties(aliasService.setPropertiesOriginalName(tableMetadata, objectDataType.getProperties()));
+
         queryFilterConditions.addSearch(selectQuery, filter.getSearch(), objectDataType.getProperties(), configuration.getDatabaseType());
-
-        queryFilterConditions.addWhere(selectQuery, getFiltersWithoutNames(tableMetadata, filter.getWhere()),
-                filter.getComparisonType(), configuration.getDatabaseType());
-
+        queryFilterConditions.addWhere(selectQuery, filter.getWhere(), filter.getComparisonType(), configuration.getDatabaseType());
         queryFilterConditions.addOffset(selectQuery, configuration.getDatabaseType(), filter.getOffset(), filter.getLimit());
-
         queryFilterConditions.addOrderBy(selectQuery, filter.getOrderByPropertyDeveloperName(),
                 filter.getOrderByDirectionType(), tableMetadata, configuration.getDatabaseType());
 
         return selectQuery.validate().toString();
-    }
-
-    private List<ListFilterWhere> getFiltersWithoutNames(TableMetadata tableMetadata, List<ListFilterWhere> listFilterWheres) {
-        listFilterWheres.forEach(f -> f.setColumnName(aliasService.getColumnNameOrAlias(tableMetadata, f.getColumnName())));
-
-        return listFilterWheres;
     }
 }

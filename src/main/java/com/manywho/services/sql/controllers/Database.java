@@ -59,10 +59,10 @@ public class Database implements RawDatabase<ServiceConfiguration> {
     public void delete(ServiceConfiguration configuration, MObject object) {
         try {
             TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, object.getDeveloperName());
-            MObject objectWithoutAliases = this.aliasService.getMObjectWithoutAliases(object, tableMetadata);
+            MObject objectWithOriginalNames = this.aliasService.getMObjectWithoutAliases(object, tableMetadata);
 
             this.dataManager.delete(configuration,tableMetadata,
-                    primaryKeyService.deserializePrimaryKey(objectWithoutAliases.getExternalId()));
+                    primaryKeyService.deserializePrimaryKey(objectWithOriginalNames.getExternalId()));
 
         } catch (Exception e) {
             throw  new RuntimeException(e);
@@ -82,7 +82,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             TableMetadata tableMetadata = metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName());
 
             List<MObject> mObjectList = this.dataManager.load(configuration, tableMetadata,
-                    primaryKeyService.deserializePrimaryKey(id));
+                    aliasService.getOriginalKeys(primaryKeyService.deserializePrimaryKey(id), tableMetadata));
 
             if(mObjectList.size()>0) return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
         } catch (Exception e) {
@@ -95,7 +95,10 @@ public class Database implements RawDatabase<ServiceConfiguration> {
     @Override
     public List<MObject> findAll(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter) {
         try {
-            return this.dataManager.loadBySearch(configuration, objectDataType,  filter);
+            TableMetadata tableMetadata =  metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName());
+            List<MObject> mObjects = this.dataManager.loadBySearch(configuration, tableMetadata, objectDataType,  filter);
+
+            return this.aliasService.getMObjectsWithAlias(mObjects, tableMetadata);
 
         } catch (Exception e) {
             throw  new RuntimeException(e);

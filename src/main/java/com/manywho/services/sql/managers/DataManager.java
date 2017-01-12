@@ -38,11 +38,11 @@ public class DataManager {
         return dataService.fetchByPrimaryKey(tableMetadata, connectionService.getSql2Object(configuration), id, configuration);
     }
 
-    public List<MObject> loadBySearch(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filters) throws Exception {
-        TableMetadata tableMetadata =  metadataManager.getMetadataTable(configuration, objectDataType.getDeveloperName());
+    public List<MObject> loadBySearch(ServiceConfiguration configuration, TableMetadata tableMetadata,
+                                      ObjectDataType objectDataType, ListFilter filters) throws Exception {
 
         return dataService.fetchBySearch(tableMetadata, connectionService.getSql2Object(configuration),
-                queryStrService.getSqlFromFilter(configuration, objectDataType, filters, tableMetadata), configuration);
+                queryStrService.getSqlFromFilter(configuration, objectDataType, filters, tableMetadata));
     }
 
     public MObject update(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {

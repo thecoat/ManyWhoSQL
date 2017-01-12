@@ -3,6 +3,7 @@ package com.manywho.services.sql.services;
 import com.google.common.base.Strings;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.utilities.ContentTypeUtil;
+import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sql2o.Query;
@@ -88,8 +89,11 @@ public class QueryParameterService {
 
             case TIMESTAMP:
                 DateTimeFormatter parser = ISODateTimeFormat.dateTimeParser();
-
-                return query.addParameter(paramName, parser.parseDateTime(parameterValue));
+                if (Strings.isNullOrEmpty(parameterValue)) {
+                    return query.addParameter(paramName, (DateTime)null);
+                } else {
+                    return query.addParameter(paramName, parser.parseDateTime(parameterValue));
+                }
 
             case BINARY:
                 throw new DataBaseTypeNotSupported("BINARY");
