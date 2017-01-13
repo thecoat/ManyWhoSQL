@@ -13,7 +13,7 @@
         </repository>
         <repository>
             <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <url>z</url>
             <snapshots>
                 <enabled>true</enabled>
             </snapshots>
@@ -23,12 +23,12 @@
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-server-undertow</artifactId>
-            <version>2.0.0-SNAPSHOT</version>
+            <version>2.0.0-20170110.172645-16</version>
         </dependency>
         <dependency>
             <groupId>com.manywho.sdk</groupId>
             <artifactId>sdk-server-servlet3</artifactId>
-            <version>2.0.0-20161020.091330-10</version>
+            <version>2.0.0-20170110.172644-16</version>
         </dependency>
         <dependency>
             <groupId>org.postgresql</groupId>
