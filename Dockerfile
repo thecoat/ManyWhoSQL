@@ -1,4 +1,11 @@
-FROM maven:onbuild-alpine
+FROM maven:3-jdk-8-alpine
+
+RUN mkdir -p /usr/src/app
+WORKDIR /usr/src/app
+
+ONBUILD ADD . /usr/src/app
+
+ONBUILD RUN mvn install -DskipTests=true
 
 EXPOSE 8080
 
