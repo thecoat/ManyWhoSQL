@@ -2,7 +2,6 @@ package com.manywho.services.sql.types;
 
 import com.manywho.sdk.api.describe.DescribeServiceRequest;
 import com.manywho.sdk.api.draw.elements.type.TypeElement;
-import com.manywho.sdk.services.configuration.ConfigurationParser;
 import com.manywho.sdk.services.types.TypeProvider;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.managers.DescribeManager;
@@ -11,29 +10,25 @@ import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class RawTypeProvider implements TypeProvider {
+public class RawTypeProvider implements TypeProvider<ServiceConfiguration> {
 
     private DescribeManager describeManager;
-    private ConfigurationParser configurationParser;
 
     @Inject
-    public RawTypeProvider(DescribeManager describeManager, ConfigurationParser configurationParser) {
+    public RawTypeProvider(DescribeManager describeManager) {
         this.describeManager = describeManager;
-        this.configurationParser = configurationParser;
     }
 
     @Override
-    public boolean doesTypeExist(String s) {
+    public boolean doesTypeExist(ServiceConfiguration configuration, String s) {
         return true;
     }
 
     @Override
-    public List<TypeElement> describeTypes(DescribeServiceRequest describeServiceRequest) {
-
+    public List<TypeElement> describeTypes(ServiceConfiguration configuration, DescribeServiceRequest describeServiceRequest) {
         try {
             if (describeServiceRequest.getConfigurationValues() != null && describeServiceRequest.getConfigurationValues().size()>0) {
-                ServiceConfiguration serviceConfiguration = configurationParser.from(describeServiceRequest);
-                return describeManager.getListTypeElementFromTableMetadata(serviceConfiguration);
+                return describeManager.getListTypeElementFromTableMetadata(configuration);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
