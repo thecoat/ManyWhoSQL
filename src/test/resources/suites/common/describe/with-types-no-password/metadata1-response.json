@@ -58,7 +58,7 @@
       "ordinal": 0,
       "required": true
     }, {
-      "developerName": "Use SSL",
+      "developerName": "No SSL",
       "contentValue": null,
       "contentType": "ContentBoolean",
       "typeElementDeveloperName": null,

@@ -5,6 +5,7 @@ import com.manywho.services.sql.suites.common.controllers.data.LoadTest;
 import com.manywho.services.sql.suites.common.controllers.data.MultipleKeyTest;
 import com.manywho.services.sql.suites.common.controllers.data.SaveTest;
 import com.manywho.services.sql.suites.common.controllers.describe.DescribeTest;
+import com.manywho.services.sql.suites.common.security.ssl.SSLValidationTest;
 import com.manywho.services.sql.suites.postgresql.data.*;
 import org.junit.BeforeClass;
 import org.junit.runner.RunWith;
@@ -17,6 +18,7 @@ import org.junit.runners.Suite;
         MultipleKeyTest.class,
         SaveTest.class,
         DescribeTest.class,
+        SSLValidationTest.class,
         //postgresql
         DateTimeTest.class,
         UuidTest.class,

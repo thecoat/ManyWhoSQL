@@ -58,12 +58,19 @@
       "ordinal": 0,
       "required": true
     }, {
-      "developerName": "Use SSL",
+      "developerName": "No SSL",
       "contentValue": null,
       "contentType": "ContentBoolean",
       "typeElementDeveloperName": null,
       "ordinal": 0,
       "required": true
+    }, {
+      "developerName": "Server Public Certificate",
+      "contentValue": null,
+      "contentType": "ContentString",
+      "typeElementDeveloperName": null,
+      "ordinal": 0,
+      "required": false
     }
   ],
   "providesAutoBinding": false,

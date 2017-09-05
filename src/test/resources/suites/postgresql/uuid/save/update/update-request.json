@@ -90,10 +90,10 @@
       "valueElementId": null,
       "typeElementId": null,
       "typeElementPropertyId": null,
-      "developerName": "Use SSL",
+      "developerName": "No SSL",
       "typeElementDeveloperName": null,
       "typeElementPropertyDeveloperName": null,
-      "contentValue": "false",
+      "contentValue": "true",
       "contentType": null,
       "objectData": null
     }

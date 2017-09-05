@@ -1,11 +1,12 @@
 package com.manywho.services.sql.services;
 
+import com.google.common.base.Strings;
 import com.manywho.services.sql.ServiceConfiguration;
 import org.sql2o.Sql2o;
 import org.sql2o.quirks.NoQuirks;
 import org.sql2o.quirks.PostgresQuirks;
 import org.sql2o.quirks.Quirks;
-
+import java.net.URLEncoder;
 import java.util.Objects;
 
 public class ConnectionService {
@@ -47,22 +48,28 @@ public class ConnectionService {
             quirks = new PostgresQuirks();
         }
 
-        if(serviceConfiguration.getUseSsl()) {
-            connectionStringFormat = connectionStringFormat + addSecurity(serviceConfiguration.getDatabaseType());
+        String connectionString =  String.format(connectionStringFormat, serviceConfiguration.getHost(), serviceConfiguration.getPort(), serviceConfiguration.getDatabaseName());
+
+        if (!serviceConfiguration.getNoUseSsl()) {
+            connectionString = connectionString + addSecurity(serviceConfiguration.getDatabaseType(), serviceConfiguration.getServerPublicCertificate());
         }
 
         return new Sql2o(
-                String.format(connectionStringFormat, serviceConfiguration.getHost(), serviceConfiguration.getPort(), serviceConfiguration.getDatabaseName()),
+                connectionString,
                 serviceConfiguration.getUsername(),
                 serviceConfiguration.getPassword(),
                 quirks
         );
     }
 
-    private String addSecurity(String databaseType) throws Exception {
+    private String addSecurity(String databaseType, String serverCertificate) throws Exception {
+        if (Strings.isNullOrEmpty(serverCertificate)) {
+            throw new RuntimeException("The certificate is mandatory if you use SSL");
+        }
+
         switch (databaseType) {
             case DATABASE_TYPE_POSTGRESQL:
-                return "?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory";
+                return "?ssl=true&sslmode=verify-full&sslfactory=org.postgresql.ssl.SingleCertValidatingFactory&sslfactoryarg=" + URLEncoder.encode(serverCertificate, "UTF-8");
             case DATABASE_TYPE_MYSQL:
                 return ";SSL Mode=Required";
             case DATABASE_TYPE_SQLSERVER:
@@ -71,7 +78,6 @@ public class ConnectionService {
                 throw new Exception("database type " + databaseType + "not supported");
         }
     }
-
 
     private void checkDatabaseTypeSupported(ServiceConfiguration serviceConfiguration) throws Exception {
         switch(serviceConfiguration.getDatabaseType()) {

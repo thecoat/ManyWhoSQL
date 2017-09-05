@@ -25,8 +25,11 @@ public class ServiceConfiguration implements Configuration {
     @Configuration.Setting(name="Database Schema", contentType= ContentType.String)
     private String databaseSchema;
 
-    @Configuration.Setting(name="Use SSL", contentType= ContentType.Boolean)
-    private boolean useSsl;
+    @Configuration.Setting(name="No SSL", contentType= ContentType.Boolean)
+    private boolean noUseSsl;
+
+    @Configuration.Setting(name = "Server Public Certificate", contentType = ContentType.String, required = false)
+    private String serverPublicCertificate;
 
     public String getUsername() {
         return username;
@@ -56,7 +59,11 @@ public class ServiceConfiguration implements Configuration {
         return databaseSchema;
     }
 
-    public Boolean getUseSsl() {
-        return useSsl;
+    public Boolean getNoUseSsl() {
+        return noUseSsl;
+    }
+
+    public String getServerPublicCertificate() {
+        return serverPublicCertificate;
     }
 }
