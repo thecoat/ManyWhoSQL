@@ -21,9 +21,6 @@ public abstract class ServiceFunctionalTest {
     @BeforeClass
     public static void setUp() {
         TestApplication application = new TestApplication();
-        application.addModule(new ApplicationSqlModule());
-        application.initialize("com.manywho.services.sql");
-
 
         objectMapper = new ObjectMapperContextResolver().getContext(null);
         dispatcher = MockDispatcherFactory.createDispatcher();
