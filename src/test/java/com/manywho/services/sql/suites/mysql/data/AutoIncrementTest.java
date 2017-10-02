@@ -31,6 +31,32 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
         );
     }
 
+    @Test
+    public void testUpdateAutoincrement() throws Exception {
+        DbConfigurationTest.setPropertiesIfNotInitialized("mysql");
+        try (Connection connection = getSql2o().open()) {
+            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+                    "name character varying(255)," +
+                    "id INT NOT NULL AUTO_INCREMENT," +
+                    "description character varying(1024), " +
+                    "CONSTRAINT country_id_pk PRIMARY KEY (id)" +
+                    ");";
+            connection.createQuery(sql).executeUpdate();
+        }
+
+        try (Connection connection = getSql2o().open()) {
+            String sql = "INSERT INTO " + scapeTableName("country") + "( name, description) VALUES ( 'Uruguay', 'It is a nice country');";
+            connection.createQuery(sql).executeUpdate();
+        }
+
+        DefaultApiRequest.saveDataRequestAndAssertion("/data",
+                "suites/common/data/save/update/update-request.json",
+                configurationParameters(),
+                "suites/common/data/save/update/update-response.json",
+                dispatcher
+        );
+    }
+
     @After
     public void cleanDatabaseAfterEachTest() {
         try (Connection connection = getSql2o().open()) {
