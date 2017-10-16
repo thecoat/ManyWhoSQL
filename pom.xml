@@ -59,7 +59,7 @@
         <dependency>
             <groupId>com.microsoft.sqlserver</groupId>
             <artifactId>mssql-jdbc</artifactId>
-            <version>6.1.0.jre8</version>
+            <version>6.3.3.jre8-preview</version>
         </dependency>
         <dependency>
             <groupId>com.github.manywho.sql2o</groupId>
@@ -81,7 +81,6 @@
             <artifactId>joda-time</artifactId>
             <version>2.9.4</version>
         </dependency>
-
         <dependency>
             <groupId>org.hamcrest</groupId>
             <artifactId>hamcrest-junit</artifactId>
