@@ -5,7 +5,6 @@ import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.ObjectDataType;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
-import com.manywho.services.sql.services.ConnectionService;
 import com.manywho.services.sql.services.DataService;
 import com.manywho.services.sql.services.PrimaryKeyService;
 import com.manywho.services.sql.services.QueryStrService;
@@ -16,14 +15,14 @@ import java.util.List;
 
 public class DataManager {
 
-    private ConnectionService connectionService;
+    private ConnectionManager connectionService;
     private DataService dataService;
     private MetadataManager metadataManager;
     private QueryStrService queryStrService;
     private PrimaryKeyService primaryKeyService;
 
     @Inject
-    public DataManager(ConnectionService connectionService, DataService dataService, MetadataManager metadataManager,
+    public DataManager(ConnectionManager connectionService, DataService dataService, MetadataManager metadataManager,
                        QueryStrService queryStrService, PrimaryKeyService primaryKeyService){
         this.connectionService = connectionService;
         this.dataService = dataService;

@@ -2,7 +2,6 @@ package com.manywho.services.sql.managers;
 
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
-import com.manywho.services.sql.services.ConnectionService;
 import com.manywho.services.sql.services.MetadataService;
 import org.sql2o.Connection;
 
@@ -11,11 +10,11 @@ import java.sql.DatabaseMetaData;
 import java.util.List;
 
 public class MetadataManager {
-    private ConnectionService connectionService;
+    private ConnectionManager connectionService;
     private MetadataService metadataService;
 
     @Inject
-    public MetadataManager(ConnectionService connectionService, MetadataService metadataService){
+    public MetadataManager(ConnectionManager connectionService, MetadataService metadataService){
         this.connectionService = connectionService;
         this.metadataService = metadataService;
     }
