@@ -56,7 +56,7 @@ public abstract class ServiceFunctionalTest {
                         new NoQuirks());
 
             }else if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "mysql")) {
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("org.mariadb.jdbc.Driver");
                 sql2o = new Sql2o("jdbc:mysql://" + DbConfigurationTest.hostForTest + ":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password,
                         new NoQuirks());
             }

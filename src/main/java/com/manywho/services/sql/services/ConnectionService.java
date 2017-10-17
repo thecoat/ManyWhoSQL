@@ -18,7 +18,7 @@ public class ConnectionService {
 
     private static final String DATABASE_TYPE_MYSQL = "mysql";
     private static final String CONNECTION_STRING_FORMAT_MYSQL = "jdbc:mysql://%s:%s/%s";
-    private static final String DRIVER_CLASS_MYSQL = "com.mysql.jdbc.Driver";
+    private static final String DRIVER_CLASS_MYSQL = "org.mariadb.jdbc.Driver";
 
     private static final String DATABASE_TYPE_SQLSERVER = "sqlserver";
     private static final String CONNECTION_STRING_FORMAT_SQLSERVER = "jdbc:sqlserver://%s:%s;databaseName=%s";
@@ -73,9 +73,9 @@ public class ConnectionService {
 
             case DATABASE_TYPE_MYSQL:
                 if (Strings.isNullOrEmpty(serverCertificate)) {
-                    return ";SSL Mode=Required";
+                    return ";useSSL=true;trustServerCertificate=true";
                 }
-                throw new Exception("database type " + databaseType + " with certificate is not supported");
+                return "?useSSL=true&trustServerCertificate=false&serverSslCert=" +  serverCertificate;
             case DATABASE_TYPE_SQLSERVER:
                 if (Strings.isNullOrEmpty(serverCertificate)) {
                     return ";integratedSecurity=false;encrypt=true;trustServerCertificate=true";
