@@ -46,7 +46,7 @@ public abstract class ServiceFunctionalTest {
             return sql2o;
         } else {
             if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "postgresql")) {
-                Class.forName("com.mysql.jdbc.Driver");
+                Class.forName("org.postgresql.Driver");
                 sql2o = new Sql2o("jdbc:postgresql://" + DbConfigurationTest.hostForTest+":" + DbConfigurationTest.portForTest + "/" + DbConfigurationTest.databaseNameForTest, DbConfigurationTest.userName, DbConfigurationTest.password,
                         new PostgresQuirks());
 
