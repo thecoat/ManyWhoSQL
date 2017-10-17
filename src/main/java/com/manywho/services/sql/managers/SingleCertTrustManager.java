@@ -14,6 +14,13 @@ import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
 import java.util.UUID;
 
+/**
+ * We are currently using the driver 6.3.3.jre8-preview and this class is  not included, at least not documented
+ *  like with the others drivers
+ *
+ *  ToDo: If this class is included in future versions of the driver we should use the official one and delete this one
+ *
+ */
 public class SingleCertTrustManager implements X509TrustManager {
     private X509Certificate certificate;
     private X509TrustManager trustManager;
