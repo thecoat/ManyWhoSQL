@@ -12,7 +12,7 @@ public class LoadTest extends ServiceFunctionalTest {
     public void testLoadDataByEqualOrLikeFilterWithAlias() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
         try (Connection connection = getSql2o().open()) {
-            String sqlCreateTable = "CREATE TABLE " + scapeTableName("country") + "("+
+            String sqlCreateTable = "CREATE TABLE " + escapeTableName("country") + "("+
                     "id integer NOT NULL,"+
                     "name character varying(255)," +
                     "description character varying(1024)," +
@@ -21,13 +21,13 @@ public class LoadTest extends ServiceFunctionalTest {
 
             connection.createQuery(sqlCreateTable).executeUpdate();
 
-            String aliasName = "COMMENT ON COLUMN " + scapeTableName("country") + ".name IS '{{ManyWhoName:The Name}}';";
+            String aliasName = "COMMENT ON COLUMN " + escapeTableName("country") + ".name IS '{{ManyWhoName:The Name}}';";
             connection.createQuery(aliasName).executeUpdate();
 
-            String aliasDescription = "COMMENT ON COLUMN " + scapeTableName("country") + ".description IS '{{ManyWhoName:The Description}}';";
+            String aliasDescription = "COMMENT ON COLUMN " + escapeTableName("country") + ".description IS '{{ManyWhoName:The Description}}';";
             connection.createQuery(aliasDescription).executeUpdate();
 
-            String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("country") + "(id, name, description) VALUES " +
                     "('1', 'Uruguay', 'It is a nice country')," +
                     "('2', 'England', 'It is a beautiful country');";
 
@@ -46,7 +46,7 @@ public class LoadTest extends ServiceFunctionalTest {
     public void testLoadDataByExternalIdWithFilters() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
         try (Connection connection = getSql2o().open()) {
-            String sqlCreateTable = "CREATE TABLE " + scapeTableName("country") + "("+
+            String sqlCreateTable = "CREATE TABLE " + escapeTableName("country") + "("+
                     "id integer NOT NULL,"+
                     "name character varying(255)," +
                     "description character varying(1024)," +
@@ -54,10 +54,10 @@ public class LoadTest extends ServiceFunctionalTest {
                     ");";
             connection.createQuery(sqlCreateTable).executeUpdate();
 
-            String sql = "INSERT INTO " + scapeTableName("country")+"(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            String sql = "INSERT INTO " + escapeTableName("country")+"(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
             connection.createQuery(sql).executeUpdate();
 
-            String aliasName = "COMMENT ON COLUMN " + scapeTableName("country") + ".id IS '{{ManyWhoName:The ID}}';";
+            String aliasName = "COMMENT ON COLUMN " + escapeTableName("country") + ".id IS '{{ManyWhoName:The ID}}';";
             connection.createQuery(aliasName).executeUpdate();
         }
 

@@ -20,7 +20,7 @@ public class DateTimeTest extends ServiceFunctionalTest {
     @Test
     public void testLoadDatesAndTimes() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
-            String sqlCreate = "CREATE TABLE " + scapeTableName("timetest") +
+            String sqlCreate = "CREATE TABLE " + escapeTableName("timetest") +
                     "(" +
                     "id integer NOT NULL," +
                     "datetime datetime," +
@@ -30,7 +30,7 @@ public class DateTimeTest extends ServiceFunctionalTest {
 
             connection.createQuery(sqlCreate).executeUpdate();
 
-            String sql = "INSERT INTO " + scapeTableName("timetest") + "(id, datetime, datetime2) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("timetest") + "(id, datetime, datetime2) VALUES " +
                                                      "('1', '2007-05-08 12:35:29.123', '2007-05-08 12:35:29. 1234567');";
 
             connection.createQuery(sql).executeUpdate();
@@ -46,7 +46,7 @@ public class DateTimeTest extends ServiceFunctionalTest {
     @Test
     public void testUpdateDatesAndTimes() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
-            String sqlCreate = "CREATE TABLE " + scapeTableName("timetest") +
+            String sqlCreate = "CREATE TABLE " + escapeTableName("timetest") +
                     "(" +
                     "id integer NOT NULL," +
                     "datetime datetime," +
@@ -57,7 +57,7 @@ public class DateTimeTest extends ServiceFunctionalTest {
 
             connection.createQuery(sqlCreate).executeUpdate();
 
-            String sql = "INSERT INTO " + scapeTableName("timetest") +"(id, datetime, datetime2, datetimeoffset) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("timetest") +"(id, datetime, datetime2, datetimeoffset) VALUES " +
                     "('1', '2007-05-08 12:35:29.123', '2007-05-08 12:35:29. 1234567', '2007-05-08T12:35:29.123+00:02');";
 
             connection.createQuery(sql).executeUpdate();

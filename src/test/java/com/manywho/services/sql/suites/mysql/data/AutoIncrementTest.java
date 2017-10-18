@@ -14,7 +14,7 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
         DbConfigurationTest.setPropertiesIfNotInitialized("mysql");
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+            String sql = "CREATE TABLE " + escapeTableName("country") + "(" +
                     "name character varying(255)," +
                     "id INT NOT NULL AUTO_INCREMENT," +
                     "description character varying(1024), " +
@@ -35,7 +35,7 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
     public void testUpdateAutoincrement() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("mysql");
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+            String sql = "CREATE TABLE " + escapeTableName("country") + "(" +
                     "name character varying(255)," +
                     "id INT NOT NULL AUTO_INCREMENT," +
                     "description character varying(1024), " +
@@ -45,7 +45,7 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
         }
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("country") + "( name, description) VALUES ( 'Uruguay', 'It is a nice country');";
+            String sql = "INSERT INTO " + escapeTableName("country") + "( name, description) VALUES ( 'Uruguay', 'It is a nice country');";
             connection.createQuery(sql).executeUpdate();
         }
 

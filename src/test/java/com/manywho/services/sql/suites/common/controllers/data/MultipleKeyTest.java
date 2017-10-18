@@ -15,7 +15,7 @@ public class MultipleKeyTest extends ServiceFunctionalTest {
         DbConfigurationTest.setPropertiesIfNotInitialized("sqlserver");
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("city") +
+            String sql = "CREATE TABLE " + escapeTableName("city") +
                     "(" +
                             "cityname character varying(255)," +
                             "countryname character varying(255)," +
@@ -30,7 +30,7 @@ public class MultipleKeyTest extends ServiceFunctionalTest {
     public void testLoadDataByExternalId() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("city")+ "(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
+            String sql = "INSERT INTO " + escapeTableName("city")+ "(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
             connection.createQuery(sql).executeUpdate();
         }
 
@@ -46,11 +46,11 @@ public class MultipleKeyTest extends ServiceFunctionalTest {
     public void testLoadDataWithoutOrderBy() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("city")+ "(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
-            String sq2 = "INSERT INTO " + scapeTableName("city")+ "(cityname, countryname) VALUES ('London', 'England');";
-            String sq3 = "INSERT INTO " + scapeTableName("city")+ "(cityname, countryname) VALUES ('Paris', 'France');";
-            String sq4 = "INSERT INTO " + scapeTableName("city")+ "(cityname, countryname) VALUES ('Madrid', 'Spain');";
-            String sq5 = "INSERT INTO " + scapeTableName("city")+ "(cityname, countryname) VALUES ('Rome', 'Italy');";
+            String sql = "INSERT INTO " + escapeTableName("city")+ "(cityname, countryname) VALUES ('Montevideo', 'Uruguay');";
+            String sq2 = "INSERT INTO " + escapeTableName("city")+ "(cityname, countryname) VALUES ('London', 'England');";
+            String sq3 = "INSERT INTO " + escapeTableName("city")+ "(cityname, countryname) VALUES ('Paris', 'France');";
+            String sq4 = "INSERT INTO " + escapeTableName("city")+ "(cityname, countryname) VALUES ('Madrid', 'Spain');";
+            String sq5 = "INSERT INTO " + escapeTableName("city")+ "(cityname, countryname) VALUES ('Rome', 'Italy');";
 
             connection.createQuery(sql).executeUpdate();
             connection.createQuery(sq2).executeUpdate();

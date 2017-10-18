@@ -14,7 +14,7 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
     public void setupDatabase() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("mysql");
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("country") + "("+
+            String sql = "CREATE TABLE " + escapeTableName("country") + "("+
                             "`Id` integer NOT NULL,"+
                             "`Name` character varying(255)," +
                             "`DescriptionCountry` character varying(1024)," +
@@ -30,7 +30,7 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
     public void testLoadDataByEqualOrLikeFilterCapitalLetters() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("country") + "(`Id`, `Name`, `DescriptionCountry`) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("country") + "(`Id`, `Name`, `DescriptionCountry`) VALUES " +
                     "('1', 'Uruguay', 'It is a nice country')," +
                     "('2', 'England', 'It is a beautiful country');";
 
@@ -60,7 +60,7 @@ public class CapitalLetterTest extends ServiceFunctionalTest {
     public void testUpdateData() throws Exception {
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("country") + "(`Id`, `Name`, `DescriptionCountry`) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            String sql = "INSERT INTO " + escapeTableName("country") + "(`Id`, `Name`, `DescriptionCountry`) VALUES ('1', 'Uruguay', 'It is a nice country');";
             connection.createQuery(sql).executeUpdate();
         }
 

@@ -83,10 +83,10 @@ public abstract class ServiceFunctionalTest {
             String sql;
             switch (DbConfigurationTest.databaseTypeForTest) {
                 case "sqlserver":
-                    sql = "DROP TABLE "+ scapeTableName(tableName);
+                    sql = "DROP TABLE "+ escapeTableName(tableName);
                     break;
                 default:
-                    sql = "DROP TABLE IF EXISTS "+ scapeTableName(tableName);
+                    sql = "DROP TABLE IF EXISTS "+ escapeTableName(tableName);
             }
 
             connection.createQuery(sql).executeUpdate();
@@ -94,7 +94,7 @@ public abstract class ServiceFunctionalTest {
         }
     }
 
-    public String scapeTableName( String tableName) {
+    public String escapeTableName(String tableName) {
         String format = "%s.\"%s\"";
 
         if(Objects.equals(DbConfigurationTest.databaseTypeForTest, "mysql")){

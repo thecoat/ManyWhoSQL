@@ -11,7 +11,7 @@ public class SaveTest extends ServiceFunctionalTest {
     @Test
     public void testCreate() throws Exception {
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+            String sql = "CREATE TABLE " + escapeTableName("country") + "(" +
                     "id integer NOT NULL," +
                     "name character varying(255)," +
                     "description character varying(1024), " +
@@ -32,7 +32,7 @@ public class SaveTest extends ServiceFunctionalTest {
     public void testUpdate() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
         try (Connection connection = getSql2o().open()) {
-            String sql = "CREATE TABLE " + scapeTableName("country") + "(" +
+            String sql = "CREATE TABLE " + escapeTableName("country") + "(" +
                     "id integer NOT NULL," +
                     "name character varying(255)," +
                     "description character varying(1024), " +
@@ -42,7 +42,7 @@ public class SaveTest extends ServiceFunctionalTest {
         }
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            String sql = "INSERT INTO " + escapeTableName("country") + "(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
             connection.createQuery(sql).executeUpdate();
         }
 

@@ -21,14 +21,14 @@ public class UuidTest extends ServiceFunctionalTest {
     @Test
     public void testLoad() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
-            String sqlCreate = "CREATE TABLE " + scapeTableName("uuidexample") +
+            String sqlCreate = "CREATE TABLE " + escapeTableName("uuidexample") +
                     "(" +
                     "uuidkey uuid PRIMARY KEY," +
                     "payload character(300)" +
                     ");";
             connection.createQuery(sqlCreate).executeUpdate();
 
-            String sql = "INSERT INTO " + scapeTableName("uuidexample") + "(uuidkey, payload) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("uuidexample") + "(uuidkey, payload) VALUES " +
                     "('155e3620-42bb-11e6-beb8-9e71128cae77', 'payload example');";
 
             connection.createQuery(sql).executeUpdate();
@@ -44,14 +44,14 @@ public class UuidTest extends ServiceFunctionalTest {
     @Test
     public void testUpdate() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
-            String sqlCreate = "CREATE TABLE " + scapeTableName("uuidexample") +
+            String sqlCreate = "CREATE TABLE " + escapeTableName("uuidexample") +
                     "(" +
                     "uuidkey uuid PRIMARY KEY," +
                     "payload character(300)" +
                     ");";
             connection.createQuery(sqlCreate).executeUpdate();
 
-            String sql = "INSERT INTO " + scapeTableName("uuidexample") + "(uuidkey, payload) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("uuidexample") + "(uuidkey, payload) VALUES " +
                     "('155e3620-42bb-11e6-beb8-9e71128cae77', 'payload example');";
 
             connection.createQuery(sql).executeUpdate();
@@ -68,7 +68,7 @@ public class UuidTest extends ServiceFunctionalTest {
     @Test
     public void testCreate() throws ClassNotFoundException, JSONException, IOException, URISyntaxException {
         try (Connection connection = getSql2o().open()) {
-            String sqlCreate = "CREATE TABLE " + scapeTableName("uuidexample") +
+            String sqlCreate = "CREATE TABLE " + escapeTableName("uuidexample") +
                     "(" +
                     "uuidkey uuid PRIMARY KEY," +
                     "payload character(300)" +

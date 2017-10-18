@@ -12,7 +12,7 @@ public class LoadTest extends ServiceFunctionalTest {
     private void setupTableCountryTable() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("sqlserver");
         try (Connection connection = getSql2o().open()) {
-            String sqlCreateTable = "CREATE TABLE " + scapeTableName("country") + "("+
+            String sqlCreateTable = "CREATE TABLE " + escapeTableName("country") + "("+
                             "id integer NOT NULL,"+
                             "name character varying(255)," +
                             "description character varying(1024)," +
@@ -28,7 +28,7 @@ public class LoadTest extends ServiceFunctionalTest {
         setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO "+scapeTableName("country")+"(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
+            String sql = "INSERT INTO "+ escapeTableName("country")+"(id, name, description) VALUES ('1', 'Uruguay', 'It is a nice country');";
             connection.createQuery(sql).executeUpdate();
         }
 
@@ -45,7 +45,7 @@ public class LoadTest extends ServiceFunctionalTest {
         setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO "+scapeTableName("country")+"(id, name, description) VALUES " +
+            String sql = "INSERT INTO "+ escapeTableName("country")+"(id, name, description) VALUES " +
                     "('1', 'Uruguay', 'It is a nice country')," +
                     "('2', 'England', 'It is a beautiful country');";
 
@@ -65,7 +65,7 @@ public class LoadTest extends ServiceFunctionalTest {
         setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("country") + "(id, name, description) VALUES " +
                     "('1', 'Uruguay', 'It is a nice country')," +
                     "('2', 'England', 'It is a beautiful country');";
 
@@ -85,7 +85,7 @@ public class LoadTest extends ServiceFunctionalTest {
         setupTableCountryTable();
 
         try (Connection connection = getSql2o().open()) {
-            String sql = "INSERT INTO " + scapeTableName("country") + "(id, name, description) VALUES " +
+            String sql = "INSERT INTO " + escapeTableName("country") + "(id, name, description) VALUES " +
                     "('1', 'Uruguay', 'Uruguay description')," +
                     "('2', 'England', 'England description')," +
                     "('3', 'Spain', 'Spain description')," +
