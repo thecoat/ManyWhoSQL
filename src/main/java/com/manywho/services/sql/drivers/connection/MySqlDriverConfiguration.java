@@ -2,40 +2,27 @@ package com.manywho.services.sql.drivers.connection;
 
 import com.manywho.services.sql.ServiceConfiguration;
 
-public class MySqlDriverConfiguration extends BaseDriverConfiguration {
+public class MySqlDriverConfiguration implements DriverConfigurationInterface {
 
-    public MySqlDriverConfiguration(ServiceConfiguration serviceConfiguration) {
-        super(serviceConfiguration);
-    }
-
-    @Override
-    String getDriverClass() {
+    public String getDriverClass() {
         return "org.mariadb.jdbc.Driver";
     }
 
-    @Override
-    String getDatabaseType() {
-        return "mysql";
-    }
-
-    @Override
-    String getNoSslConnectionString() {
+    public String getNoSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:mysql://%s:%s/%s",
                 serviceConfiguration.getHost(),
                 serviceConfiguration.getPort(),
                 serviceConfiguration.getDatabaseName());
     }
 
-    @Override
-    String getSslConnectionString() {
+    public String getSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:mysql://%s:%s/%s?useSSL=true&trustServerCertificate=true",
                 serviceConfiguration.getHost(),
                 serviceConfiguration.getPort(),
                 serviceConfiguration.getDatabaseName());
     }
 
-    @Override
-    String getSslCertificateConnectionString() {
+    public String getSslCertificateConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:mysql://%s:%s/%s?useSSL=true&trustServerCertificate=false&serverSslCert=%s",
                 serviceConfiguration.getHost(),
                 serviceConfiguration.getPort(),

@@ -15,8 +15,10 @@ import java.security.cert.X509Certificate;
 import java.util.UUID;
 
 /**
+ * @author this class is from the driver documentation 6.3.3.jre8-preview source https://github.com/Microsoft/mssql-jdbc/wiki/Custom-TrustManager
+ *
  * We are currently using the driver 6.3.3.jre8-preview and this class is  not included, at least not documented
- *  like with the others drivers
+ * like with the others drivers
  *
  *  ToDo: If this class is included in future versions of the driver we should use the official one and delete this one
  *

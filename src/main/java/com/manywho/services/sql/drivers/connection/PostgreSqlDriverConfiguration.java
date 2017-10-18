@@ -4,41 +4,31 @@ import com.manywho.services.sql.ServiceConfiguration;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class PostgreSqlDriverConfiguration extends BaseDriverConfiguration {
+public class PostgreSqlDriverConfiguration implements DriverConfigurationInterface {
 
-    public PostgreSqlDriverConfiguration(ServiceConfiguration serviceConfiguration) {
-        super(serviceConfiguration);
-    }
-
-
-    @Override
-    String getDriverClass() {
+    public String getDriverClass() {
         return "org.postgresql.Driver";
     }
 
-    @Override
-    String getDatabaseType() {
+    public String getDatabaseType() {
         return "postgresql";
     }
 
-    @Override
-    String getNoSslConnectionString() {
+    public String getNoSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:postgresql://%s:%s/%s",
                 serviceConfiguration.getHost(),
                 serviceConfiguration.getPort(),
                 serviceConfiguration.getDatabaseName());
     }
 
-    @Override
-    String getSslConnectionString() {
+    public String getSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:postgresql://%s:%s/%s?ssl=true&sslfactory=org.postgresql.ssl.NonValidatingFactory",
                 serviceConfiguration.getHost(),
                 serviceConfiguration.getPort(),
                 serviceConfiguration.getDatabaseName());
     }
 
-    @Override
-    String getSslCertificateConnectionString() {
+    public String getSslCertificateConnectionString(ServiceConfiguration serviceConfiguration) {
         try {
             String certificate = URLEncoder.encode(serviceConfiguration.getServerPublicCertificate(), "UTF-8");
 

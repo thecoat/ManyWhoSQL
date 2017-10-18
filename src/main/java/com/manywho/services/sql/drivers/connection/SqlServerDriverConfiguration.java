@@ -5,40 +5,31 @@ import com.manywho.services.sql.managers.SingleCertTrustManager;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-public class SqlServerDriverConfiguration extends BaseDriverConfiguration {
+public class SqlServerDriverConfiguration implements DriverConfigurationInterface {
 
-    public SqlServerDriverConfiguration(ServiceConfiguration serviceConfiguration) {
-        super(serviceConfiguration);
-    }
-
-    @Override
-    String getDriverClass() {
+    public String getDriverClass() {
         return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
     }
 
-    @Override
-    String getDatabaseType() {
+    public String getDatabaseType() {
         return "sqlserver";
     }
 
-    @Override
-    String getNoSslConnectionString() {
+    public String getNoSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:sqlserver://%s:%s;databaseName=%s",
                 serviceConfiguration.getHost(),
                 serviceConfiguration.getPort(),
                 serviceConfiguration.getDatabaseName());
     }
 
-    @Override
-    String getSslConnectionString() {
+    public String getSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:sqlserver://%s:%s;databaseName=%s;integratedSecurity=false;encrypt=true;trustServerCertificate=true",
                 serviceConfiguration.getHost(),
                 serviceConfiguration.getPort(),
                 serviceConfiguration.getDatabaseName());
     }
 
-    @Override
-    String getSslCertificateConnectionString() {
+    public String getSslCertificateConnectionString(ServiceConfiguration serviceConfiguration) {
         try {
             String certificate = URLEncoder.encode(serviceConfiguration.getServerPublicCertificate(), "UTF-8");
 
