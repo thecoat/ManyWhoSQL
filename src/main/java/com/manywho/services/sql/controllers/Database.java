@@ -12,6 +12,7 @@ import com.manywho.services.sql.managers.DataManager;
 import com.manywho.services.sql.managers.MetadataManager;
 import com.manywho.services.sql.services.AliasService;
 import com.manywho.services.sql.services.PrimaryKeyService;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
 import javax.inject.Inject;
@@ -35,16 +36,18 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
     @Override
     public MObject create(ServiceConfiguration configuration, MObject object) {
-        try {
-            Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
-            TableMetadata tableMetadata = metadataManager.getMetadataTable(sql2o, configuration, object.getDeveloperName());
+
+        Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
+
+        try (Connection connection = sql2o.open()) {
+            TableMetadata tableMetadata = metadataManager.getMetadataTable(connection, configuration, object.getDeveloperName());
 
             MObject objectWithColumnName = this.aliasService.getMObjectWithoutAliases(object, tableMetadata);
-            MObject objectInserted = dataManager.create(sql2o, configuration, tableMetadata, objectWithColumnName);
+            MObject objectInserted = dataManager.create(connection, configuration, tableMetadata, objectWithColumnName);
             HashMap<String, String> primaryKey = primaryKeyService.deserializePrimaryKey(objectInserted.getExternalId());
-            List<MObject> mObjectList = this.dataManager.load(sql2o, configuration, tableMetadata, primaryKey);
+            List<MObject> mObjectList = this.dataManager.load(connection, configuration, tableMetadata, primaryKey);
 
-            if(mObjectList.size()>0){
+            if (mObjectList.size() > 0) {
                 return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
             }
 
@@ -62,17 +65,17 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
     @Override
     public void delete(ServiceConfiguration configuration, MObject object) {
-        try {
-            Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
+        Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
+        try (Connection connection = sql2o.open()) {
 
-            TableMetadata tableMetadata = metadataManager.getMetadataTable(sql2o, configuration, object.getDeveloperName());
+            TableMetadata tableMetadata = metadataManager.getMetadataTable(connection, configuration, object.getDeveloperName());
             MObject objectWithOriginalNames = this.aliasService.getMObjectWithoutAliases(object, tableMetadata);
 
             this.dataManager.delete(sql2o, configuration, tableMetadata,
                     primaryKeyService.deserializePrimaryKey(objectWithOriginalNames.getExternalId()));
 
         } catch (Exception e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
@@ -85,18 +88,20 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
     @Override
     public MObject find(ServiceConfiguration configuration, ObjectDataType objectDataType, String id) {
-        try {
-            Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
+        Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
 
-            TableMetadata tableMetadata = metadataManager.getMetadataTable(sql2o, configuration,
+        try (Connection connection = sql2o.open()) {
+            TableMetadata tableMetadata = metadataManager.getMetadataTable(connection, configuration,
                     objectDataType.getDeveloperName());
 
-            List<MObject> mObjectList = this.dataManager.load(sql2o, configuration, tableMetadata,
+            List<MObject> mObjectList = this.dataManager.load(connection, configuration, tableMetadata,
                     aliasService.getOriginalKeys(primaryKeyService.deserializePrimaryKey(id), tableMetadata));
 
-            if(mObjectList.size()>0) return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
+            if (mObjectList.size() > 0)
+                return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
+
         } catch (Exception e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         throw new RecordNotFoundException();
@@ -104,37 +109,39 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
     @Override
     public List<MObject> findAll(ServiceConfiguration configuration, ObjectDataType objectDataType, ListFilter filter) {
-        try {
-            Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
-            TableMetadata tableMetadata =  metadataManager.getMetadataTable(sql2o, configuration, objectDataType.getDeveloperName());
-            List<MObject> mObjects = this.dataManager.loadBySearch(sql2o, configuration, tableMetadata, objectDataType,  filter);
+        Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
 
+        try (Connection connection = sql2o.open()) {
+            TableMetadata tableMetadata = metadataManager.getMetadataTable(connection, configuration, objectDataType.getDeveloperName());
+            List<MObject> mObjects = this.dataManager.loadBySearch(sql2o, configuration, tableMetadata, objectDataType, filter);
             return this.aliasService.getMObjectsWithAlias(mObjects, tableMetadata);
 
+
         } catch (Exception e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
     }
 
     @Override
     public MObject update(ServiceConfiguration configuration, MObject object) {
-        try {
-            Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
-            TableMetadata tableMetadata = metadataManager.getMetadataTable(sql2o, configuration,
+        Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
+
+        try (Connection connection = sql2o.open()) {
+            TableMetadata tableMetadata = metadataManager.getMetadataTable(connection, configuration,
                     object.getDeveloperName());
 
             object = aliasService.getMObjectWithoutAliases(object, tableMetadata);
-            this.dataManager.update(sql2o, configuration, tableMetadata, object);
-            List<MObject> mObjectList = this.dataManager.load(sql2o, configuration, tableMetadata,
+            this.dataManager.update(connection, configuration, tableMetadata, object);
+            List<MObject> mObjectList = this.dataManager.load(connection, configuration, tableMetadata,
                     primaryKeyService.deserializePrimaryKey(object.getExternalId()));
 
-            if (mObjectList.size()>0) {
+            if (mObjectList.size() > 0) {
                 MObject mObject = mObjectList.get(0);
                 return this.aliasService.getMObjectWithAliases(mObject, tableMetadata);
             }
 
         } catch (Exception e) {
-            throw  new RuntimeException(e);
+            throw new RuntimeException(e);
         }
 
         throw new RecordNotFoundException();

@@ -7,6 +7,8 @@ import com.manywho.sdk.services.types.TypeProvider;
 import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.managers.ConnectionManager;
 import com.manywho.services.sql.managers.DescribeManager;
+import org.sql2o.Connection;
+import org.sql2o.Sql2o;
 
 import javax.inject.Inject;
 import java.util.ArrayList;
@@ -15,12 +17,10 @@ import java.util.List;
 public class RawTypeProvider implements TypeProvider<ServiceConfiguration> {
 
     private DescribeManager describeManager;
-    private ConnectionManager connectionManager;
 
     @Inject
-    public RawTypeProvider(DescribeManager describeManager, ConnectionManager connectionManager) {
+    public RawTypeProvider(DescribeManager describeManager) {
         this.describeManager = describeManager;
-        this.connectionManager = connectionManager;
     }
 
     @Override
@@ -30,15 +30,18 @@ public class RawTypeProvider implements TypeProvider<ServiceConfiguration> {
 
     @Override
     public List<TypeElement> describeTypes(ServiceConfiguration configuration, DescribeServiceRequest describeServiceRequest) {
-        try {
-            if (describeServiceRequest.getConfigurationValues() != null && describeServiceRequest.getConfigurationValues().size()>0) {
+
+        Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
+
+        try (Connection connection = sql2o.open()) {
+            if (describeServiceRequest.getConfigurationValues() != null && describeServiceRequest.getConfigurationValues().size() > 0) {
                 if (!configuration.getNoUseSsl() && Strings.isNullOrEmpty(configuration.getServerPublicCertificate())) {
                     throw new RuntimeException("The Server Public Certificate is mandatory if you use SSL");
                 }
 
-                return describeManager.getListTypeElementFromTableMetadata(connectionManager.getSql2Object(configuration),
-                        configuration);
+                return describeManager.getListTypeElementFromTableMetadata(connection, configuration);
             }
+
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

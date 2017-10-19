@@ -12,7 +12,7 @@ import org.sql2o.quirks.Quirks;
 
 public class ConnectionManager {
 
-    public static Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
+    public static Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) {
 
         switch (serviceConfiguration.getDatabaseType()) {
             case "mysql":

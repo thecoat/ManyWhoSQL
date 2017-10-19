@@ -4,7 +4,6 @@ import com.manywho.services.sql.ServiceConfiguration;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.MetadataService;
 import org.sql2o.Connection;
-import org.sql2o.Sql2o;
 
 import javax.inject.Inject;
 import java.sql.DatabaseMetaData;
@@ -18,38 +17,34 @@ public class MetadataManager {
         this.metadataService = metadataService;
     }
 
-    public List<TableMetadata> getMetadataTables(Sql2o sql2o, ServiceConfiguration serviceConfiguration) throws Exception {
+    public List<TableMetadata> getMetadataTables(Connection connection, ServiceConfiguration serviceConfiguration) throws Exception {
 
-        try (Connection con = sql2o.open()) {
-            DatabaseMetaData metaData = con.getJdbcConnection().getMetaData();
+        DatabaseMetaData metaData = connection.getJdbcConnection().getMetaData();
 
-            return metadataService.getTablesMetadata(
-                    serviceConfiguration.getDatabaseName(),
-                    serviceConfiguration.getDatabaseSchema(),
-                    metaData
-            );
-        }
+        return metadataService.getTablesMetadata(
+                serviceConfiguration.getDatabaseName(),
+                serviceConfiguration.getDatabaseSchema(),
+                metaData
+        );
     }
 
-    public TableMetadata getMetadataTable(Sql2o sql2o, ServiceConfiguration serviceConfiguration, String tableName) throws Exception {
+    public TableMetadata getMetadataTable(Connection connection, ServiceConfiguration serviceConfiguration, String tableName) throws Exception {
 
-        try (Connection con = sql2o.open()) {
-            DatabaseMetaData metaData = con.getJdbcConnection().getMetaData();
+        DatabaseMetaData metaData = connection.getJdbcConnection().getMetaData();
 
-            List<TableMetadata> tableMetadataLis = metadataService.getTablesMetadata(
-                    serviceConfiguration.getDatabaseName(),
-                    serviceConfiguration.getDatabaseSchema(),
-                    metaData,
-                    tableName
-            );
+        List<TableMetadata> tableMetadataLis = metadataService.getTablesMetadata(
+                serviceConfiguration.getDatabaseName(),
+                serviceConfiguration.getDatabaseSchema(),
+                metaData,
+                tableName
+        );
 
-            if(tableMetadataLis.size() == 1) {
+        if(tableMetadataLis.size() == 1) {
 
-                return tableMetadataLis.get(0);
-            } else {
+            return tableMetadataLis.get(0);
+        } else {
 
-                throw new Exception ("table" + tableName + "not found");
-            }
+            throw new Exception ("table" + tableName + "not found");
         }
     }
 }

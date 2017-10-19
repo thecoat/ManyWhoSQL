@@ -8,6 +8,7 @@ import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.DataService;
 import com.manywho.services.sql.services.PrimaryKeyService;
 import com.manywho.services.sql.services.QueryStrService;
+import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import javax.inject.Inject;
 import java.util.HashMap;
@@ -26,10 +27,10 @@ public class DataManager {
         this.primaryKeyService = primaryKeyService;
     }
 
-    public List<MObject> load(Sql2o sql2o, ServiceConfiguration configuration, TableMetadata tableMetadata,
+    public List<MObject> load(Connection connection, ServiceConfiguration configuration, TableMetadata tableMetadata,
                               HashMap<String, String> id) throws Exception {
 
-        return dataService.fetchByPrimaryKey(tableMetadata, sql2o, id, configuration);
+        return dataService.fetchByPrimaryKey(tableMetadata, connection, id, configuration);
     }
 
     public List<MObject> loadBySearch(Sql2o sql2o,ServiceConfiguration configuration, TableMetadata tableMetadata,
@@ -39,19 +40,17 @@ public class DataManager {
                 objectDataType, filters, tableMetadata));
     }
 
-    public MObject update(Sql2o sql2o, ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject)
-            throws Exception {
+    public MObject update(Connection connection, ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
 
         HashMap<String, String> primaryKeyHashMap = primaryKeyService.deserializePrimaryKey(mObject.getExternalId());
-        dataService.update(mObject, sql2o, tableMetadata, primaryKeyHashMap, configuration);
+        dataService.update(mObject, connection, tableMetadata, primaryKeyHashMap, configuration);
 
-        return dataService.fetchByPrimaryKey(tableMetadata, sql2o, primaryKeyHashMap, configuration).get(0);
+        return dataService.fetchByPrimaryKey(tableMetadata, connection, primaryKeyHashMap, configuration).get(0);
     }
 
-    public MObject create(Sql2o sql2o, ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject)
-            throws Exception {
+    public MObject create(Connection connection, ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
 
-        dataService.insert(mObject, sql2o, tableMetadata, configuration);
+        dataService.insert(mObject, connection, tableMetadata, configuration);
 
         return mObject;
     }
