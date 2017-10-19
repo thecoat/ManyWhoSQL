@@ -30,18 +30,17 @@ public class RawTypeProvider implements TypeProvider<ServiceConfiguration> {
 
     @Override
     public List<TypeElement> describeTypes(ServiceConfiguration configuration, DescribeServiceRequest describeServiceRequest) {
-
-        Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
-
-        try (Connection connection = sql2o.open()) {
+        try {
             if (describeServiceRequest.getConfigurationValues() != null && describeServiceRequest.getConfigurationValues().size() > 0) {
                 if (!configuration.getNoUseSsl() && Strings.isNullOrEmpty(configuration.getServerPublicCertificate())) {
                     throw new RuntimeException("The Server Public Certificate is mandatory if you use SSL");
                 }
+                Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
 
-                return describeManager.getListTypeElementFromTableMetadata(connection, configuration);
+                try (Connection connection = sql2o.open()) {
+                    return describeManager.getListTypeElementFromTableMetadata(connection, configuration);
+                }
             }
-
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
