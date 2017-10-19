@@ -97,9 +97,9 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             List<MObject> mObjectList = this.dataManager.load(connection, configuration, tableMetadata,
                     aliasService.getOriginalKeys(primaryKeyService.deserializePrimaryKey(id), tableMetadata));
 
-            if (mObjectList.size() > 0)
+            if (mObjectList.size() > 0) {
                 return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
-
+            }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
