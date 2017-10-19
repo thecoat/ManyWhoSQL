@@ -15,16 +15,16 @@ import java.util.List;
 
 public class DataManager {
 
-    private ConnectionManager connectionService;
+    private ConnectionManager connectionManager;
     private DataService dataService;
     private MetadataManager metadataManager;
     private QueryStrService queryStrService;
     private PrimaryKeyService primaryKeyService;
 
     @Inject
-    public DataManager(ConnectionManager connectionService, DataService dataService, MetadataManager metadataManager,
+    public DataManager(ConnectionManager connectionManager, DataService dataService, MetadataManager metadataManager,
                        QueryStrService queryStrService, PrimaryKeyService primaryKeyService){
-        this.connectionService = connectionService;
+        this.connectionManager = connectionManager;
         this.dataService = dataService;
         this.metadataManager = metadataManager;
         this.queryStrService = queryStrService;
@@ -34,18 +34,18 @@ public class DataManager {
     public List<MObject> load(ServiceConfiguration configuration, TableMetadata tableMetadata,
                               HashMap<String, String> id) throws Exception {
 
-        return dataService.fetchByPrimaryKey(tableMetadata, connectionService.getSql2Object(configuration), id, configuration);
+        return dataService.fetchByPrimaryKey(tableMetadata, connectionManager.getSql2Object(configuration), id, configuration);
     }
 
     public List<MObject> loadBySearch(ServiceConfiguration configuration, TableMetadata tableMetadata,
                                       ObjectDataType objectDataType, ListFilter filters) throws Exception {
 
-        return dataService.fetchBySearch(tableMetadata, connectionService.getSql2Object(configuration),
+        return dataService.fetchBySearch(tableMetadata, connectionManager.getSql2Object(configuration),
                 queryStrService.getSqlFromFilter(configuration, objectDataType, filters, tableMetadata));
     }
 
     public MObject update(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
-        Sql2o sql2o = connectionService.getSql2Object(configuration);
+        Sql2o sql2o = connectionManager.getSql2Object(configuration);
         HashMap<String, String> primaryKeyHashMap = primaryKeyService.deserializePrimaryKey(mObject.getExternalId());
         dataService.update(mObject, sql2o, tableMetadata, primaryKeyHashMap, configuration);
 
@@ -54,7 +54,7 @@ public class DataManager {
 
     public MObject create(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
 
-        dataService.insert(mObject, connectionService.getSql2Object(configuration), tableMetadata, configuration);
+        dataService.insert(mObject, connectionManager.getSql2Object(configuration), tableMetadata, configuration);
 
         return mObject;
     }
@@ -62,7 +62,7 @@ public class DataManager {
     public void delete(ServiceConfiguration configuration,TableMetadata tableMetadata,
                        HashMap<String, String> id) throws Exception {
 
-        dataService.deleteByPrimaryKey(tableMetadata, connectionService.getSql2Object(configuration),
+        dataService.deleteByPrimaryKey(tableMetadata, connectionManager.getSql2Object(configuration),
                 id, configuration);
     }
 }

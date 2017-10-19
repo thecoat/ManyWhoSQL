@@ -14,11 +14,8 @@ class ConnectionManager {
 
     private Sql2o sql2o;
 
-    Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
 
-        if(sql2o!= null) {
-            return sql2o;
-        }
+    Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
 
         switch (serviceConfiguration.getDatabaseType()) {
             case "mysql":
