@@ -5,6 +5,7 @@ import com.manywho.sdk.api.describe.DescribeServiceRequest;
 import com.manywho.sdk.api.draw.elements.type.TypeElement;
 import com.manywho.sdk.services.types.TypeProvider;
 import com.manywho.services.sql.ServiceConfiguration;
+import com.manywho.services.sql.managers.ConnectionManager;
 import com.manywho.services.sql.managers.DescribeManager;
 
 import javax.inject.Inject;
@@ -14,10 +15,12 @@ import java.util.List;
 public class RawTypeProvider implements TypeProvider<ServiceConfiguration> {
 
     private DescribeManager describeManager;
+    private ConnectionManager connectionManager;
 
     @Inject
-    public RawTypeProvider(DescribeManager describeManager) {
+    public RawTypeProvider(DescribeManager describeManager, ConnectionManager connectionManager) {
         this.describeManager = describeManager;
+        this.connectionManager = connectionManager;
     }
 
     @Override
@@ -33,7 +36,8 @@ public class RawTypeProvider implements TypeProvider<ServiceConfiguration> {
                     throw new RuntimeException("The Server Public Certificate is mandatory if you use SSL");
                 }
 
-                return describeManager.getListTypeElementFromTableMetadata(configuration);
+                return describeManager.getListTypeElementFromTableMetadata(connectionManager.getSql2Object(configuration),
+                        configuration);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

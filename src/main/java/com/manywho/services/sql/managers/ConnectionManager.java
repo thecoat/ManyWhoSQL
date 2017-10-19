@@ -10,12 +10,12 @@ import org.sql2o.quirks.NoQuirks;
 import org.sql2o.quirks.PostgresQuirks;
 import org.sql2o.quirks.Quirks;
 
-class ConnectionManager {
+public class ConnectionManager {
 
     private Sql2o sql2o;
 
 
-    Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
+    public Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
 
         switch (serviceConfiguration.getDatabaseType()) {
             case "mysql":
