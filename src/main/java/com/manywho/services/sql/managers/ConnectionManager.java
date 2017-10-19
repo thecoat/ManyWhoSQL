@@ -12,28 +12,22 @@ import org.sql2o.quirks.Quirks;
 
 public class ConnectionManager {
 
-    private Sql2o sql2o;
-
-
-    public Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
+    public static Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) throws Exception {
 
         switch (serviceConfiguration.getDatabaseType()) {
             case "mysql":
-                sql2o = createSql2o(new MySqlDriverConfiguration(), serviceConfiguration, new NoQuirks());
-                return  sql2o;
+                return createSql2o(new MySqlDriverConfiguration(), serviceConfiguration, new NoQuirks());
             case "sqlserver":
-                sql2o = createSql2o(new SqlServerDriverConfiguration(), serviceConfiguration, new NoQuirks());
-                return  sql2o;
+                return createSql2o(new SqlServerDriverConfiguration(), serviceConfiguration, new NoQuirks());
             case "postgresql":
-                sql2o = createSql2o(new PostgreSqlDriverConfiguration(), serviceConfiguration, new PostgresQuirks());
-                return  sql2o;
+                return createSql2o(new PostgreSqlDriverConfiguration(), serviceConfiguration, new PostgresQuirks());
             default:
                 throw new RuntimeException(String.format("The database type \"%s\" is not supported",
                         serviceConfiguration.getDatabaseType()));
         }
     }
 
-    private Sql2o createSql2o(DriverConfigurationInterface driverConfiguration,
+    private static Sql2o createSql2o(DriverConfigurationInterface driverConfiguration,
                               ServiceConfiguration serviceConfiguration, Quirks quirks) {
         try {
             Class.forName(driverConfiguration.getDriverClass());

@@ -11,12 +11,10 @@ import java.sql.DatabaseMetaData;
 import java.util.List;
 
 public class MetadataManager {
-    private ConnectionManager connectionManager;
     private MetadataService metadataService;
 
     @Inject
-    public MetadataManager(ConnectionManager connectionManager, MetadataService metadataService){
-        this.connectionManager = connectionManager;
+    public MetadataManager(MetadataService metadataService){
         this.metadataService = metadataService;
     }
 
@@ -33,9 +31,9 @@ public class MetadataManager {
         }
     }
 
-    public TableMetadata getMetadataTable(ServiceConfiguration serviceConfiguration, String tableName) throws Exception {
+    public TableMetadata getMetadataTable(Sql2o sql2o, ServiceConfiguration serviceConfiguration, String tableName) throws Exception {
 
-        try (Connection con = connectionManager.getSql2Object(serviceConfiguration).open()) {
+        try (Connection con = sql2o.open()) {
             DatabaseMetaData metaData = con.getJdbcConnection().getMetaData();
 
             List<TableMetadata> tableMetadataLis = metadataService.getTablesMetadata(

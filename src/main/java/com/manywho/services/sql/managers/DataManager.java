@@ -15,54 +15,50 @@ import java.util.List;
 
 public class DataManager {
 
-    private ConnectionManager connectionManager;
     private DataService dataService;
-    private MetadataManager metadataManager;
     private QueryStrService queryStrService;
     private PrimaryKeyService primaryKeyService;
 
     @Inject
-    public DataManager(ConnectionManager connectionManager, DataService dataService, MetadataManager metadataManager,
-                       QueryStrService queryStrService, PrimaryKeyService primaryKeyService){
-        this.connectionManager = connectionManager;
+    public DataManager(DataService dataService, QueryStrService queryStrService, PrimaryKeyService primaryKeyService){
         this.dataService = dataService;
-        this.metadataManager = metadataManager;
         this.queryStrService = queryStrService;
         this.primaryKeyService = primaryKeyService;
     }
 
-    public List<MObject> load(ServiceConfiguration configuration, TableMetadata tableMetadata,
+    public List<MObject> load(Sql2o sql2o, ServiceConfiguration configuration, TableMetadata tableMetadata,
                               HashMap<String, String> id) throws Exception {
 
-        return dataService.fetchByPrimaryKey(tableMetadata, connectionManager.getSql2Object(configuration), id, configuration);
+        return dataService.fetchByPrimaryKey(tableMetadata, sql2o, id, configuration);
     }
 
-    public List<MObject> loadBySearch(ServiceConfiguration configuration, TableMetadata tableMetadata,
+    public List<MObject> loadBySearch(Sql2o sql2o,ServiceConfiguration configuration, TableMetadata tableMetadata,
                                       ObjectDataType objectDataType, ListFilter filters) throws Exception {
 
-        return dataService.fetchBySearch(tableMetadata, connectionManager.getSql2Object(configuration),
-                queryStrService.getSqlFromFilter(configuration, objectDataType, filters, tableMetadata));
+        return dataService.fetchBySearch(tableMetadata, sql2o, queryStrService.getSqlFromFilter(configuration,
+                objectDataType, filters, tableMetadata));
     }
 
-    public MObject update(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
-        Sql2o sql2o = connectionManager.getSql2Object(configuration);
+    public MObject update(Sql2o sql2o, ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject)
+            throws Exception {
+
         HashMap<String, String> primaryKeyHashMap = primaryKeyService.deserializePrimaryKey(mObject.getExternalId());
         dataService.update(mObject, sql2o, tableMetadata, primaryKeyHashMap, configuration);
 
         return dataService.fetchByPrimaryKey(tableMetadata, sql2o, primaryKeyHashMap, configuration).get(0);
     }
 
-    public MObject create(ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
+    public MObject create(Sql2o sql2o, ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject)
+            throws Exception {
 
-        dataService.insert(mObject, connectionManager.getSql2Object(configuration), tableMetadata, configuration);
+        dataService.insert(mObject, sql2o, tableMetadata, configuration);
 
         return mObject;
     }
 
-    public void delete(ServiceConfiguration configuration,TableMetadata tableMetadata,
+    public void delete(Sql2o sql2o, ServiceConfiguration configuration, TableMetadata tableMetadata,
                        HashMap<String, String> id) throws Exception {
 
-        dataService.deleteByPrimaryKey(tableMetadata, connectionManager.getSql2Object(configuration),
-                id, configuration);
+        dataService.deleteByPrimaryKey(tableMetadata, sql2o, id, configuration);
     }
 }
