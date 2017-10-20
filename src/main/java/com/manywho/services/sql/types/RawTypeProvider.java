@@ -1,6 +1,5 @@
 package com.manywho.services.sql.types;
 
-import com.google.common.base.Strings;
 import com.manywho.sdk.api.describe.DescribeServiceRequest;
 import com.manywho.sdk.api.draw.elements.type.TypeElement;
 import com.manywho.sdk.services.types.TypeProvider;
@@ -32,9 +31,6 @@ public class RawTypeProvider implements TypeProvider<ServiceConfiguration> {
     public List<TypeElement> describeTypes(ServiceConfiguration configuration, DescribeServiceRequest describeServiceRequest) {
         try {
             if (describeServiceRequest.getConfigurationValues() != null && describeServiceRequest.getConfigurationValues().size() > 0) {
-                if (!configuration.getNoUseSsl() && Strings.isNullOrEmpty(configuration.getServerPublicCertificate())) {
-                    throw new RuntimeException("The Server Public Certificate is mandatory if you use SSL");
-                }
                 Sql2o sql2o = ConnectionManager.getSql2Object(configuration);
 
                 try (Connection connection = sql2o.open()) {
