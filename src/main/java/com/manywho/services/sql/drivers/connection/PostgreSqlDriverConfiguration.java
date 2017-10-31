@@ -6,14 +6,6 @@ import java.net.URLEncoder;
 
 public class PostgreSqlDriverConfiguration implements DriverConfigurationInterface {
 
-    public String getDriverClass() {
-        return "org.postgresql.Driver";
-    }
-
-    public String getDatabaseType() {
-        return "postgresql";
-    }
-
     public String getNoSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:postgresql://%s:%s/%s",
                 serviceConfiguration.getHost(),

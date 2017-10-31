@@ -15,11 +15,11 @@ public class ConnectionManager {
     public static Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) {
 
         switch (serviceConfiguration.getDatabaseType()) {
-            case "mysql":
+            case MYSQL:
                 return createSql2o(new MySqlDriverConfiguration(), serviceConfiguration, new NoQuirks());
-            case "sqlserver":
+            case SQL_SERVER:
                 return createSql2o(new SqlServerDriverConfiguration(), serviceConfiguration, new NoQuirks());
-            case "postgresql":
+            case POSTGRESQL:
                 return createSql2o(new PostgreSqlDriverConfiguration(), serviceConfiguration, new PostgresQuirks());
             default:
                 throw new RuntimeException(String.format("The database type \"%s\" is not supported",
@@ -29,12 +29,6 @@ public class ConnectionManager {
 
     private static Sql2o createSql2o(DriverConfigurationInterface driverConfiguration,
                               ServiceConfiguration serviceConfiguration, Quirks quirks) {
-        try {
-            Class.forName(driverConfiguration.getDriverClass());
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(String.format("A driver for the database type \"%s\" could not be found ",
-                    serviceConfiguration.getDatabaseType()));
-        }
 
         return new Sql2o(
                 driverConfiguration.getStringConnection(serviceConfiguration),

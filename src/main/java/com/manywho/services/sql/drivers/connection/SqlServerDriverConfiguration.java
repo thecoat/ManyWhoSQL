@@ -7,14 +7,6 @@ import java.net.URLEncoder;
 
 public class SqlServerDriverConfiguration implements DriverConfigurationInterface {
 
-    public String getDriverClass() {
-        return "com.microsoft.sqlserver.jdbc.SQLServerDriver";
-    }
-
-    public String getDatabaseType() {
-        return "sqlserver";
-    }
-
     public String getNoSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:sqlserver://%s:%s;databaseName=%s",
                 serviceConfiguration.getHost(),

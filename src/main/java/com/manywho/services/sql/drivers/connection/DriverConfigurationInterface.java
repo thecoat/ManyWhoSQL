@@ -5,7 +5,6 @@ import com.manywho.services.sql.ServiceConfiguration;
 
 public interface DriverConfigurationInterface {
 
-    String getDriverClass();
     String getNoSslConnectionString(ServiceConfiguration serviceConfiguration);
     String getSslConnectionString(ServiceConfiguration serviceConfiguration);
     String getSslCertificateConnectionString(ServiceConfiguration serviceConfiguration);

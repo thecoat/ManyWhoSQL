@@ -2,6 +2,7 @@ package com.manywho.services.sql;
 
 import com.manywho.sdk.api.ContentType;
 import com.manywho.sdk.services.configuration.Configuration;
+import com.manywho.services.sql.entities.DatabaseType;
 
 public class ServiceConfiguration implements Configuration {
     @Configuration.Setting(name="Username", contentType= ContentType.String)
@@ -17,7 +18,7 @@ public class ServiceConfiguration implements Configuration {
     private Integer port;
 
     @Configuration.Setting(name="Database Type", contentType= ContentType.String)
-    private String databaseType;
+    private DatabaseType databaseType;
 
     @Configuration.Setting(name="Database Name", contentType= ContentType.String)
     private String databaseName;
@@ -47,7 +48,7 @@ public class ServiceConfiguration implements Configuration {
         return port;
     }
 
-    public String getDatabaseType() {
+    public DatabaseType getDatabaseType() {
         return databaseType;
     }
 

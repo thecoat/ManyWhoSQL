@@ -9,6 +9,10 @@ import javax.ws.rs.ApplicationPath;
 public class Application extends Servlet3Server  {
 
     public Application() {
+        checkDriverClass("org.mariadb.jdbc.Driver");
+        checkDriverClass("org.postgresql.Driver");
+        checkDriverClass("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+
         this.addModule(new ApplicationSqlModule());
         this.setApplication(Application.class);
         this.start();
@@ -20,5 +24,13 @@ public class Application extends Servlet3Server  {
         server.addModule(new ApplicationSqlModule());
         server.setApplication(Application.class);
         server.start("/api/sql/2");
+    }
+
+    private static void checkDriverClass(String driverRef) {
+        try {
+            Class.forName(driverRef);
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(String.format("driver \"%s\" not found", driverRef));
+        }
     }
 }

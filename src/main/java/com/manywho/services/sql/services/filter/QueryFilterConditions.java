@@ -8,6 +8,7 @@ import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
 import com.manywho.sdk.api.ComparisonType;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
+import com.manywho.services.sql.entities.DatabaseType;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.utilities.ScapeForTablesUtil;
 
@@ -16,7 +17,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class QueryFilterConditions {
-    public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties, HashMap<String, String> columns, String databaseType) {
+    public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties, HashMap<String, String> columns, DatabaseType databaseType) {
         if (Strings.isNullOrEmpty(search)) {
             return;
         }
@@ -48,7 +49,7 @@ public class QueryFilterConditions {
         selectQuery.addCondition(searchCondition);
     }
 
-    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, ComparisonType comparisonType, String databaseType) {
+    public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, ComparisonType comparisonType, DatabaseType databaseType) {
         ArrayList<Condition> conditions = new ArrayList<>();
         if(whereList == null) return;
 
@@ -69,7 +70,7 @@ public class QueryFilterConditions {
         }
     }
 
-    private BinaryCondition getConditionFromFilterElement(ListFilterWhere filterWhere, String databaseType) {
+    private BinaryCondition getConditionFromFilterElement(ListFilterWhere filterWhere, DatabaseType databaseType) {
 
         switch (filterWhere.getCriteriaType()) {
             case Equal:
@@ -98,22 +99,22 @@ public class QueryFilterConditions {
         return null;
     }
 
-    public void addOffset(SelectQuery selectQuery, String databaseType, Integer offset, Integer limit) {
+    public void addOffset(SelectQuery selectQuery, DatabaseType databaseType, Integer offset, Integer limit) {
 
         if(limit <= 0 || limit > 1000) {
             limit = 1000;
         }
         switch (databaseType) {
-            case "postgresql":
+            case POSTGRESQL:
                     selectQuery.addCustomization(new PgOffsetClause(offset));
                     selectQuery.addCustomization(new PgLimitClause(limit));
 
                 break;
-            case "mysql":
+            case MYSQL:
                     selectQuery.addCustomization(new MysLimitClause(offset, limit));
 
                 break;
-            case "sqlserver":
+            case SQL_SERVER:
                     selectQuery.setOffset(offset);
                     //selectQuery.addCustomization(new MssTopClause(limit));
                     selectQuery.setFetchNext(limit);
@@ -134,7 +135,7 @@ public class QueryFilterConditions {
      * @param tableMetadata
      * @param databaseType
      */
-    public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, String direction, TableMetadata tableMetadata, String databaseType) {
+    public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, String direction, TableMetadata tableMetadata, DatabaseType databaseType) {
         List<String> properties;
 
         if (Strings.isNullOrEmpty(orderByPropertyName)) {

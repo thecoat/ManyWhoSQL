@@ -1,20 +1,22 @@
 package com.manywho.services.sql.utilities;
 
-import java.util.Objects;
+import com.manywho.services.sql.entities.DatabaseType;
+
 public class ScapeForTablesUtil {
 
-    public String scapeTableName(String databaseType, String schemaNamePrefix, String tableName) {
+    public String scapeTableName(DatabaseType databaseType, String schemaNamePrefix, String tableName) {
         String format = "%s.\"%s\"";
 
-        if(Objects.equals(databaseType, "mysql")){
+
+        if(databaseType.compareTo(DatabaseType.MYSQL) == 0){
             format = "`%s`.`%s`";
         }
 
         return String.format(format, schemaNamePrefix, tableName);
     }
 
-    static public String scapeCollumnName(String databaseType, String name){
-        if (Objects.equals(databaseType, "mysql")) {
+    static public String scapeCollumnName(DatabaseType databaseType, String name){
+        if(databaseType.compareTo(DatabaseType.MYSQL) == 0){
             return String.format("`%s`", name);
         }else {
             return String.format("\"%s\"", name);

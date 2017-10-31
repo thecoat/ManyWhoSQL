@@ -4,10 +4,6 @@ import com.manywho.services.sql.ServiceConfiguration;
 
 public class MySqlDriverConfiguration implements DriverConfigurationInterface {
 
-    public String getDriverClass() {
-        return "org.mariadb.jdbc.Driver";
-    }
-
     public String getNoSslConnectionString(ServiceConfiguration serviceConfiguration) {
         return String.format("jdbc:mysql://%s:%s/%s",
                 serviceConfiguration.getHost(),
