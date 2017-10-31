@@ -11,18 +11,41 @@ import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.utilities.ScapeForTablesUtil;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.sql.JDBCType;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class QueryFilterConditions {
-    public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties, String databaseType) {
-        if (!Strings.isNullOrEmpty(search)) {
-            String searchTerm = "%" + search + "%";
-            for(ObjectDataTypeProperty property: listProperties) {
-                selectQuery.addCondition(BinaryCondition.like(new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, property.getDeveloperName())), searchTerm));
+    public void addSearch(SelectQuery selectQuery, String search, List<ObjectDataTypeProperty> listProperties, HashMap<String, String> columns, String databaseType) {
+        if (Strings.isNullOrEmpty(search)) {
+            return;
+        }
+
+        // Find all the string-ish columns, so we can compare the search criteria against them
+        Map<String, String> stringishColumns = columns.entrySet().stream()
+                .filter(column -> column.getValue().equals(JDBCType.VARCHAR.getName()) ||
+                                    column.getValue().equals(JDBCType.NVARCHAR.getName()) ||
+                                    column.getValue().equals(JDBCType.LONGVARCHAR.getName()) ||
+                                    column.getValue().equals(JDBCType.LONGNVARCHAR.getName()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue
+                ));
+
+        String searchTerm = "%" + search + "%";
+
+        ComboCondition searchCondition = new ComboCondition(ComboCondition.Op.OR);
+
+        for (ObjectDataTypeProperty property : listProperties) {
+            if (stringishColumns.containsKey(property.getDeveloperName())) {
+                searchCondition.addCondition(BinaryCondition.like(
+                        new CustomSql(ScapeForTablesUtil.scapeCollumnName(databaseType, property.getDeveloperName())),
+                        searchTerm
+                ));
             }
         }
+
+        selectQuery.addCondition(searchCondition);
     }
 
     public void addWhere(SelectQuery selectQuery, List <ListFilterWhere> whereList, ComparisonType comparisonType, String databaseType) {
