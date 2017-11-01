@@ -8,7 +8,7 @@ public class ScapeForTablesUtil {
         String format = "%s.\"%s\"";
 
 
-        if(databaseType.compareTo(DatabaseType.MYSQL) == 0){
+        if(databaseType.equals(DatabaseType.Mysql)){
             format = "`%s`.`%s`";
         }
 
@@ -16,7 +16,7 @@ public class ScapeForTablesUtil {
     }
 
     static public String scapeCollumnName(DatabaseType databaseType, String name){
-        if(databaseType.compareTo(DatabaseType.MYSQL) == 0){
+        if(databaseType.equals(DatabaseType.Mysql)){
             return String.format("`%s`", name);
         }else {
             return String.format("\"%s\"", name);

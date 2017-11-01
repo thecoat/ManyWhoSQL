@@ -105,16 +105,16 @@ public class QueryFilterConditions {
             limit = 1000;
         }
         switch (databaseType) {
-            case POSTGRESQL:
+            case Postgresql:
                     selectQuery.addCustomization(new PgOffsetClause(offset));
                     selectQuery.addCustomization(new PgLimitClause(limit));
 
                 break;
-            case MYSQL:
+            case Mysql:
                     selectQuery.addCustomization(new MysLimitClause(offset, limit));
 
                 break;
-            case SQL_SERVER:
+            case Sqlserver:
                     selectQuery.setOffset(offset);
                     //selectQuery.addCustomization(new MssTopClause(limit));
                     selectQuery.setFetchNext(limit);

@@ -1,9 +1,9 @@
 package com.manywho.services.sql.entities;
 
 public enum DatabaseType {
-    MYSQL("mysql"),
-    POSTGRESQL("postgresql"),
-    SQL_SERVER("sqlserver");
+    Mysql("mysql"),
+    Postgresql("postgresql"),
+    Sqlserver("sqlserver");
 
     private String type;
 
@@ -23,11 +23,11 @@ public enum DatabaseType {
     public static DatabaseType forValue(String value) {
         switch (value){
             case "mysql":
-                return MYSQL;
+                return Mysql;
             case "postgresql":
-                return POSTGRESQL;
+                return Postgresql;
             case "sqlserver":
-                return SQL_SERVER;
+                return Sqlserver;
             default:
                 throw new RuntimeException(String.format("Database type \"%s\" not supported.", value));
         }

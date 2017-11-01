@@ -15,11 +15,11 @@ public class ConnectionManager {
     public static Sql2o getSql2Object(ServiceConfiguration serviceConfiguration) {
 
         switch (serviceConfiguration.getDatabaseType()) {
-            case MYSQL:
+            case Mysql:
                 return createSql2o(new MySqlDriverConfiguration(), serviceConfiguration, new NoQuirks());
-            case SQL_SERVER:
+            case Sqlserver:
                 return createSql2o(new SqlServerDriverConfiguration(), serviceConfiguration, new NoQuirks());
-            case POSTGRESQL:
+            case Postgresql:
                 return createSql2o(new PostgreSqlDriverConfiguration(), serviceConfiguration, new PostgresQuirks());
             default:
                 throw new RuntimeException(String.format("The database type \"%s\" is not supported",
