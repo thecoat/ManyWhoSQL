@@ -50,9 +50,9 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
-                "suites/common/data/save/update/update-request.json",
+                "suites/postgresql/update-autoincrement/update-request.json",
                 configurationParameters(),
-                "suites/common/data/save/update/update-response.json",
+                "suites/postgresql/update-autoincrement/update-response.json",
                 dispatcher
         );
     }
