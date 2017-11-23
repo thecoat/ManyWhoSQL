@@ -8,9 +8,8 @@ import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 import org.sql2o.Query;
 
+import java.math.BigDecimal;
 import java.sql.JDBCType;
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.text.ParseException;
 import java.util.UUID;
 
@@ -28,9 +27,6 @@ public class QueryParameterService {
      */
     public Query addParameterValueToTheQuery(String paramName, String parameterValue, String databaseType, Query query)
             throws DataBaseTypeNotSupported, ParseException {
-
-        // Note: jdbc and java types not are always the same e.g. bigint is java.Long
-
 
         // there are some interesting types that jdbc detect as others, in those cases we use the code to detect the type
         // depending of the database type, these cases out of the jdbc standard are handled at the following switch
@@ -74,14 +70,8 @@ public class QueryParameterService {
 
             case NUMERIC:
             case DECIMAL:
-                String value = parameterValue.replaceAll(",","");
-                DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-                symbols.setDecimalSeparator('.');
-                String pattern = "#.#";
-                DecimalFormat decimalFormat = new DecimalFormat(pattern, symbols);
-                decimalFormat.setParseBigDecimal(true);
+                return query.addParameter(paramName, new BigDecimal(parameterValue));
 
-                return query.addParameter(paramName, decimalFormat.parse(value));
             case CHAR:
                 return query.addParameter(paramName, parameterValue);
 
