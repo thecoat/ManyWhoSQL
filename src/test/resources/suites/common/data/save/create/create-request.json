@@ -127,6 +127,10 @@
     "developerName": "country",
     "properties": [
       {
+        "developerName": "id",
+        "list": null
+      },
+      {
         "developerName": "name",
         "list": null
       },
@@ -135,7 +139,27 @@
         "list": null
       },
       {
-        "developerName": "id",
+        "developerName": "integer_column",
+        "list": null
+      },
+      {
+        "developerName": "double_column",
+        "list": null
+      },
+      {
+        "developerName": "numeric_column",
+        "list": null
+      },
+      {
+        "developerName": "real_column",
+        "list": null
+      },
+      {
+        "developerName": "bigint_column",
+        "list": null
+      },
+      {
+        "developerName": "numeric_small_column",
         "list": null
       }
     ]
@@ -148,6 +172,14 @@
       "typeElementId": "dc0dcf14-1bf6-4faf-b5ee-0d2aa58cd02e",
       "order": 0,
       "properties": [
+        {
+          "typeElementPropertyId": "1bc6feeb-ce7c-4753-b96e-7c0e8b7b5223",
+          "developerName": "id",
+          "contentValue": "1",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
         {
           "typeElementPropertyId": "248bdbf5-762c-4156-a16e-848f31d21cba",
           "developerName": "name",
@@ -165,9 +197,49 @@
           "objectData": null
         },
         {
-          "typeElementPropertyId": "1bc6feeb-ce7c-4753-b96e-7c0e8b7b5223",
-          "developerName": "id",
-          "contentValue": "1",
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "integer_column",
+          "contentValue": "123",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "double_column",
+          "contentValue": "0.999999999",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "numeric_column",
+          "contentValue": "123456789012345678.99",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "real_column",
+          "contentValue": "12233.2",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "bigint_column",
+          "contentValue": "12345678765432",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "numeric_small_column",
+          "contentValue": "0.9876543234500000000000000",
           "contentType": "ContentNumber",
           "contentFormat": "",
           "objectData": null

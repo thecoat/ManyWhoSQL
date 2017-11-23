@@ -171,6 +171,54 @@
           "contentType": "ContentNumber",
           "contentFormat": "",
           "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "integer_column",
+          "contentValue": "124",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "double_column",
+          "contentValue": "0.999999994",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "numeric_column",
+          "contentValue": "123456789012345678.94",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "real_column",
+          "contentValue": "12233.4",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "bigint_column",
+          "contentValue": "12345678765434",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
+        },
+        {
+          "typeElementPropertyId": "3d215940-b93f-47c3-946c-61cfb0081e59",
+          "developerName": "numeric_small_column",
+          "contentValue": "0.9876543234500000000000004",
+          "contentType": "ContentNumber",
+          "contentFormat": "",
+          "objectData": null
         }
       ],
       "isSelected": false
