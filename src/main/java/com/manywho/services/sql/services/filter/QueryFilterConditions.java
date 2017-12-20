@@ -6,6 +6,7 @@ import com.healthmarketscience.sqlbuilder.custom.mysql.MysLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgLimitClause;
 import com.healthmarketscience.sqlbuilder.custom.postgresql.PgOffsetClause;
 import com.manywho.sdk.api.ComparisonType;
+import com.manywho.sdk.api.run.elements.type.ListFilter;
 import com.manywho.sdk.api.run.elements.type.ListFilterWhere;
 import com.manywho.sdk.api.run.elements.type.ObjectDataTypeProperty;
 import com.manywho.services.sql.entities.DatabaseType;
@@ -135,7 +136,7 @@ public class QueryFilterConditions {
      * @param tableMetadata
      * @param databaseType
      */
-    public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, String direction, TableMetadata tableMetadata, DatabaseType databaseType) {
+    public void addOrderBy(SelectQuery selectQuery, String orderByPropertyName, ListFilter.OrderByDirectionType direction, TableMetadata tableMetadata, DatabaseType databaseType) {
         List<String> properties;
 
         if (Strings.isNullOrEmpty(orderByPropertyName)) {
@@ -147,7 +148,7 @@ public class QueryFilterConditions {
 
         OrderObject.Dir typeDirection;
 
-        if (Objects.equals(direction, "DESC")) {
+        if (direction.equals(ListFilter.OrderByDirectionType.Descending)) {
             typeDirection = OrderObject.Dir.DESCENDING;
         } else {
             typeDirection = OrderObject.Dir.ASCENDING;
