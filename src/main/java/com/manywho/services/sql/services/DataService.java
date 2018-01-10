@@ -9,6 +9,8 @@ import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.exceptions.DataBaseTypeNotSupported;
 import com.manywho.services.sql.factories.MObjectFactory;
 import com.manywho.services.sql.utilities.MobjectUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.sql2o.Connection;
 import org.sql2o.Query;
 import org.sql2o.Sql2o;
@@ -18,15 +20,13 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public class DataService {
     private MObjectFactory mObjectFactory;
     private QueryStrService queryStrService;
     private QueryParameterService parameterSanitaizerService;
     private MobjectUtil mobjectUtil;
-    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.sql");
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
     @Inject
     public DataService(MObjectFactory mObjectFactory, QueryStrService queryStrService,
@@ -51,6 +51,7 @@ public class DataService {
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch(DataBaseTypeNotSupported ex) {
             LOGGER.debug("query: " + queryString);
+            LOGGER.debug(ex.toString());
             throw new RuntimeException(ex.getMessage());
         } catch (RuntimeException ex) {
             LOGGER.debug("query: " + queryString);
@@ -64,6 +65,7 @@ public class DataService {
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (RuntimeException ex) {
+            LOGGER.debug(ex.toString());
             LOGGER.debug("query: " + sqlSearch);
             throw ex;
         }
@@ -84,6 +86,7 @@ public class DataService {
         try {
             query.setCaseSensitive(true).executeUpdate();
         }catch (RuntimeException ex) {
+            LOGGER.debug(ex.toString());
             LOGGER.debug("query: " + queryString);
             throw ex;
         }
@@ -137,6 +140,7 @@ public class DataService {
 
             return mObject;
         } catch (RuntimeException ex) {
+            LOGGER.debug(ex.toString());
             LOGGER.debug("query: " + queryString);
             throw ex;
         }
@@ -158,6 +162,7 @@ public class DataService {
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             throw new RuntimeException(dataBaseTypeNotSupported);
         } catch (RuntimeException ex) {
+            LOGGER.debug(ex.toString());
             LOGGER.debug("query: " + queryString);
         }
     }

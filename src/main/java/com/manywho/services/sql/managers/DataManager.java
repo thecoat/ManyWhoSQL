@@ -8,8 +8,8 @@ import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.DataService;
 import com.manywho.services.sql.services.PrimaryKeyService;
 import com.manywho.services.sql.services.QueryStrService;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
@@ -22,7 +22,7 @@ public class DataManager {
     private DataService dataService;
     private QueryStrService queryStrService;
     private PrimaryKeyService primaryKeyService;
-    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.sql");
+    private static final Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
     @Inject
     public DataManager(DataService dataService, QueryStrService queryStrService, PrimaryKeyService primaryKeyService){
@@ -48,7 +48,7 @@ public class DataManager {
             return dataService.fetchBySearch(tableMetadata, sql2o, queryString);
         } catch (Exception ex) {
             LOGGER.debug("query: " + queryString);
-
+            LOGGER.debug(ex.toString());
             throw ex;
         }
     }
