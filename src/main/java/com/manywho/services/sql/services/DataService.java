@@ -55,6 +55,7 @@ public class DataService {
             throw new RuntimeException(ex.getMessage());
         } catch (RuntimeException ex) {
             LOGGER.debug("query: " + queryString);
+            LOGGER.debug(ex.getMessage());
             throw ex;
         }
     }

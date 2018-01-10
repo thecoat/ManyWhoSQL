@@ -60,6 +60,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             }
 
         } catch (Exception e) {
+            LOGGER.debug(e.getMessage());
             LOGGER.debug("create: " + e.getMessage());
 
             try {
@@ -89,6 +90,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                     primaryKeyService.deserializePrimaryKey(objectWithOriginalNames.getExternalId()));
 
         } catch (Exception e) {
+            LOGGER.debug(e.getMessage());
             LOGGER.debug("delete: " + e.getMessage());
             try {
                 LOGGER.debug("delete MObject: " + objectMapper.writeValueAsString(object));
@@ -120,6 +122,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                 return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
             }
         } catch (Exception e) {
+            LOGGER.debug(e.getMessage());
             LOGGER.debug("find: " + e.getMessage());
             throw new RuntimeException(e);
         }
@@ -142,6 +145,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                 LOGGER.debug("findAll filter: " + objectMapper.writeValueAsString(filter));
             } catch (Exception ignored) {}
 
+            LOGGER.debug(e.getMessage());
             LOGGER.debug("findAll: " + e.getMessage());
             throw new RuntimeException(e);
         }
@@ -166,6 +170,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             }
 
         } catch (Exception e) {
+            LOGGER.debug(e.getMessage());
             LOGGER.debug("update: " + e.getMessage());
             try {
                 LOGGER.debug("update MObject: " + objectMapper.writeValueAsString(object));
