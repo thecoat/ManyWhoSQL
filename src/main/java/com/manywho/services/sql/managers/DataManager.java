@@ -47,8 +47,7 @@ public class DataManager {
 
             return dataService.fetchBySearch(tableMetadata, sql2o, queryString);
         } catch (Exception ex) {
-            LOGGER.debug("query: " + queryString);
-            LOGGER.debug(ex.toString());
+            LOGGER.error("query: " + queryString, ex);
             throw ex;
         }
     }

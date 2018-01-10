@@ -60,11 +60,8 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             }
 
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage());
-            LOGGER.debug("create: " + e.getMessage());
-
             try {
-                LOGGER.debug("create MObject: " + objectMapper.writeValueAsString(object));
+                LOGGER.error("create MObject: " + objectMapper.writeValueAsString(object), e);
             } catch (Exception ignored) {}
 
             throw new RuntimeException("problem creating object" + e.getMessage());
@@ -90,10 +87,8 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                     primaryKeyService.deserializePrimaryKey(objectWithOriginalNames.getExternalId()));
 
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage());
-            LOGGER.debug("delete: " + e.getMessage());
             try {
-                LOGGER.debug("delete MObject: " + objectMapper.writeValueAsString(object));
+                LOGGER.error("delete MObject: " + objectMapper.writeValueAsString(object), e);
             } catch (Exception ignored) {}
 
             throw new RuntimeException(e);
@@ -122,8 +117,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                 return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
             }
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage());
-            LOGGER.debug("find: " + e.getMessage());
+            LOGGER.error("find: " + e.getMessage(), e);
             throw new RuntimeException(e);
         }
 
@@ -142,11 +136,9 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
         } catch (Exception e) {
             try {
-                LOGGER.debug("findAll filter: " + objectMapper.writeValueAsString(filter));
+                LOGGER.error("findAll filter: " + objectMapper.writeValueAsString(filter), e);
             } catch (Exception ignored) {}
 
-            LOGGER.debug(e.getMessage());
-            LOGGER.debug("findAll: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -170,10 +162,8 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             }
 
         } catch (Exception e) {
-            LOGGER.debug(e.getMessage());
-            LOGGER.debug("update: " + e.getMessage());
             try {
-                LOGGER.debug("update MObject: " + objectMapper.writeValueAsString(object));
+                LOGGER.error("update MObject: " + objectMapper.writeValueAsString(object), e);
             } catch (Exception ignored) {}
 
             throw new RuntimeException(e);

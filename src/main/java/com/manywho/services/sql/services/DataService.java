@@ -50,12 +50,10 @@ public class DataService {
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch(DataBaseTypeNotSupported ex) {
-            LOGGER.debug("query: " + queryString);
-            LOGGER.debug(ex.toString());
+            LOGGER.error("query: " + queryString, ex);
             throw new RuntimeException(ex.getMessage());
         } catch (RuntimeException ex) {
-            LOGGER.debug("query: " + queryString);
-            LOGGER.debug(ex.getMessage());
+            LOGGER.error("query: " + queryString, ex);
             throw ex;
         }
     }
@@ -66,8 +64,7 @@ public class DataService {
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
         } catch (RuntimeException ex) {
-            LOGGER.debug(ex.toString());
-            LOGGER.debug("query: " + sqlSearch);
+            LOGGER.error("query: " + sqlSearch, ex);
             throw ex;
         }
     }
@@ -87,8 +84,7 @@ public class DataService {
         try {
             query.setCaseSensitive(true).executeUpdate();
         }catch (RuntimeException ex) {
-            LOGGER.debug(ex.toString());
-            LOGGER.debug("query: " + queryString);
+            LOGGER.error("query: " + queryString, ex);
             throw ex;
         }
 
@@ -141,8 +137,7 @@ public class DataService {
 
             return mObject;
         } catch (RuntimeException ex) {
-            LOGGER.debug(ex.toString());
-            LOGGER.debug("query: " + queryString);
+            LOGGER.error("query: " + queryString, ex);
             throw ex;
         }
     }
@@ -163,8 +158,7 @@ public class DataService {
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             throw new RuntimeException(dataBaseTypeNotSupported);
         } catch (RuntimeException ex) {
-            LOGGER.debug(ex.toString());
-            LOGGER.debug("query: " + queryString);
+            LOGGER.error("query: " + queryString, ex);
         }
     }
 }
