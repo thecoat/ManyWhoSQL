@@ -1,5 +1,6 @@
 package com.manywho.services.sql.controllers;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.manywho.sdk.api.run.elements.type.ListFilter;
 import com.manywho.sdk.api.run.elements.type.MObject;
 import com.manywho.sdk.api.run.elements.type.ObjectDataType;
@@ -12,6 +13,8 @@ import com.manywho.services.sql.managers.DataManager;
 import com.manywho.services.sql.managers.MetadataManager;
 import com.manywho.services.sql.services.AliasService;
 import com.manywho.services.sql.services.PrimaryKeyService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 
@@ -24,6 +27,10 @@ public class Database implements RawDatabase<ServiceConfiguration> {
     private PrimaryKeyService primaryKeyService;
     private MetadataManager metadataManager;
     private AliasService aliasService;
+    private ObjectMapper objectMapper;
+
+    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.sql");
+
 
     @Inject
     public Database(DataManager dataManager, PrimaryKeyService primaryKeyService, MetadataManager metadataManager,
@@ -32,6 +39,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
         this.primaryKeyService = primaryKeyService;
         this.metadataManager = metadataManager;
         this.aliasService = aliasService;
+        objectMapper = new ObjectMapper();
     }
 
     @Override
@@ -52,6 +60,12 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             }
 
         } catch (Exception e) {
+            LOGGER.debug("create: " + e.getMessage());
+
+            try {
+                LOGGER.debug("create MObject: " + objectMapper.writeValueAsString(object));
+            } catch (Exception ignored) {}
+
             throw new RuntimeException("problem creating object" + e.getMessage());
         }
 
@@ -75,6 +89,11 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                     primaryKeyService.deserializePrimaryKey(objectWithOriginalNames.getExternalId()));
 
         } catch (Exception e) {
+            LOGGER.debug("delete: " + e.getMessage());
+            try {
+                LOGGER.debug("delete MObject: " + objectMapper.writeValueAsString(object));
+            } catch (Exception ignored) {}
+
             throw new RuntimeException(e);
         }
     }
@@ -101,6 +120,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                 return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
             }
         } catch (Exception e) {
+            LOGGER.debug("find: " + e.getMessage());
             throw new RuntimeException(e);
         }
 
@@ -118,6 +138,11 @@ public class Database implements RawDatabase<ServiceConfiguration> {
 
 
         } catch (Exception e) {
+            try {
+                LOGGER.debug("findAll filter: " + objectMapper.writeValueAsString(filter));
+            } catch (Exception ignored) {}
+
+            LOGGER.debug("findAll: " + e.getMessage());
             throw new RuntimeException(e);
         }
     }
@@ -141,6 +166,11 @@ public class Database implements RawDatabase<ServiceConfiguration> {
             }
 
         } catch (Exception e) {
+            LOGGER.debug("update: " + e.getMessage());
+            try {
+                LOGGER.debug("update MObject: " + objectMapper.writeValueAsString(object));
+            } catch (Exception ignored) {}
+
             throw new RuntimeException(e);
         }
 

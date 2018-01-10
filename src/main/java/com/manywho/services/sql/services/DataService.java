@@ -18,12 +18,15 @@ import java.sql.SQLException;
 import java.text.ParseException;
 import java.util.HashMap;
 import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class DataService {
     private MObjectFactory mObjectFactory;
     private QueryStrService queryStrService;
     private QueryParameterService parameterSanitaizerService;
     private MobjectUtil mobjectUtil;
+    private static final Logger LOGGER = LogManager.getLogger("com.manywho.services.sql");
 
     @Inject
     public DataService(MObjectFactory mObjectFactory, QueryStrService queryStrService,
@@ -35,8 +38,10 @@ public class DataService {
     }
 
     public List<MObject> fetchByPrimaryKey(TableMetadata tableMetadata, Connection connection, HashMap<String, String> externalId, ServiceConfiguration configuration) throws SQLException, ParseException {
+        String queryString = "";
         try {
-            Query query = connection.createQuery(queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, externalId.keySet(), configuration));
+            queryString = queryStrService.createQueryWithParametersForSelectByPrimaryKey(tableMetadata, externalId.keySet(), configuration);
+            Query query = connection.createQuery(queryString);
 
             for (String key : externalId.keySet()) {
                 String paramType = tableMetadata.getColumnsDatabaseType().get(key);
@@ -44,11 +49,13 @@ public class DataService {
             }
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
-        } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
-            dataBaseTypeNotSupported.printStackTrace();
+        } catch(DataBaseTypeNotSupported ex) {
+            LOGGER.debug("query: " + queryString);
+            throw new RuntimeException(ex.getMessage());
+        } catch (RuntimeException ex) {
+            LOGGER.debug("query: " + queryString);
+            throw ex;
         }
-
-        return null;
     }
 
     public List<MObject> fetchBySearch(TableMetadata tableMetadata, Sql2o sql2o, String sqlSearch) throws SQLException {
@@ -56,12 +63,16 @@ public class DataService {
             Query query = con.createQuery(sqlSearch).setCaseSensitive(true);
 
             return mObjectFactory.createFromTable(query.executeAndFetchTable(), tableMetadata);
+        } catch (RuntimeException ex) {
+            LOGGER.debug("query: " + sqlSearch);
+            throw ex;
         }
     }
 
     public MObject update(MObject mObject, Connection connection, TableMetadata metadataTable, HashMap<String, String> primaryKeyHashMap, ServiceConfiguration configuration) throws DataBaseTypeNotSupported, ParseException {
+        String queryString = queryStrService.createQueryWithParametersForUpdate(mObject, metadataTable, primaryKeyHashMap.keySet(), configuration);
 
-        Query query = connection.createQuery(queryStrService.createQueryWithParametersForUpdate(mObject, metadataTable, primaryKeyHashMap.keySet(), configuration));
+        Query query = connection.createQuery(queryString);
 
         for (Property p : mObject.getProperties()) {
             parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(),
@@ -70,60 +81,73 @@ public class DataService {
                     query);
         }
 
-        query.setCaseSensitive(true).executeUpdate();
+        try {
+            query.setCaseSensitive(true).executeUpdate();
+        }catch (RuntimeException ex) {
+            LOGGER.debug("query: " + queryString);
+            throw ex;
+        }
 
         return mObject;
     }
 
     public MObject insert(MObject mObject, Connection connection, TableMetadata tableMetadata, ServiceConfiguration configuration) throws DataBaseTypeNotSupported, ParseException {
+        String queryString = "";
+        try {
+            queryString = queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata, configuration);
+            Query query = connection.createQuery(queryString, true);
+            String autoIncrement = "";
 
-        Query query = connection.createQuery(queryStrService.createQueryWithParametersForInsert(mObject, tableMetadata, configuration), true);
-        String autoIncrement = "";
-
-        for (Property p : mObject.getProperties()) {
-            if (!tableMetadata.isColumnAutoincrement(p.getDeveloperName())) {
-                try {
-                    parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
-                            tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
+            for (Property p : mObject.getProperties()) {
+                if (!tableMetadata.isColumnAutoincrement(p.getDeveloperName())) {
+                    try {
+                        parameterSanitaizerService.addParameterValueToTheQuery(p.getDeveloperName(), p.getContentValue(),
+                                tableMetadata.getColumnsDatabaseType().get(p.getDeveloperName()), query);
+                    } catch (Exception e) {
+                        throw new RuntimeException(e);
+                    }
+                } else {
+                    autoIncrement = p.getDeveloperName();
                 }
-            } else {
-                autoIncrement = p.getDeveloperName();
-            }
-        }
-
-        Object objects[] = query.executeUpdate().getKeys();
-
-        if (!Strings.isNullOrEmpty(autoIncrement)) {
-
-            List<Property> properties = mObject.getProperties();
-            Property property = new Property();
-            property.setDeveloperName(autoIncrement);
-            property.setContentType(ContentType.Number);
-
-            // for not postgres db
-            if (objects.length < tableMetadata.getColumnNames().size()) {
-                property.setContentValue(String.valueOf(objects[0]));
-            } else {
-                // for postgres db
-                property.setContentValue(String.valueOf(objects[tableMetadata.getColumnNames().indexOf(autoIncrement)]));
             }
 
-            properties.add(property);
+            Object objects[] = query.executeUpdate().getKeys();
 
-            mObject.setProperties(properties);
+            if (!Strings.isNullOrEmpty(autoIncrement)) {
+
+                List<Property> properties = mObject.getProperties();
+                Property property = new Property();
+                property.setDeveloperName(autoIncrement);
+                property.setContentType(ContentType.Number);
+
+                // for not postgres db
+                if (objects.length < tableMetadata.getColumnNames().size()) {
+                    property.setContentValue(String.valueOf(objects[0]));
+                } else {
+                    // for postgres db
+                    property.setContentValue(String.valueOf(objects[tableMetadata.getColumnNames().indexOf(autoIncrement)]));
+                }
+
+                properties.add(property);
+
+                mObject.setProperties(properties);
+            }
+
+            mObject.setExternalId(mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyNames(), mObject.getProperties()));
+
+            return mObject;
+        } catch (RuntimeException ex) {
+            LOGGER.debug("query: " + queryString);
+            throw ex;
         }
-
-        mObject.setExternalId(mobjectUtil.getPrimaryKeyValue(tableMetadata.getPrimaryKeyNames(), mObject.getProperties()));
-
-        return mObject;
-
     }
 
     public void deleteByPrimaryKey(TableMetadata tableMetadata, Sql2o sql2o, HashMap<String, String> externalId, ServiceConfiguration configuration) throws ParseException {
+        String queryString = "";
+
         try (Connection con = sql2o.open()) {
-            Query query = con.createQuery(queryStrService.createQueryWithParametersForDeleteByPrimaryKey(tableMetadata, externalId.keySet(), configuration));
+            queryString = queryStrService.createQueryWithParametersForDeleteByPrimaryKey(tableMetadata, externalId.keySet(), configuration);
+            Query query = con.createQuery(queryString);
 
             for (String key : externalId.keySet()) {
                 String paramType = tableMetadata.getColumnsDatabaseType().get(key);
@@ -133,6 +157,8 @@ public class DataService {
             query.executeUpdate();
         } catch (DataBaseTypeNotSupported dataBaseTypeNotSupported) {
             throw new RuntimeException(dataBaseTypeNotSupported);
+        } catch (RuntimeException ex) {
+            LOGGER.debug("query: " + queryString);
         }
     }
 }
