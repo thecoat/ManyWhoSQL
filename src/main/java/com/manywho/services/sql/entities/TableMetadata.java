@@ -94,12 +94,8 @@ public class TableMetadata {
 
     public void setPrimaryKeyNames(List<String> primaryKeyName) {
         if (primaryKeyName.isEmpty() && isView()) {
-            List<String> primaryKeys = new ArrayList<>();
-            for (Map.Entry<String, ContentType> property:columns.entrySet()) {
-                primaryKeys.add(property.getKey());
-            }
 
-            this.primaryKeyName = primaryKeys;
+            columns.forEach((key, value) -> this.primaryKeyName.add(key));
         } else {
             this.primaryKeyName = primaryKeyName;
         }
