@@ -6,6 +6,8 @@ import com.manywho.services.sql.utilities.ManyWhoSpecialComment;
 import java.util.*;
 
 /**
+ * ToDo this class need to be refactored and cleaned
+ *
  * This object contains the metadata information about a table, it is only used internally
  *
  */
