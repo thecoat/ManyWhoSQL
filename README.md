@@ -7,8 +7,6 @@ Supported databases MySQL 5.1, PostgreSQL 8.4. and Sql Server 2008
 There is a limit of 1000 rows for query, but it is possible to paginate using filters.
 There is more documentation at the [wiki](https://github.com/manywho/service-sql/wiki). 
 
-This service is under active development and is not stable.
-
 [![Build Status](https://travis-ci.org/manywho/service-sql.svg?branch=develop)](https://travis-ci.org/manywho/service-sql)
 
 ## Usage
