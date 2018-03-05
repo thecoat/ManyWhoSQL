@@ -90,7 +90,7 @@
     "typeElements": [
       {
         "elementType": "TYPE",
-        "developerName": "country",
+        "developerName": "country2",
         "developerSummary": null,
         "id": null,
         "serviceElementId": null,
@@ -123,9 +123,9 @@
         "bindings": [
           {
             "id": null,
-            "developerName": "country",
-            "developerSummary": "The binding for country",
-            "databaseTableName": "country",
+            "developerName": "country2",
+            "developerSummary": "The binding for country2",
+            "databaseTableName": "country2",
             "serviceElementId": null,
             "propertyBindings": [
               {

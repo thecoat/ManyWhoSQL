@@ -23,9 +23,9 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
-                "suites/mysql/autoincrement/create-request.json",
+                "suites/mysql/autoincrement/create/create-request.json",
                 configurationParameters(),
-                "suites/mysql/autoincrement/create-response.json",
+                "suites/mysql/autoincrement/create/create-response.json",
                 dispatcher
         );
     }

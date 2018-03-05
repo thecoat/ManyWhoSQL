@@ -4,7 +4,6 @@ import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sql2o.Connection;
 
@@ -25,16 +24,14 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
-                "suites/mysql/autoincrement/create-request.json",
+                "suites/mysql/autoincrement/create/create-request.json",
                 configurationParameters(),
-                "suites/mysql/autoincrement/create-response.json",
+                "suites/mysql/autoincrement/create/create-response.json",
                 dispatcher
         );
     }
 
-    //ToDo this test need to be investigated, to see if there is a bug in the code or a problem with the test
     @Test
-    @Ignore
     public void testUpdateAutoincrement() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("mysql");
         try (Connection connection = getSql2o().open()) {
@@ -53,9 +50,9 @@ public class AutoIncrementTest extends ServiceFunctionalTest {
         }
 
         DefaultApiRequest.saveDataRequestAndAssertion("/data",
-                "suites/common/data/save/update/update-request.json",
+                "suites/mysql/autoincrement/update/update-request.json",
                 configurationParameters(),
-                "suites/common/data/save/update/update-response.json",
+                "suites/mysql/autoincrement/update/update-response.json",
                 dispatcher
         );
     }

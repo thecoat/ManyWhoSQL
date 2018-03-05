@@ -4,7 +4,6 @@ import com.manywho.services.sql.DbConfigurationTest;
 import com.manywho.services.sql.ServiceFunctionalTest;
 import com.manywho.services.sql.utilities.DefaultApiRequest;
 import org.junit.After;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.sql2o.Connection;
 
@@ -32,12 +31,10 @@ public class DescribeTest extends ServiceFunctionalTest {
         );
     }
 
-    @Ignore
-    // ToDo this test only fails when the full class runs, but not when it runs isolate, it needs to be fixed
     @Test
     public void testDescribeWithTypes() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
-        String sql = "CREATE TABLE " + escapeTableName("country") + "(" +
+        String sql = "CREATE TABLE " + escapeTableName("country2") + "(" +
                 "id integer NOT NULL," +
                 "name character varying(255)," +
                 "description character varying(1024)," +
@@ -78,8 +75,6 @@ public class DescribeTest extends ServiceFunctionalTest {
         );
     }
 
-    @Ignore
-    //this test only fails when it run with the rest of test of the class
     @Test
     public void testIgnoringTimeBecauseIsNotSupportedType() throws Exception {
         DbConfigurationTest.setPropertiesIfNotInitialized("postgresql");
@@ -111,6 +106,11 @@ public class DescribeTest extends ServiceFunctionalTest {
     public void cleanDatabaseAfterEachTest() {
         try (Connection connection = getSql2o().open()) {
             deleteTableIfExist("country", connection);
+        } catch (ClassNotFoundException e) {
+        }
+
+        try (Connection connection = getSql2o().open()) {
+            deleteTableIfExist("country2", connection);
         } catch (ClassNotFoundException e) {
         }
 
