@@ -117,8 +117,7 @@ public class Database implements RawDatabase<ServiceConfiguration> {
                 return this.aliasService.getMObjectWithAliases(mObjectList.get(0), tableMetadata);
             }
         } catch (Exception e) {
-            LOGGER.error("find: " + e.getMessage(), e);
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e);
         }
 
         throw new RecordNotFoundException();

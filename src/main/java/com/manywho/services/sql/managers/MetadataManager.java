@@ -44,7 +44,7 @@ public class MetadataManager {
             return tableMetadataLis.get(0);
         } else {
 
-            throw new Exception ("table" + tableName + "not found");
+            throw new RuntimeException ("table" + tableName + "not found");
         }
     }
 }
