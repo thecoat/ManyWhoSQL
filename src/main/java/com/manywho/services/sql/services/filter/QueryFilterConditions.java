@@ -148,7 +148,7 @@ public class QueryFilterConditions {
 
         OrderObject.Dir typeDirection;
 
-        if (direction != null && direction.equals(ListFilter.OrderByDirectionType.Descending)) {
+        if (direction.equals(ListFilter.OrderByDirectionType.Descending)) {
             typeDirection = OrderObject.Dir.DESCENDING;
         } else {
             typeDirection = OrderObject.Dir.ASCENDING;

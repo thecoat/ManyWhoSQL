@@ -6,14 +6,11 @@ import com.manywho.services.sql.utilities.ManyWhoSpecialComment;
 import java.util.*;
 
 /**
- * ToDo this class need to be refactored and cleaned
- *
  * This object contains the metadata information about a table, it is only used internally
  *
  */
 public class TableMetadata {
 
-    private boolean view;
     private String tableName;
     private String tableNameAlias;
     private HashMap<String, ContentType> columns;
@@ -24,7 +21,7 @@ public class TableMetadata {
     private String schemaName;
     private HashMap<String, Boolean> propertyAutoincrement;
 
-    public TableMetadata(boolean isView, String tableName, String tableNameAlias, String schemaName){
+    public TableMetadata(String tableName, String tableNameAlias, String schemaName){
         this.tableName = tableName;
         this.tableNameAlias = tableNameAlias;
         this.schemaName = schemaName;
@@ -34,7 +31,6 @@ public class TableMetadata {
         this.columnNames = new ArrayList<>();
         this.columnsDatabaseType = new HashMap<>();
         this.propertyAutoincrement = new HashMap<>();
-        this.view = isView;
     }
 
     public void setColumn(String columnName, ContentType columnType, Boolean autoincrement, String remarks) {
@@ -95,12 +91,7 @@ public class TableMetadata {
     }
 
     public void setPrimaryKeyNames(List<String> primaryKeyName) {
-        if (primaryKeyName.isEmpty() && isView()) {
-
-            columns.forEach((key, value) -> this.primaryKeyName.add(key));
-        } else {
-            this.primaryKeyName = primaryKeyName;
-        }
+        this.primaryKeyName = primaryKeyName;
     }
 
     public String getSchemaName() {
@@ -108,8 +99,4 @@ public class TableMetadata {
     }
 
     public List<String> getColumnNames() {return columnNames;}
-
-    public boolean isView() {
-        return view;
-    }
 }

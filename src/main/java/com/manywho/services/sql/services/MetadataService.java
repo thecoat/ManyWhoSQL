@@ -20,13 +20,13 @@ public class MetadataService {
     }
 
     public List<TableMetadata> getTablesMetadata(String databaseName, String schemaName, DatabaseMetaData metaData) throws Exception {
-        String[] types = {"TABLE", "VIEW"};
+        String[] types = {"TABLE"};
 
         return this.getTablesMetadataInternal(databaseName, schemaName, null, types, metaData);
     }
 
     public List<TableMetadata> getTablesMetadata(String databaseName, String schemaName, DatabaseMetaData metaData, String tableName) throws Exception {
-        String[] types = {"TABLE", "VIEW"};
+        String[] types = {"TABLE"};
 
         return this.getTablesMetadataInternal(databaseName, schemaName, tableName, types, metaData);
     }
@@ -36,10 +36,7 @@ public class MetadataService {
         List<TableMetadata> tableList = new ArrayList<>();
 
         while(rsTablesMetadata.next()) {
-            boolean isView = "VIEW".equals(rsTablesMetadata.getString(4));
-
-            TableMetadata tableMetadata = new TableMetadata(isView, rsTablesMetadata.getString(3), rsTablesMetadata.getString(5), schemaName);
-
+            TableMetadata tableMetadata = new TableMetadata(rsTablesMetadata.getString(3), rsTablesMetadata.getString(5), schemaName);
             populateColumnForTable(catalog, schemaName, tableMetadata, metaData);
             populatePrimaryKeyForTable(catalog, schemaName, tableMetadata, metaData);
             tableList.add(tableMetadata);

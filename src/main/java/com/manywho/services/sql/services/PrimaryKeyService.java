@@ -3,6 +3,7 @@ package com.manywho.services.sql.services;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.apache.commons.codec.binary.Base64;
+
 import java.util.HashMap;
 
 public class PrimaryKeyService {
@@ -19,7 +20,7 @@ public class PrimaryKeyService {
             return objectMapper.readValue(new String(decoded, "UTF-8"), new TypeReference<HashMap<String,Object>>() {});
 
         } catch (Exception e) {
-            throw new RuntimeException("The primary key is not valid. It should be json format encoded in base64 e.g. {\"id\": 1} it becomes eyJpZCI6MX0=", e);
+            throw new RuntimeException("error when deserialize primary key");
         }
     }
 
@@ -27,7 +28,7 @@ public class PrimaryKeyService {
         try {
             return new String(Base64.encodeBase64(objectMapper.writeValueAsString(primaryKeys).getBytes()), "UTF-8");
         } catch (Exception e) {
-            throw new RuntimeException("error when serialize primary key", e);
+            throw new RuntimeException("error when serialize primary key");
         }
     }
 }

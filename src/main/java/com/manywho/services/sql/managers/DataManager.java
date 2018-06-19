@@ -8,9 +8,6 @@ import com.manywho.services.sql.entities.TableMetadata;
 import com.manywho.services.sql.services.DataService;
 import com.manywho.services.sql.services.PrimaryKeyService;
 import com.manywho.services.sql.services.QueryStrService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.sql2o.Connection;
 import org.sql2o.Sql2o;
 import javax.inject.Inject;
@@ -22,7 +19,6 @@ public class DataManager {
     private DataService dataService;
     private QueryStrService queryStrService;
     private PrimaryKeyService primaryKeyService;
-    private static final Logger LOGGER = LoggerFactory.getLogger(DataService.class);
 
     @Inject
     public DataManager(DataService dataService, QueryStrService queryStrService, PrimaryKeyService primaryKeyService){
@@ -40,16 +36,8 @@ public class DataManager {
     public List<MObject> loadBySearch(Sql2o sql2o,ServiceConfiguration configuration, TableMetadata tableMetadata,
                                       ObjectDataType objectDataType, ListFilter filters) throws Exception {
 
-        String queryString = "";
-
-        try {
-            queryString = queryStrService.getSqlFromFilter(configuration, objectDataType, filters, tableMetadata);
-
-            return dataService.fetchBySearch(tableMetadata, sql2o, queryString);
-        } catch (Exception ex) {
-            LOGGER.error("query: " + queryString, ex);
-            throw ex;
-        }
+        return dataService.fetchBySearch(tableMetadata, sql2o, queryStrService.getSqlFromFilter(configuration,
+                objectDataType, filters, tableMetadata));
     }
 
     public MObject update(Connection connection, ServiceConfiguration configuration, TableMetadata tableMetadata, MObject mObject) throws Exception {
